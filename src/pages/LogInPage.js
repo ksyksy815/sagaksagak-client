@@ -80,7 +80,7 @@ const LogInPage = () => {
         {/* OAuth 로그인 컴포넌트 */}
       </form>
       <StyledGoogleLogin
-        clientId="683197008025-foad0k2r2fklt9dk5fh6uhde9j4befti.apps.googleusercontent.com"
+        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         onSuccess={handleLogIn}
         onFailure={handleLogIn}
         cookiePolicy={"single_host_origin"}
