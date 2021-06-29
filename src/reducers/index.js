@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import dummyReducer from './dummyReducer';
+import logInStatusReducer from './logInStatusReducer';
+import toDoReducer from './toDoReducer';
 
 const rootReducer = combineReducers({
-  dummyReducer,
+  logInStatusReducer,
+  toDoReducer
 });
 
 export default rootReducer;
