@@ -5,13 +5,14 @@ import { GlobalStyles } from './GlobalStyles'
 import MainNav from './components/MainNav';
 import LandingPage from './pages/LandingPage';
 
+
 const StyledApp = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 
 function App() {
   return (
@@ -20,8 +21,11 @@ function App() {
       <StyledApp>
         <MainNav />
         <Switch>
-          <Route exact path='/'>
-            <LandingPage/>
+          <Route exact path="/">
+            <LandingPage />
+          </Route>
+          <Route path="/login">
+            <LogInPage />
           </Route>
         </Switch>
       </StyledApp>
