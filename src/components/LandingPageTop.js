@@ -1,11 +1,11 @@
-import React from 'react'
+import { useRef } from 'react'
 import styled from 'styled-components'
 import imgVideoChat from '../assets/imgVideoChat.svg'
 
 const StyledSectionOne = styled.section`
   width: 100%;
   height: 100vh;
-  background: #EDC8C5;
+  background: #F4EBE2;
   overflow: hidden; 
   display: flex;
   justify-content: center;
@@ -22,13 +22,18 @@ const StyledSectionOne = styled.section`
     position: absolute;
     bottom: 20%;
     left: 10%;
+    color: #1B1110;
 
     h1 {
-      font-size: 4rem;
+      font-size: 3rem;
+      color: #F58820;
+      letter-spacing: 2px;
+      margin-top: -0.7rem;
     }
 
     p {
       font-size: 1.2rem;
+      line-height: 1.6;
     }
 
     button {
@@ -47,18 +52,19 @@ const StyledSectionOne = styled.section`
   }
 `
 
-export default function LandingPageTop() {
+export default function LandingPageTop( { handleView } ) {
+
   return (
     <StyledSectionOne>
       <div>
-        <span>내가 그린 기린 그림은...</span>
-        <h1>Lorem Ipsum</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+        <h3>목표 달성을 위한 긴 여정,</h3>
+        <h1>사각사각과 함께 하세요!</h1>
+        <p>
           Aliquid id voluptatem minus quae ipsam fugit sint nostrum ut accusantium 
           magnam laudantium molestias culpa libero error, possimus, dolorem saepe 
           veniam non.
         </p>
-        <button>Learn more</button>
+        <button onClick={handleView}>더 알아보기</button>
       </div>
       <img src={imgVideoChat} alt="Video chat illustration"/>
     </StyledSectionOne>
