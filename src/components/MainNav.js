@@ -8,10 +8,12 @@ const StyledMainNav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
+  padding: 0 1.5rem;
   position: absolute;
   top: 0;
   z-index: 2;
+  letter-spacing: 1.5px;
+  margin: 0 2rem;
 
   div {
     display: flex;
@@ -30,9 +32,21 @@ const StyledMainNav = styled.nav`
     
 
     li {
+      transition: 0.2s;
       a {
-        color: black;
+        color: #225E5C;
+        font-weight: bold;
         text-decoration: none;
+        
+      }
+      
+      &:hover {
+        transform: translateY(-3px);
+        & a {
+          cursor: pointer;
+          color: #F58820;
+          
+        }
       }
     }
   }
@@ -42,7 +56,7 @@ const StyledMainNav = styled.nav`
 export default function MainNav() {
   return (
     <StyledMainNav>
-      <div>Logo Here</div>
+      <h2>사각사각</h2>
       <div>
         <ul>
           <li><Link to='/'>홈</Link></li>

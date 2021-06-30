@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import styled from "styled-components";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { logIn } from "../actions/index";
 
 const StyledLogInPage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  row-gap: 30px;
+  row-gap: 15px;
   min-height: 100vh;
 
   h1 {
     border-bottom: 2px solid black;
     padding: 10px 0;
     width: 300px;
+  }
+
+  #sign-up-link {
+    padding: 1rem;
+    font-size: 0.8rem;
+
+    span {
+      padding: 0.5rem;
+
+      &:hover {
+        color: #fa8900;
+        cursor: pointer;
+      }
+    }
   }
 
   form {
@@ -32,14 +50,18 @@ const StyledLogInPage = styled.div`
       }
     }
 
+    p {
+      color: #fa8900;
+    }
+
     div {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
 
       button {
         border: none;
-        width: 130px;
+        width: 300px;
         height: 40px;
         background: #f5cb42;
         border-radius: 3px;
@@ -56,11 +78,73 @@ const StyledLogInPage = styled.div`
 
 const StyledGoogleLogin = styled(GoogleLogin)`
   width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const LogInPage = () => {
-  const handleLogIn = (res) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [userInput, setUserInput] = useState({
+    email: "",
+    password: "",
+  });
+  const [errMessage, setErrMessage] = useState("");
+
+  const handleGoogleLogIn = (res) => {
     console.log(res);
+  };
+
+  const handleGoogleLogInErr = (res) => {
+    console.log(res);
+  };
+
+  const handleUserInput = (key) => (e) =>
+    setUserInput({ ...userInput, [key]: e.target.value });
+
+  const handleLogIn = (e) => {
+    e.preventDefault();
+
+    const { email, password } = userInput;
+
+    if (!email || !password) {
+      setErrMessage("이메일과 비밀번호는 필수 항목 입니다");
+      return;
+    } else if (email && password) {
+      setErrMessage("");
+      axios
+        .post(
+          "서버도메인/user",
+          {
+            email: email,
+            password: password,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          const { accessToken, userName } = res.data;
+          dispatch(logIn(userName, accessToken));
+        })
+        .catch((err) => {
+          if (err.response) {
+            if (err.response.status === 401) {
+              setErrMessage("잘못된 비밀번호 입니다");
+              return;
+            } else if (err.response.status === 404) {
+              setErrMessage("회원정보를 찾을 수 없습니다");
+              return;
+            }
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("Error :", err.message);
+          }
+          console.log(err.config);
+        });
+    }
   };
 
   return (
@@ -68,23 +152,25 @@ const LogInPage = () => {
       <h1>Sign In</h1>
       <form>
         <label>email</label>
-        <input type="text"></input>
-        {/* 에러메세지 */}
+        <input type="text" onChange={handleUserInput("email")}></input>
         <label>password</label>
-        <input type="password"></input>
-        {/* 에러메세지 */}
+        <input type="password" onChange={handleUserInput("password")}></input>
+        {errMessage && <p>{errMessage}</p>}
         <div>
-          <button>로그인</button>
-          <button>회원가입</button>
+          <button onClick={handleLogIn}>로그인</button>
+          {/* <button onClick={() => history.push("/signup")}>회원가입</button> */}
         </div>
-        {/* OAuth 로그인 컴포넌트 */}
       </form>
       <StyledGoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        onSuccess={handleLogIn}
-        onFailure={handleLogIn}
+        onSuccess={handleGoogleLogIn}
+        onFailure={handleGoogleLogInErr}
         cookiePolicy={"single_host_origin"}
       />
+      <p id="sign-up-link">
+        아직 회원이 아니신가요?
+        <span onClick={() => history.push("/signup")}>회원가입 하러 가기</span>
+      </p>
     </StyledLogInPage>
   );
 };
