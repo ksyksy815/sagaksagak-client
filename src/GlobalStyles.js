@@ -14,9 +14,11 @@ export const GlobalStyles = createGlobalStyle`
 Landing page background: #F4EBE2
 
 Dark orange: #F58820
-Light orange: #F5C3B8
+-> with opacity: #f58720be
+Light orange: #F5D0A9
 
 Dark pink: #DE877F
+-> with opacity: #de877fc9
 Light pink: #F5C3B8
 
 Dark green: #205B5A
