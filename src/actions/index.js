@@ -18,11 +18,11 @@ export const setAccessToken = (token) => {
   };
 };
 
-export const logIn = (userId, accessToken) => {
+export const logIn = (userName, accessToken) => {
   return {
     type: LOG_IN,
     payload: {
-      userId,
+      userName,
       accessToken,
       isLogedIn: true,
     },
