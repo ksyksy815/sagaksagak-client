@@ -1,10 +1,11 @@
-
-import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import styled from 'styled-components'
-import { GlobalStyles } from './GlobalStyles'
-import MainNav from './components/MainNav';
-import LandingPage from './pages/LandingPage';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import styled from "styled-components";
+import { GlobalStyles } from "./GlobalStyles";
+import MainNav from "./components/MainNav";
+import LandingPage from "./pages/LandingPage";
+import LogInPage from "./pages/LogInPage";
+import SignUpPage from "./pages/SignUpPage";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -17,7 +18,7 @@ const StyledApp = styled.div`
 function App() {
   return (
     <Router>
-      <GlobalStyles/>
+      <GlobalStyles />
       <StyledApp>
         <MainNav />
         <Switch>
