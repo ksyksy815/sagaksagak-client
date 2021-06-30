@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import styled from 'styled-components'
-import './App.css';
+import { GlobalStyles } from './GlobalStyles'
 import MainNav from './components/MainNav';
 import LandingPage from './pages/LandingPage';
 
@@ -16,6 +16,7 @@ const StyledApp = styled.div`
 function App() {
   return (
     <Router>
+      <GlobalStyles/>
       <StyledApp>
         <MainNav />
         <Switch>

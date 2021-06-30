@@ -13,10 +13,10 @@
 	.st7{fill:#FFFFFF;stroke:#FE5244;stroke-width:6;stroke-miterlimit:10;}
 	.st8{fill:#FE5244;}
 	.st9{fill:none;stroke:#FFFFFF;stroke-width:5;stroke-linecap:round;stroke-miterlimit:10;}
-	.st10{fill:#3FB1B5;}
+	.st10{fill:#F3D4D6;}
 	.st11{fill:#FFFFFF;stroke:#66B0F0;stroke-width:6;stroke-miterlimit:10;}
 	.st12{fill:none;stroke:#FFCF2D;stroke-width:5;stroke-miterlimit:10;}
-	.st13{fill:#A0505A;}
+	.st13{fill:#DDA795;}
 	.st14{fill:#73325A;}
 	.st15{fill:#FEB040;}
 	.st16{fill:#E57281;}
@@ -25,7 +25,7 @@
 	.st19{fill:none;stroke:#FE5244;stroke-width:6;stroke-miterlimit:10;}
 	.st20{fill:none;stroke:#FFFFFF;stroke-width:6;stroke-linecap:round;stroke-miterlimit:10;}
 	.st21{fill:none;stroke:#73325A;stroke-width:5;stroke-linecap:round;stroke-miterlimit:10;}
-	.st22{fill:#FFCF2D;stroke:#FFFFFF;stroke-width:5;stroke-miterlimit:10;}
+	.st22{fill:#20120C;stroke:#FFFFFF;stroke-width:5;stroke-miterlimit:10;}
 </style>
 <g id="FLOOR">
 	<line class="st0" x1="3928.5" y1="3059" x2="969.1" y2="3059"/>
