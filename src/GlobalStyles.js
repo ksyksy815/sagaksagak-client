@@ -7,6 +7,11 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     scroll-behavior: smooth;
   }
+
+  ::selection {
+    background-color: #FECF2D;
+    color: #FE5244;
+  }
 `
 
 // colors used
