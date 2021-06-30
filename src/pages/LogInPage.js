@@ -85,8 +85,6 @@ const StyledGoogleLogin = styled(GoogleLogin)`
 
 const LogInPage = () => {
   const history = useHistory();
-  const state = useSelector((state) => state.logInStatusReducer);
-  const { user } = state;
   const dispatch = useDispatch();
   const [userInput, setUserInput] = useState({
     email: "",
@@ -106,9 +104,9 @@ const LogInPage = () => {
     setUserInput({ ...userInput, [key]: e.target.value });
 
   const handleLogIn = (e) => {
-    const { email, password } = userInput;
-
     e.preventDefault();
+
+    const { email, password } = userInput;
 
     if (!email || !password) {
       setErrMessage("이메일과 비밀번호는 필수 항목 입니다");
