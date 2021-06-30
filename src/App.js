@@ -5,6 +5,7 @@ import "./App.css";
 import MainNav from "./components/MainNav";
 import LandingPage from "./pages/LandingPage";
 import LogInPage from "./pages/LogInPage";
+import SignUpPage from "./pages/SignUpPage";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -25,6 +26,9 @@ function App() {
           </Route>
           <Route path="/login">
             <LogInPage />
+          </Route>
+          <Route path="/signup">
+            <SignUpPage />
           </Route>
         </Switch>
       </StyledApp>
