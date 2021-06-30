@@ -1,6 +1,7 @@
 import React from "react";
 import GoogleLogin from "react-google-login";
 import styled from "styled-components";
+import CategorySelectModal from "../components/modals/CategorySelectModal";
 
 const SignUpPage = () => {
   const handleLogIn = (res) => {
@@ -23,7 +24,7 @@ const SignUpPage = () => {
         <label>password check</label>
         <input type="password"></input>
         {/* 에러메세지 */}
-        <button>Submit</button>
+        <button>관심사 선택</button>
       </form>
       <GoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
