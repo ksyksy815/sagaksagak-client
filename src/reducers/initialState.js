@@ -1,10 +1,11 @@
 export const initialState = {
   user: {
     userId: "",
+    username: "",
     accessToken: "",
     isLogedIn: false,
   },
-  toDos: [
+  todos: [
     {
       id: 0,
       content: "",
@@ -12,7 +13,7 @@ export const initialState = {
       isChecked: false,
     },
   ],
-  completeToDos: [
+  completeTodos: [
     {
       id: 0,
       content: "",

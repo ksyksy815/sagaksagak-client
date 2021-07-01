@@ -18,11 +18,12 @@ export const setAccessToken = (token) => {
   };
 };
 
-export const logIn = (userName, accessToken) => {
+export const logIn = (userId, username, accessToken) => {
   return {
     type: LOG_IN,
     payload: {
-      userName,
+      userId,
+      username,
       accessToken,
       isLogedIn: true,
     },
@@ -34,23 +35,24 @@ export const logOut = () => {
     type: LOG_OUT,
     payload: {
       userId: "",
+      username: "",
       accessToken: "",
       isLogedIn: false,
     },
   };
 };
 
-export const setToDoList = (toDos, completeToDos) => {
+export const setTodoList = (todos, completeTodos) => {
   return {
     type: SET_TO_DO_LIST,
     payload: {
-      toDos,
-      completeToDos,
+      todos,
+      completeTodos,
     },
   };
 };
 
-export const newToDo = (id, content) => {
+export const newTodo = (id, content) => {
   return {
     type: NEW_TO_DO,
     payload: {
@@ -62,25 +64,25 @@ export const newToDo = (id, content) => {
   };
 };
 
-export const toDoChecked = (id, toDo) => {
+export const todoChecked = (id, todo) => {
   return {
     type: TO_DO_CHECKED,
     payload: {
       id,
-      content: toDo.content,
-      createdAt: toDo.createdAt,
+      content: todo.content,
+      createdAt: todo.createdAt,
       isChecked: true,
     },
   };
 };
 
-export const toDoUnchecked = (id, toDo) => {
+export const todoUnchecked = (id, todo) => {
   return {
     type: TO_DO_UNCHECKED,
     payload: {
       id,
-      content: toDo.content,
-      createdAt: toDo.createdAt,
+      content: todo.content,
+      createdAt: todo.createdAt,
       isChecked: false,
     },
   };

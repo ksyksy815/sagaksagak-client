@@ -102,8 +102,8 @@ const LogInPage = () => {
     console.log(res);
   };
 
-  const handleGoogleLogInErr = (res) => {
-    console.log(res);
+  const handleGoogleLogInErr = (err) => {
+    console.log(err);
   };
 
   const handleUserInput = (key) => (e) =>
@@ -131,8 +131,8 @@ const LogInPage = () => {
           }
         )
         .then((res) => {
-          const { accessToken, userName } = res.data;
-          dispatch(logIn(userName, accessToken));
+          const { accessToken, username, userId } = res.data;
+          dispatch(logIn(userId, username, accessToken));
         })
         .catch((err) => {
           if (err.response) {
