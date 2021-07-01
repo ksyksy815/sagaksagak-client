@@ -342,7 +342,7 @@ const SignUpPage = () => {
           type="password"
           onChange={handleUserInput("password")}
           onKeyUp={() => handleErrMessage(passwordCheck(userInput.password))}
-          placeholder="비밀번호는 8자리 이상의 영어,숫자,특수문자가 포함되어야 합니다"
+          placeholder="비밀번호는 8자리 이상으로 영어,숫자,특수문자가 포함되어야 합니다"
         ></input>
         {errMessage.passwordErr && <p>{errMessage.passwordErr}</p>}
         <label>password check</label>
