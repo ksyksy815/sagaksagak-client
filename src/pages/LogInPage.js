@@ -26,10 +26,13 @@ const StyledLogInPage = styled.div`
 
     span {
       padding: 0.5rem;
+      display: inline-block;
+      transition: 0.2s linear;
 
       &:hover {
-        color: #fa8900;
+        color: #f58820;
         cursor: pointer;
+        transform: translateY(-3px);
       }
     }
   }
@@ -37,7 +40,7 @@ const StyledLogInPage = styled.div`
   form {
     display: flex;
     flex-direction: column;
-    row-gap: 30px;
+    row-gap: 20px;
 
     input {
       border: none;
@@ -52,6 +55,8 @@ const StyledLogInPage = styled.div`
 
     p {
       color: #fa8900;
+      margin: 0;
+      font-size: 0.9rem;
     }
 
     div {
@@ -63,12 +68,12 @@ const StyledLogInPage = styled.div`
         border: none;
         width: 300px;
         height: 40px;
-        background: #f5cb42;
+        background: #f5d0a9;
         border-radius: 3px;
 
         &:hover {
           cursor: pointer;
-          background: #f5b342;
+          background: #f58820;
           transition: 0.2s linear;
         }
       }
@@ -115,7 +120,7 @@ const LogInPage = () => {
       setErrMessage("");
       axios
         .post(
-          "서버도메인/user",
+          `${process.env.REACT_APP_SERVER_DOMAIN}/signup`,
           {
             email: email,
             password: password,
