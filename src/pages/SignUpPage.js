@@ -9,7 +9,7 @@ import {
   usernameCheck,
   checkAll,
 } from "../utilities/availCheck";
-import { logIn } from "../actions/index";
+import { firstLogIn } from "../actions/index";
 import axios from "axios";
 
 const StyledSignUpPage = styled.div`
@@ -129,17 +129,6 @@ const SignUpPage = () => {
     other: "",
   });
 
-  const handleGoogleLogIn = (res) => {
-    console.log(res);
-    axios.get(
-      `${process.env.REACT_APP_SERVER_DOMAIN}/signup/:${userInput.username}`
-    );
-  };
-
-  const handleGoogleLogInErr = (err) => {
-    console.log(err);
-  };
-
   const handleUserInput = (key) => (e) => {
     setUserInput({ ...userInput, [key]: e.target.value });
   };
@@ -150,9 +139,7 @@ const SignUpPage = () => {
     const { username } = userInput;
 
     axios
-      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/something`, {
-        username: username,
-      })
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/signup/:${username}`)
       .then(() => {
         setErrMessage({
           ...errMessage,
@@ -175,6 +162,41 @@ const SignUpPage = () => {
         }
         console.log(err.config);
       });
+  };
+
+  const handleGoogleSignUp = (res) => {
+    console.log(res);
+    axios
+      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/oauth/google/api`, {
+        tokenId: res.tokenId,
+      })
+      .then((res) => {
+        const { userId, username, accessToken } = res.data;
+
+        dispatch(firstLogIn(userId, username, accessToken));
+
+        history.push("/");
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 409) {
+            setErrMessage({
+              ...errMessage,
+              other: "이미 가입한 회원입니다",
+            });
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("Error :", err.message);
+          }
+          console.log(err.config);
+        }
+      });
+  };
+
+  const handleGoogleSignUpErr = (err) => {
+    console.log(err);
   };
 
   const handleSignUp = (e) => {
@@ -230,7 +252,7 @@ const SignUpPage = () => {
           .then((res) => {
             const { userId, username, accessToken } = res.data;
 
-            dispatch(logIn(userId, username, accessToken));
+            dispatch(firstLogIn(userId, username, accessToken));
 
             history.push("/");
           })
@@ -365,8 +387,8 @@ const SignUpPage = () => {
       <StyledGoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         buttonText="Sign up with Google"
-        onSuccess={handleGoogleLogIn}
-        onFailure={handleGoogleLogInErr}
+        onSuccess={handleGoogleSignUp}
+        onFailure={handleGoogleSignUpErr}
         cookiePolicy={"single_host_origin"}
       />
       <p id="sign-in-link">

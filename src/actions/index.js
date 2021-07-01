@@ -1,6 +1,7 @@
 //로그인 및 유저 정보 관련 액션
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 export const LOG_IN = "LOG_IN";
+export const FIRST_LOG_IN = "FIRST_LOG_IN";
 export const LOG_OUT = "LOG_OUT";
 
 //투두 관련 액션
@@ -26,6 +27,20 @@ export const logIn = (userId, username, accessToken) => {
       username,
       accessToken,
       isLogedIn: true,
+      isFirstLogedIn: false,
+    },
+  };
+};
+
+export const firstLogIn = (userId, username, accessToken) => {
+  return {
+    type: FIRST_LOG_IN,
+    payload: {
+      userId,
+      username,
+      accessToken,
+      isLogedIn: true,
+      isFirstLogedIn: true,
     },
   };
 };
@@ -38,6 +53,7 @@ export const logOut = () => {
       username: "",
       accessToken: "",
       isLogedIn: false,
+      isFirstLogedIn: false,
     },
   };
 };

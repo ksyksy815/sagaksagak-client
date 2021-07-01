@@ -4,6 +4,7 @@ export const initialState = {
     username: "",
     accessToken: "",
     isLogedIn: false,
+    isFirstLogedIn: false,
   },
   todos: [
     {
