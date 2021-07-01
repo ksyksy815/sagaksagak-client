@@ -17,7 +17,8 @@ const StyledLogInPage = styled.div`
   h1 {
     border-bottom: 2px solid black;
     padding: 10px 0;
-    width: 300px;
+    width: 400px;
+    margin: 10px;
   }
 
   #sign-up-link {
@@ -45,7 +46,7 @@ const StyledLogInPage = styled.div`
     input {
       border: none;
       border-bottom: 1px solid black;
-      width: 300px;
+      width: 400px;
       font-size: 1.3rem;
 
       &:focus {
@@ -66,7 +67,7 @@ const StyledLogInPage = styled.div`
 
       button {
         border: none;
-        width: 300px;
+        width: 400px;
         height: 40px;
         background: #f5d0a9;
         border-radius: 3px;
@@ -82,7 +83,7 @@ const StyledLogInPage = styled.div`
 `;
 
 const StyledGoogleLogin = styled(GoogleLogin)`
-  width: 300px;
+  width: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,13 +157,13 @@ const LogInPage = () => {
     <StyledLogInPage>
       <h1>Sign In</h1>
       <form>
-        <label>email</label>
+        <label>Email</label>
         <input type="text" onChange={handleUserInput("email")}></input>
-        <label>password</label>
+        <label>Password</label>
         <input type="password" onChange={handleUserInput("password")}></input>
         {errMessage && <p>{errMessage}</p>}
         <div>
-          <button onClick={handleLogIn}>로그인</button>
+          <button onClick={handleLogIn}>Log In</button>
           {/* <button onClick={() => history.push("/signup")}>회원가입</button> */}
         </div>
       </form>
