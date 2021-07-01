@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const StyledMainNav = styled.nav`
+  box-sizing: border-box;
   width: 100vw;
   max-width: 1200px;
   display: flex;
