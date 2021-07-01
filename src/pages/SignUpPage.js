@@ -22,8 +22,8 @@ const StyledSignUpPage = styled.div`
 
   h1 {
     border-bottom: 2px solid black;
-    padding: 10px 0;
-    width: 300px;
+    width: 400px;
+    margin: 0;
   }
 
   #sign-in-link {
@@ -44,7 +44,7 @@ const StyledSignUpPage = styled.div`
 
   #username-input-wrapper {
     display: flex;
-    max-width: 300px;
+    max-width: 400px;
     column-gap: 10px;
     border-bottom: 1px solid black;
 
@@ -56,6 +56,7 @@ const StyledSignUpPage = styled.div`
     button {
       flex: 1;
       height: 1.3rem;
+      background: #dddddd;
     }
   }
 
@@ -67,7 +68,7 @@ const StyledSignUpPage = styled.div`
     input {
       border: none;
       border-bottom: 1px solid black;
-      width: 300px;
+      width: 400px;
       font-size: 1.3rem;
 
       &:focus {
@@ -89,7 +90,7 @@ const StyledSignUpPage = styled.div`
 
     button {
       border: none;
-      width: 300px;
+      width: 400px;
       height: 40px;
       background: #f5d0a9;
       border-radius: 3px;
@@ -104,7 +105,7 @@ const StyledSignUpPage = styled.div`
 `;
 
 const StyledGoogleLogin = styled(GoogleLogin)`
-  width: 300px;
+  width: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -319,14 +320,14 @@ const SignUpPage = () => {
     <StyledSignUpPage>
       <h1>Sign Up</h1>
       <form>
-        <label>email</label>
+        <label>Email</label>
         <input
           type="text"
           onChange={handleUserInput("email")}
           onKeyUp={() => handleErrMessage(emailCheck(userInput.email))}
         ></input>
         {errMessage.emailErr && <p>{errMessage.emailErr}</p>}
-        <label>username</label>
+        <label>Username</label>
         <div id="username-input-wrapper">
           <input
             type="text"
@@ -337,7 +338,7 @@ const SignUpPage = () => {
           <button onClick={handleUserNameExist}>중복검사</button>
         </div>
         {errMessage.userNameErr && <p>{errMessage.userNameErr}</p>}
-        <label>password</label>
+        <label>Password</label>
         <input
           type="password"
           onChange={handleUserInput("password")}
@@ -345,7 +346,7 @@ const SignUpPage = () => {
           placeholder="비밀번호는 8자리 이상으로 영어,숫자,특수문자가 포함되어야 합니다"
         ></input>
         {errMessage.passwordErr && <p>{errMessage.passwordErr}</p>}
-        <label>password check</label>
+        <label>Password Check</label>
         <input
           type="password"
           onChange={handleUserInput("passwordCheck")}
@@ -355,7 +356,7 @@ const SignUpPage = () => {
           userInput.password !== userInput.passwordCheck && (
             <p>입력한 비밀번호와 다릅니다</p>
           )}
-        <button onClick={handleSignUp}>submit</button>
+        <button onClick={handleSignUp}>Submit</button>
         {errMessage.other && <p>{errMessage.other}</p>}
       </form>
       <StyledGoogleLogin
