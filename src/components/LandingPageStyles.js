@@ -22,6 +22,7 @@ background-position: top -5% left -20%, top 20% right -10%, bottom 60% left -50%
 display: flex;
 flex-direction: column;
 justify-content: flex-start;
+position: relative;
 `
 export const StyledSectionTop = styled.section`
   width: 100%;
@@ -32,6 +33,7 @@ export const StyledSectionTop = styled.section`
   scroll-snap-align: start;
   overflow: hidden;
   padding: 0 20%;
+  position: relative;
 
   div {
     max-width: 500px;
@@ -59,11 +61,11 @@ export const StyledSectionTop = styled.section`
   }
 
   img {
-    max-width: 600px;
+    max-width: 550px;
     height: auto;
     object-fit: cover;
     position: absolute;
-    bottom: 10%;
+    bottom: 15%;
     left: 45%;
     animation: ${effectOnLanding} 0.5s;
   }
@@ -72,7 +74,7 @@ export const StyledSectionTop = styled.section`
 
 export const StyledSectionMid = styled.section`
   width: 100%;
-  height: 450vh;
+  height: 430vh;
   scroll-snap-align: start;
   position: relative;
   display: flex;
@@ -152,6 +154,7 @@ export const StyledSectionMid = styled.section`
   }
 
   .three {
+    height: 130px;
     .three-text {
       width: 450px;
       height: auto;
