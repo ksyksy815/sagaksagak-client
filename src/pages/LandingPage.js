@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { StyledLandingPage, StyledSectionTop, StyledSectionMid, StyledSectionBottom, ButtonBox, LandingPageBtn, ParallaxImg } from '../components/LandingPageStyles'
+import Footer from '../components/Footer'
 import imgVideoChat from '../assets/imgVideoChat.png'
 import imgStudyingAloneHard from '../assets/imgStudyingAloneHard.svg'
 import calculator from '../assets/calculator.svg'
@@ -130,6 +131,7 @@ export default function LandingPage() {
       <StyledSectionBottom>
         후기 carousel
       </StyledSectionBottom>
+      <Footer />
     </StyledLandingPage>
   )
 }
