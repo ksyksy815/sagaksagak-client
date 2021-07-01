@@ -124,7 +124,7 @@ export default function Footer() {
           <span>SOONEUN HWANG</span>
         <StyledDevInfo>
           <div><MdPerson/>황순은</div>
-          <div><MdEmail/></div>
+          <div><MdEmail/>catalyst8849@gmail.com</div>
           <div><a href='https://github.com/Hwangsooneun'><AiFillGithub/>Hwangsooneun</a></div>
         </StyledDevInfo>
         </li>
