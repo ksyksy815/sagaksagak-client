@@ -100,10 +100,31 @@ const LogInPage = () => {
 
   const handleGoogleLogIn = (res) => {
     console.log(res);
+    axios
+      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/oauth/google/api`, {
+        tokenId: res.tokenId,
+      })
+      .then((res) => {
+        const { userId, username, accessToken } = res.data;
+
+        dispatch(logIn(userId, username, accessToken));
+
+        history.push("/");
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
   };
 
-  const handleGoogleLogInErr = (res) => {
-    console.log(res);
+  const handleGoogleLogInErr = (err) => {
+    console.log(err);
   };
 
   const handleUserInput = (key) => (e) =>
@@ -131,8 +152,8 @@ const LogInPage = () => {
           }
         )
         .then((res) => {
-          const { accessToken, userName } = res.data;
-          dispatch(logIn(userName, accessToken));
+          const { accessToken, username, userId } = res.data;
+          dispatch(logIn(userId, username, accessToken));
         })
         .catch((err) => {
           if (err.response) {
@@ -169,6 +190,7 @@ const LogInPage = () => {
       </form>
       <StyledGoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+        buttonText="Log in with Google"
         onSuccess={handleGoogleLogIn}
         onFailure={handleGoogleLogInErr}
         cookiePolicy={"single_host_origin"}

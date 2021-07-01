@@ -6,25 +6,25 @@ import {
   TO_DO_UNCHECKED,
 } from "../actions/index";
 
-const toDoReducer = (state = initialState, action) => {
+const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_TO_DO_LIST:
       return {
         ...state,
-        toDos: [
-          ...state.toDos,
-          ...action.payload.toDos.map((toDo) => {
+        todos: [
+          ...state.todos,
+          ...action.payload.todos.map((todo) => {
             return {
-              ...toDo,
+              ...todo,
               isCheked: false,
             };
           }),
         ],
-        completeToDos: [
-          ...state.completeToDos,
-          ...action.payload.completeToDos.map((cToDo) => {
+        completeTodos: [
+          ...state.completeTodos,
+          ...action.payload.completeTodos.map((cTodo) => {
             return {
-              ...cToDo,
+              ...cTodo,
               isChecked: true,
             };
           }),
@@ -33,24 +33,24 @@ const toDoReducer = (state = initialState, action) => {
     case NEW_TO_DO:
       return {
         ...state,
-        toDos: [...state.toDos, action.payload],
+        todos: [...state.todos, action.payload],
       };
     case TO_DO_CHECKED: {
-      let idx = state.toDos.findIndex((toDo) => toDo.id === action.payload.id);
-      let front = state.toDos.slice(0, idx);
-      let back = state.toDos.slice(idx + 1);
+      let idx = state.todos.findIndex((todo) => todo.id === action.payload.id);
+      let front = state.todos.slice(0, idx);
+      let back = state.todos.slice(idx + 1);
       return {
         ...state,
-        toDos: [...front, action.payload, ...back],
+        todos: [...front, action.payload, ...back],
       };
     }
     case TO_DO_UNCHECKED: {
-      let idx = state.toDos.findIndex((toDo) => toDo.id === action.payload.id);
-      let front = state.toDos.slice(0, idx);
-      let back = state.toDos.slice(idx + 1);
+      let idx = state.todos.findIndex((todo) => todo.id === action.payload.id);
+      let front = state.todos.slice(0, idx);
+      let back = state.todos.slice(idx + 1);
       return {
         ...state,
-        toDos: [...front, action.payload, ...back],
+        todos: [...front, action.payload, ...back],
       };
     }
     default:
@@ -58,4 +58,4 @@ const toDoReducer = (state = initialState, action) => {
   }
 };
 
-export default toDoReducer;
+export default todoReducer;

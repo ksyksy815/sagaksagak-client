@@ -6,10 +6,10 @@ import { useHistory } from "react-router-dom";
 import {
   passwordCheck,
   emailCheck,
-  userNameCheck,
+  usernameCheck,
   checkAll,
 } from "../utilities/availCheck";
-import { logIn } from "../actions/index";
+import { firstLogIn } from "../actions/index";
 import axios from "axios";
 
 const StyledSignUpPage = styled.div`
@@ -116,44 +116,34 @@ const SignUpPage = () => {
   const dispatch = useDispatch();
   const [userInput, setUserInput] = useState({
     email: "",
-    userName: "",
+    username: "",
     password: "",
     passwordCheck: "",
   });
 
   const [errMessage, setErrMessage] = useState({
     emailErr: "",
-    userNameErr: "",
+    usernameErr: "",
     passwordErr: "",
     passwordCheckErr: "",
     other: "",
   });
 
-  const handleGoogleLogIn = (res) => {
-    console.log(res);
-  };
-
-  const handleGoogleLogInErr = (err) => {
-    console.log(err);
-  };
-
   const handleUserInput = (key) => (e) => {
     setUserInput({ ...userInput, [key]: e.target.value });
   };
 
-  const handleUserNameExist = (e) => {
+  const handleUsernameExist = (e) => {
     e.preventDefault();
 
-    const { userName } = userInput;
+    const { username } = userInput;
 
     axios
-      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/something`, {
-        username: userName,
-      })
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/signup/:${username}`)
       .then(() => {
         setErrMessage({
           ...errMessage,
-          userNameErr: "사용 가능한 유저이름 입니다",
+          usernameErr: "사용 가능한 유저이름 입니다",
         });
       })
       .catch((err) => {
@@ -161,7 +151,7 @@ const SignUpPage = () => {
           if (err.response.status === 409) {
             setErrMessage({
               ...errMessage,
-              userNameErr: "중복되는 유저이름이 있습니다",
+              usernameErr: "중복되는 유저이름이 있습니다",
             });
           }
           console.log(err.response);
@@ -174,12 +164,47 @@ const SignUpPage = () => {
       });
   };
 
+  const handleGoogleSignUp = (res) => {
+    console.log(res);
+    axios
+      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/oauth/google/api`, {
+        tokenId: res.tokenId,
+      })
+      .then((res) => {
+        const { userId, username, accessToken } = res.data;
+
+        dispatch(firstLogIn(userId, username, accessToken));
+
+        history.push("/");
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 409) {
+            setErrMessage({
+              ...errMessage,
+              other: "이미 가입한 회원입니다",
+            });
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("Error :", err.message);
+          }
+          console.log(err.config);
+        }
+      });
+  };
+
+  const handleGoogleSignUpErr = (err) => {
+    console.log(err);
+  };
+
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    const { email, userName, password } = userInput;
+    const { email, username, password } = userInput;
 
-    if (!email || !userName || !password) {
+    if (!email || !username || !password) {
       setErrMessage({
         ...errMessage,
         other: "모든 항목은 필수입니다",
@@ -187,7 +212,7 @@ const SignUpPage = () => {
       return;
     }
 
-    if (!checkAll(userName, email, password)) {
+    if (!checkAll(username, email, password)) {
       setErrMessage({
         ...errMessage,
         other: "모든 항목을 올바르게 작성해 주세요",
@@ -205,7 +230,7 @@ const SignUpPage = () => {
         `${process.env.REACT_APP_SERVER_DOMAIN}/signup`,
         {
           email: email,
-          username: userName,
+          username: username,
           password: password,
         },
         {
@@ -225,9 +250,9 @@ const SignUpPage = () => {
             }
           )
           .then((res) => {
-            const { userName, accessToken } = res.data;
+            const { userId, username, accessToken } = res.data;
 
-            dispatch(logIn(userName, accessToken));
+            dispatch(firstLogIn(userId, username, accessToken));
 
             history.push("/");
           })
@@ -277,13 +302,13 @@ const SignUpPage = () => {
       case "3":
         setErrMessage({
           ...errMessage,
-          userNameErr: "유저이름은 2글자 이상이어야 합니다",
+          usernameErr: "유저이름은 2글자 이상이어야 합니다",
         });
         break;
       case "4":
         setErrMessage({
           ...errMessage,
-          userNameErr:
+          usernameErr:
             "유저이름은 한글,영어,숫자로 구성되며 공백이 없어야 합니다",
         });
         break;
@@ -299,10 +324,10 @@ const SignUpPage = () => {
           emailErr: "",
         });
         break;
-      case "userNameAvail":
+      case "usernameAvail":
         setErrMessage({
           ...errMessage,
-          userNameErr: "",
+          usernameErr: "",
         });
         break;
       case "passwordAvail":
@@ -331,13 +356,13 @@ const SignUpPage = () => {
         <div id="username-input-wrapper">
           <input
             type="text"
-            onChange={handleUserInput("userName")}
-            onKeyUp={() => handleErrMessage(userNameCheck(userInput.userName))}
+            onChange={handleUserInput("username")}
+            onKeyUp={() => handleErrMessage(usernameCheck(userInput.username))}
             placeholder="닉네임은 2자 이상으로 공백을 제외해야 합니다"
           ></input>
-          <button onClick={handleUserNameExist}>중복검사</button>
+          <button onClick={handleUsernameExist}>중복검사</button>
         </div>
-        {errMessage.userNameErr && <p>{errMessage.userNameErr}</p>}
+        {errMessage.usernameErr && <p>{errMessage.usernameErr}</p>}
         <label>Password</label>
         <input
           type="password"
@@ -361,8 +386,9 @@ const SignUpPage = () => {
       </form>
       <StyledGoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        onSuccess={handleGoogleLogIn}
-        onFailure={handleGoogleLogInErr}
+        buttonText="Sign up with Google"
+        onSuccess={handleGoogleSignUp}
+        onFailure={handleGoogleSignUpErr}
         cookiePolicy={"single_host_origin"}
       />
       <p id="sign-in-link">
