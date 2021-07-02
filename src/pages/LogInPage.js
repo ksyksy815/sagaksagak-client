@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import styled from "styled-components";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { logIn } from "../actions/index";
 
@@ -99,21 +99,30 @@ const LogInPage = () => {
   const [errMessage, setErrMessage] = useState("");
 
   const handleGoogleLogIn = (res) => {
-    console.log(res);
     axios
-      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/oauth/google/api`, {
-        tokenId: res.tokenId,
-      })
+      .post(
+        `${process.env.REACT_APP_SERVER_DOMAIN}/oauth/google/login`,
+        {
+          tokenId: res.tokenId,
+          subId: res.googleId,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
-        const { userId, username, accessToken } = res.data;
+        const { userId, username, subId, accessToken } = res.data;
 
-        dispatch(logIn(userId, username, accessToken));
+        dispatch(logIn(userId, username, accessToken, subId));
 
         history.push("/");
       })
       .catch((err) => {
         if (err.response) {
-          console.log(err.response);
+          if (err.response.status === 404) {
+            setErrMessage("회원정보를 찾을 수 없습니다");
+            return;
+          }
         } else if (err.request) {
           console.log(err.request);
         } else {

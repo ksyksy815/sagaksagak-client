@@ -19,12 +19,13 @@ export const setAccessToken = (token) => {
   };
 };
 
-export const logIn = (userId, username, accessToken) => {
+export const logIn = (userId, username, accessToken, googleId = "") => {
   return {
     type: LOG_IN,
     payload: {
       userId,
       username,
+      googleId,
       accessToken,
       isLogedIn: true,
       isFirstLogedIn: false,
@@ -32,12 +33,13 @@ export const logIn = (userId, username, accessToken) => {
   };
 };
 
-export const firstLogIn = (userId, username, accessToken) => {
+export const firstLogIn = (userId, username, accessToken, googleId = "") => {
   return {
     type: FIRST_LOG_IN,
     payload: {
       userId,
       username,
+      googleId,
       accessToken,
       isLogedIn: true,
       isFirstLogedIn: true,
@@ -51,6 +53,7 @@ export const logOut = () => {
     payload: {
       userId: "",
       username: "",
+      googleId: "",
       accessToken: "",
       isLogedIn: false,
       isFirstLogedIn: false,

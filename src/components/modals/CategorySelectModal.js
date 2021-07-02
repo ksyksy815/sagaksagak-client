@@ -82,10 +82,6 @@ const CategorySelectModal = () => {
     자유: false,
   });
 
-  const handleSelected = (e) => {
-    setSelected({ ...selected, [e.target.id]: !selected[e.target.id] });
-  };
-
   const getTotal = (categories) => {
     const selCat = [];
 
@@ -98,6 +94,15 @@ const CategorySelectModal = () => {
 
   let total = getTotal(selected);
   let totalCnt = total.length;
+
+  const handleSelected = (e) => {
+    if (totalCnt < 3)
+      setSelected({ ...selected, [e.target.id]: !selected[e.target.id] });
+    if (totalCnt === 3) {
+      if (selected[e.target.id])
+        setSelected({ ...selected, [e.target.id]: !selected[e.target.id] });
+    }
+  };
 
   const handleSelect = (e) => {
     e.preventDefault();
@@ -134,7 +139,7 @@ const CategorySelectModal = () => {
   return (
     <StyledCategorySelModal>
       <h1>관심사를 알려주세요</h1>
-      <h4>관심사를 통해 알맞은 방이 추천됩니다</h4>
+      <h4>3개를 선택해 주세요! 관심사를 통해 알맞은 방이 추천됩니다 </h4>
       <StyledGridContainer>
         <StyledGridItem
           style={{ background: selected.국내입시 ? "#D8D8D8" : "#ededed" }}

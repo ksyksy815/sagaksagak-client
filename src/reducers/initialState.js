@@ -2,6 +2,7 @@ export const initialState = {
   user: {
     userId: "",
     username: "",
+    googleId: "",
     accessToken: "",
     isLogedIn: false,
     isFirstLogedIn: false,

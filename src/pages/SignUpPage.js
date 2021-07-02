@@ -165,15 +165,21 @@ const SignUpPage = () => {
   };
 
   const handleGoogleSignUp = (res) => {
-    console.log(res);
     axios
-      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/oauth/google/api`, {
-        tokenId: res.tokenId,
-      })
+      .post(
+        `${process.env.REACT_APP_SERVER_DOMAIN}/oauth/google/signup`,
+        {
+          tokenId: res.tokenId,
+          subId: res.googleId,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
-        const { userId, username, accessToken } = res.data;
+        const { userId, username, accessToken, subId } = res.data;
 
-        dispatch(firstLogIn(userId, username, accessToken));
+        dispatch(firstLogIn(userId, username, accessToken, subId));
 
         history.push("/");
       })
@@ -182,7 +188,7 @@ const SignUpPage = () => {
           if (err.response.status === 409) {
             setErrMessage({
               ...errMessage,
-              other: "이미 가입한 회원입니다",
+              other: "이미 가입한 회원입니다 로그인을 진행해 주세요",
             });
             console.log(err.response);
           } else if (err.request) {
