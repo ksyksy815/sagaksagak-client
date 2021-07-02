@@ -142,7 +142,7 @@ const LogInPage = () => {
       setErrMessage("");
       axios
         .post(
-          `${process.env.REACT_APP_SERVER_DOMAIN}/signup`,
+          `${process.env.REACT_APP_SERVER_DOMAIN}/user`,
           {
             email: email,
             password: password,
@@ -154,6 +154,7 @@ const LogInPage = () => {
         .then((res) => {
           const { accessToken, username, userId } = res.data;
           dispatch(logIn(userId, username, accessToken));
+          history.push("/");
         })
         .catch((err) => {
           if (err.response) {

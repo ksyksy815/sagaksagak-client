@@ -240,7 +240,7 @@ const SignUpPage = () => {
       .then(() => {
         axios
           .post(
-            `${process.env.REACT_APP_SERVER_DOMAIN}/login`,
+            `${process.env.REACT_APP_SERVER_DOMAIN}/user`,
             {
               email: email,
               password: password,
