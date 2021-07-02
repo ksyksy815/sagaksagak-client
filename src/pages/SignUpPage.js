@@ -283,13 +283,12 @@ const SignUpPage = () => {
                 ...errMessage,
                 other: "이미 가입한 회원입니다",
               });
+            } else {
+              setErrMessage({
+                ...errMessage,
+                other: "중복되는 유저이름이 있습니다",
+              });
             }
-
-            setErrMessage({
-              ...errMessage,
-              other: "중복되는 유저이름이 있습니다",
-            });
-
             console.log(err.response);
           } else if (err.request) {
             console.log(err.request);
