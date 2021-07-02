@@ -6,10 +6,10 @@ import { useHistory } from "react-router-dom";
 import {
   passwordCheck,
   emailCheck,
-  userNameCheck,
+  usernameCheck,
   checkAll,
 } from "../utilities/availCheck";
-import { logIn } from "../actions/index";
+import { firstLogIn } from "../actions/index";
 import axios from "axios";
 
 const StyledSignUpPage = styled.div`
@@ -22,8 +22,8 @@ const StyledSignUpPage = styled.div`
 
   h1 {
     border-bottom: 2px solid black;
-    padding: 10px 0;
-    width: 300px;
+    width: 400px;
+    margin: 0;
   }
 
   #sign-in-link {
@@ -44,7 +44,7 @@ const StyledSignUpPage = styled.div`
 
   #username-input-wrapper {
     display: flex;
-    max-width: 300px;
+    max-width: 400px;
     column-gap: 10px;
     border-bottom: 1px solid black;
 
@@ -56,6 +56,7 @@ const StyledSignUpPage = styled.div`
     button {
       flex: 1;
       height: 1.3rem;
+      background: #dddddd;
     }
   }
 
@@ -67,7 +68,7 @@ const StyledSignUpPage = styled.div`
     input {
       border: none;
       border-bottom: 1px solid black;
-      width: 300px;
+      width: 400px;
       font-size: 1.3rem;
 
       &:focus {
@@ -89,7 +90,7 @@ const StyledSignUpPage = styled.div`
 
     button {
       border: none;
-      width: 300px;
+      width: 400px;
       height: 40px;
       background: #f5d0a9;
       border-radius: 3px;
@@ -104,7 +105,7 @@ const StyledSignUpPage = styled.div`
 `;
 
 const StyledGoogleLogin = styled(GoogleLogin)`
-  width: 300px;
+  width: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,44 +116,34 @@ const SignUpPage = () => {
   const dispatch = useDispatch();
   const [userInput, setUserInput] = useState({
     email: "",
-    userName: "",
+    username: "",
     password: "",
     passwordCheck: "",
   });
 
   const [errMessage, setErrMessage] = useState({
     emailErr: "",
-    userNameErr: "",
+    usernameErr: "",
     passwordErr: "",
     passwordCheckErr: "",
     other: "",
   });
 
-  const handleGoogleLogIn = (res) => {
-    console.log(res);
-  };
-
-  const handleGoogleLogInErr = (err) => {
-    console.log(err);
-  };
-
   const handleUserInput = (key) => (e) => {
     setUserInput({ ...userInput, [key]: e.target.value });
   };
 
-  const handleUserNameExist = (e) => {
+  const handleUsernameExist = (e) => {
     e.preventDefault();
 
-    const { userName } = userInput;
+    const { username } = userInput;
 
     axios
-      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/something`, {
-        username: userName,
-      })
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/signup/:${username}`)
       .then(() => {
         setErrMessage({
           ...errMessage,
-          userNameErr: "사용 가능한 유저이름 입니다",
+          usernameErr: "사용 가능한 유저이름 입니다",
         });
       })
       .catch((err) => {
@@ -160,7 +151,7 @@ const SignUpPage = () => {
           if (err.response.status === 409) {
             setErrMessage({
               ...errMessage,
-              userNameErr: "중복되는 유저이름이 있습니다",
+              usernameErr: "중복되는 유저이름이 있습니다",
             });
           }
           console.log(err.response);
@@ -173,12 +164,47 @@ const SignUpPage = () => {
       });
   };
 
+  const handleGoogleSignUp = (res) => {
+    console.log(res);
+    axios
+      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/oauth/google/api`, {
+        tokenId: res.tokenId,
+      })
+      .then((res) => {
+        const { userId, username, accessToken } = res.data;
+
+        dispatch(firstLogIn(userId, username, accessToken));
+
+        history.push("/");
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 409) {
+            setErrMessage({
+              ...errMessage,
+              other: "이미 가입한 회원입니다",
+            });
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("Error :", err.message);
+          }
+          console.log(err.config);
+        }
+      });
+  };
+
+  const handleGoogleSignUpErr = (err) => {
+    console.log(err);
+  };
+
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    const { email, userName, password } = userInput;
+    const { email, username, password } = userInput;
 
-    if (!email || !userName || !password) {
+    if (!email || !username || !password) {
       setErrMessage({
         ...errMessage,
         other: "모든 항목은 필수입니다",
@@ -186,7 +212,7 @@ const SignUpPage = () => {
       return;
     }
 
-    if (!checkAll(userName, email, password)) {
+    if (!checkAll(username, email, password)) {
       setErrMessage({
         ...errMessage,
         other: "모든 항목을 올바르게 작성해 주세요",
@@ -204,7 +230,7 @@ const SignUpPage = () => {
         `${process.env.REACT_APP_SERVER_DOMAIN}/signup`,
         {
           email: email,
-          username: userName,
+          username: username,
           password: password,
         },
         {
@@ -224,9 +250,9 @@ const SignUpPage = () => {
             }
           )
           .then((res) => {
-            const { userName, accessToken } = res.data;
+            const { userId, username, accessToken } = res.data;
 
-            dispatch(logIn(userName, accessToken));
+            dispatch(firstLogIn(userId, username, accessToken));
 
             history.push("/");
           })
@@ -276,13 +302,13 @@ const SignUpPage = () => {
       case "3":
         setErrMessage({
           ...errMessage,
-          userNameErr: "유저이름은 2글자 이상이어야 합니다",
+          usernameErr: "유저이름은 2글자 이상이어야 합니다",
         });
         break;
       case "4":
         setErrMessage({
           ...errMessage,
-          userNameErr:
+          usernameErr:
             "유저이름은 한글,영어,숫자로 구성되며 공백이 없어야 합니다",
         });
         break;
@@ -298,10 +324,10 @@ const SignUpPage = () => {
           emailErr: "",
         });
         break;
-      case "userNameAvail":
+      case "usernameAvail":
         setErrMessage({
           ...errMessage,
-          userNameErr: "",
+          usernameErr: "",
         });
         break;
       case "passwordAvail":
@@ -319,25 +345,25 @@ const SignUpPage = () => {
     <StyledSignUpPage>
       <h1>Sign Up</h1>
       <form>
-        <label>email</label>
+        <label>Email</label>
         <input
           type="text"
           onChange={handleUserInput("email")}
           onKeyUp={() => handleErrMessage(emailCheck(userInput.email))}
         ></input>
         {errMessage.emailErr && <p>{errMessage.emailErr}</p>}
-        <label>username</label>
+        <label>Username</label>
         <div id="username-input-wrapper">
           <input
             type="text"
-            onChange={handleUserInput("userName")}
-            onKeyUp={() => handleErrMessage(userNameCheck(userInput.userName))}
+            onChange={handleUserInput("username")}
+            onKeyUp={() => handleErrMessage(usernameCheck(userInput.username))}
             placeholder="닉네임은 2자 이상으로 공백을 제외해야 합니다"
           ></input>
-          <button onClick={handleUserNameExist}>중복검사</button>
+          <button onClick={handleUsernameExist}>중복검사</button>
         </div>
-        {errMessage.userNameErr && <p>{errMessage.userNameErr}</p>}
-        <label>password</label>
+        {errMessage.usernameErr && <p>{errMessage.usernameErr}</p>}
+        <label>Password</label>
         <input
           type="password"
           onChange={handleUserInput("password")}
@@ -345,7 +371,7 @@ const SignUpPage = () => {
           placeholder="비밀번호는 8자리 이상으로 영어,숫자,특수문자가 포함되어야 합니다"
         ></input>
         {errMessage.passwordErr && <p>{errMessage.passwordErr}</p>}
-        <label>password check</label>
+        <label>Password Check</label>
         <input
           type="password"
           onChange={handleUserInput("passwordCheck")}
@@ -355,13 +381,14 @@ const SignUpPage = () => {
           userInput.password !== userInput.passwordCheck && (
             <p>입력한 비밀번호와 다릅니다</p>
           )}
-        <button onClick={handleSignUp}>submit</button>
+        <button onClick={handleSignUp}>Submit</button>
         {errMessage.other && <p>{errMessage.other}</p>}
       </form>
       <StyledGoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        onSuccess={handleGoogleLogIn}
-        onFailure={handleGoogleLogInErr}
+        buttonText="Sign up with Google"
+        onSuccess={handleGoogleSignUp}
+        onFailure={handleGoogleSignUpErr}
         cookiePolicy={"single_host_origin"}
       />
       <p id="sign-in-link">

@@ -13,18 +13,18 @@ const passwordCheck = (password) => {
   }
 };
 
-const userNameCheck = (username) => {
+const usernameCheck = (username) => {
   const regex = /^[가-힣ㄱ-ㅎa-zA-Z0-9._-]{2,}$/;
 
   if (username.length < 2 && username.length > 0) {
     return "3";
   } else if (!regex.test(username)) {
     if (username.length === 0) {
-      return "userNameAvail";
+      return "usernameAvail";
     }
     return "4";
   } else {
-    return "userNameAvail";
+    return "usernameAvail";
   }
 };
 
@@ -54,4 +54,4 @@ const checkAll = (username, email, password) => {
   );
 };
 
-export { passwordCheck, userNameCheck, emailCheck, checkAll };
+export { passwordCheck, usernameCheck, emailCheck, checkAll };

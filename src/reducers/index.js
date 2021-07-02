@@ -1,10 +1,10 @@
-import { combineReducers } from 'redux';
-import logInStatusReducer from './logInStatusReducer';
-import toDoReducer from './toDoReducer';
+import { combineReducers } from "redux";
+import logInStatusReducer from "./logInStatusReducer";
+import todoReducer from "./toDoReducer";
 
 const rootReducer = combineReducers({
   logInStatusReducer,
-  toDoReducer
+  todoReducer,
 });
 
 export default rootReducer;

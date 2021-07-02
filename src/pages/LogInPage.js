@@ -17,7 +17,8 @@ const StyledLogInPage = styled.div`
   h1 {
     border-bottom: 2px solid black;
     padding: 10px 0;
-    width: 300px;
+    width: 400px;
+    margin: 10px;
   }
 
   #sign-up-link {
@@ -45,7 +46,7 @@ const StyledLogInPage = styled.div`
     input {
       border: none;
       border-bottom: 1px solid black;
-      width: 300px;
+      width: 400px;
       font-size: 1.3rem;
 
       &:focus {
@@ -66,7 +67,7 @@ const StyledLogInPage = styled.div`
 
       button {
         border: none;
-        width: 300px;
+        width: 400px;
         height: 40px;
         background: #f5d0a9;
         border-radius: 3px;
@@ -82,7 +83,7 @@ const StyledLogInPage = styled.div`
 `;
 
 const StyledGoogleLogin = styled(GoogleLogin)`
-  width: 300px;
+  width: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,10 +100,31 @@ const LogInPage = () => {
 
   const handleGoogleLogIn = (res) => {
     console.log(res);
+    axios
+      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/oauth/google/api`, {
+        tokenId: res.tokenId,
+      })
+      .then((res) => {
+        const { userId, username, accessToken } = res.data;
+
+        dispatch(logIn(userId, username, accessToken));
+
+        history.push("/");
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
   };
 
-  const handleGoogleLogInErr = (res) => {
-    console.log(res);
+  const handleGoogleLogInErr = (err) => {
+    console.log(err);
   };
 
   const handleUserInput = (key) => (e) =>
@@ -130,8 +152,8 @@ const LogInPage = () => {
           }
         )
         .then((res) => {
-          const { accessToken, userName } = res.data;
-          dispatch(logIn(userName, accessToken));
+          const { accessToken, username, userId } = res.data;
+          dispatch(logIn(userId, username, accessToken));
         })
         .catch((err) => {
           if (err.response) {
@@ -156,18 +178,19 @@ const LogInPage = () => {
     <StyledLogInPage>
       <h1>Sign In</h1>
       <form>
-        <label>email</label>
+        <label>Email</label>
         <input type="text" onChange={handleUserInput("email")}></input>
-        <label>password</label>
+        <label>Password</label>
         <input type="password" onChange={handleUserInput("password")}></input>
         {errMessage && <p>{errMessage}</p>}
         <div>
-          <button onClick={handleLogIn}>로그인</button>
+          <button onClick={handleLogIn}>Log In</button>
           {/* <button onClick={() => history.push("/signup")}>회원가입</button> */}
         </div>
       </form>
       <StyledGoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+        buttonText="Log in with Google"
         onSuccess={handleGoogleLogIn}
         onFailure={handleGoogleLogInErr}
         cookiePolicy={"single_host_origin"}

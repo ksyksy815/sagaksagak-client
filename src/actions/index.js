@@ -1,6 +1,7 @@
 //로그인 및 유저 정보 관련 액션
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 export const LOG_IN = "LOG_IN";
+export const FIRST_LOG_IN = "FIRST_LOG_IN";
 export const LOG_OUT = "LOG_OUT";
 
 //투두 관련 액션
@@ -18,13 +19,28 @@ export const setAccessToken = (token) => {
   };
 };
 
-export const logIn = (userName, accessToken) => {
+export const logIn = (userId, username, accessToken) => {
   return {
     type: LOG_IN,
     payload: {
-      userName,
+      userId,
+      username,
       accessToken,
       isLogedIn: true,
+      isFirstLogedIn: false,
+    },
+  };
+};
+
+export const firstLogIn = (userId, username, accessToken) => {
+  return {
+    type: FIRST_LOG_IN,
+    payload: {
+      userId,
+      username,
+      accessToken,
+      isLogedIn: true,
+      isFirstLogedIn: true,
     },
   };
 };
@@ -34,23 +50,25 @@ export const logOut = () => {
     type: LOG_OUT,
     payload: {
       userId: "",
+      username: "",
       accessToken: "",
       isLogedIn: false,
+      isFirstLogedIn: false,
     },
   };
 };
 
-export const setToDoList = (toDos, completeToDos) => {
+export const setTodoList = (todos, completeTodos) => {
   return {
     type: SET_TO_DO_LIST,
     payload: {
-      toDos,
-      completeToDos,
+      todos,
+      completeTodos,
     },
   };
 };
 
-export const newToDo = (id, content) => {
+export const newTodo = (id, content) => {
   return {
     type: NEW_TO_DO,
     payload: {
@@ -62,25 +80,25 @@ export const newToDo = (id, content) => {
   };
 };
 
-export const toDoChecked = (id, toDo) => {
+export const todoChecked = (id, todo) => {
   return {
     type: TO_DO_CHECKED,
     payload: {
       id,
-      content: toDo.content,
-      createdAt: toDo.createdAt,
+      content: todo.content,
+      createdAt: todo.createdAt,
       isChecked: true,
     },
   };
 };
 
-export const toDoUnchecked = (id, toDo) => {
+export const todoUnchecked = (id, todo) => {
   return {
     type: TO_DO_UNCHECKED,
     payload: {
       id,
-      content: toDo.content,
-      createdAt: toDo.createdAt,
+      content: todo.content,
+      createdAt: todo.createdAt,
       isChecked: false,
     },
   };
