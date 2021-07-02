@@ -146,7 +146,7 @@ export default function LandingPage() {
           </div>
         </div>
       </StyledSectionMid>
-      <Testimonials offsetY={offsetY} />
+      <Testimonials />
       <Footer />
     </StyledLandingPage>
   );
