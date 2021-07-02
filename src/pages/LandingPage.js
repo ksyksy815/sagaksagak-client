@@ -1,15 +1,22 @@
-import { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useSpring, animated } from 'react-spring'
-import { StyledLandingPage, StyledSectionTop, StyledSectionMid, ButtonBox, LandingPageBtn, ParallaxImg } from '../components/LandingPage.styles.js'
-import Testimonials from '../components/Testimonials'
-import Footer from '../components/Footer'
-import imgVideoChat from '../assets/imgVideoChat.png'
-import imgStudyingAloneHard from '../assets/imgStudyingAloneHard.svg'
-import calculator from '../assets/calculator.svg'
-import book from '../assets/book-stack.svg'
-import mouse from '../assets/mouse.svg'
-
+import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useSpring, animated } from "react-spring";
+import {
+  StyledLandingPage,
+  StyledSectionTop,
+  StyledSectionMid,
+  ButtonBox,
+  LandingPageBtn,
+  ParallaxImg,
+} from "../components/LandingPage.styles.js";
+import Testimonials from "../components/Testimonials";
+import Footer from "../components/Footer";
+import CategorySelectModal from "../components/modals/CategorySelectModal.js";
+import imgVideoChat from "../assets/imgVideoChat.png";
+import imgStudyingAloneHard from "../assets/imgStudyingAloneHard.svg";
+import calculator from "../assets/calculator.svg";
+import book from "../assets/book-stack.svg";
+import mouse from "../assets/mouse.svg";
 
 export default function LandingPage() {
   const [offsetY, setOffsetY] = useState(0);
@@ -20,9 +27,9 @@ export default function LandingPage() {
   };
 
   const divProps = useSpring({
-    from: { bottom: "100%", opacity: "0"},
-    to: { bottom: "15%", opacity: "1"}
-  })
+    from: { bottom: "100%", opacity: "0" },
+    to: { bottom: "15%", opacity: "1" },
+  });
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -30,10 +37,10 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <StyledLandingPage >
-      <StyledSectionTop >
+    <StyledLandingPage>
+      <CategorySelectModal />
+      <StyledSectionTop>
         <animated.div style={divProps}>
-
           <h3>목표 달성을 위한 긴 여정,</h3>
           <h1>사각사각과 함께 하세요!</h1>
           <p>
@@ -50,10 +57,10 @@ export default function LandingPage() {
             </LandingPageBtn>
           </ButtonBox>
         </animated.div>
-        <animated.img 
-          src={imgVideoChat} 
-          alt="Video chat illustration" 
-          style={{transform: `translateY(${offsetY*0.2}px)`}}
+        <animated.img
+          src={imgVideoChat}
+          alt="Video chat illustration"
+          style={{ transform: `translateY(${offsetY * 0.2}px)` }}
         />
       </StyledSectionTop>
       <StyledSectionMid>
@@ -131,7 +138,6 @@ export default function LandingPage() {
             <div className="three-btnBox">
               <LandingPageBtn backgroundColor={`#F5C3B8`} color={`#DE877F`}>
                 <Link to="/studyroom">스터디룸 참여하기</Link>
-
               </LandingPageBtn>
               <LandingPageBtn backgroundColor={`#A2C8BF`} color={`#205B5A`}>
                 <Link to="/studylog">To-do 작성하기</Link>
@@ -140,7 +146,7 @@ export default function LandingPage() {
           </div>
         </div>
       </StyledSectionMid>
-      <Testimonials offsetY={offsetY}/>
+      <Testimonials offsetY={offsetY} />
       <Footer />
     </StyledLandingPage>
   );
