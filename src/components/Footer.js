@@ -81,6 +81,14 @@ const StyledDevInfo = styled.div`
 `
 
 export default function Footer() {
+  const handleClickCopy = (e) => {
+    const el = document.createElement('textarea')
+    document.body.appendChild(el)
+    el.value = e.target.textContent
+    el.select()
+    document.execCommand('copy')
+    document.body.removeChild(el)
+  }
   
   return (
     <StyledFooter>
@@ -100,7 +108,7 @@ export default function Footer() {
           <span>WOOSUNG KIM</span>
         <StyledDevInfo>
           <div><MdPerson/>김우성</div>
-          <div><MdEmail/>rladntjd320@gmail.com</div>
+          <div onClick={handleClickCopy}><MdEmail/>rladntjd320@gmail.com</div>
           <div><a href='https://github.com/IJMilk-WS'><AiFillGithub/>IJMilk-WS</a></div>
         </StyledDevInfo>
         </li>
@@ -108,7 +116,7 @@ export default function Footer() {
           <span>SEOYEON KIM</span>
         <StyledDevInfo>
           <div><MdPerson/>김서연</div>
-          <div><MdEmail/>seoyeonkim815@gmail.com</div>
+          <div onClick={handleClickCopy}><MdEmail/>seoyeonkim815@gmail.com</div>
           <div><a href='https://github.com/ksyksy815'><AiFillGithub/>ksyksy815</a></div>
         </StyledDevInfo>
         </li>
@@ -116,14 +124,14 @@ export default function Footer() {
           <span>HYUNWOO JEONG</span>
         <StyledDevInfo>
           <div><MdPerson/>정현우</div>
-          <div><MdEmail/>wijeong@gmail.com</div>
+          <div onClick={handleClickCopy}><MdEmail/>wijeong@gmail.com</div>
           <div><a href='https://github.com/david-Jeong95'><AiFillGithub/>david-Jeong95</a></div>
         </StyledDevInfo>
         </li>
         <li>
           <span>SOONEUN HWANG</span>
         <StyledDevInfo>
-          <div><MdPerson/>황순은</div>
+          <div onClick={handleClickCopy}><MdPerson/>황순은</div>
           <div><MdEmail/>catalyst8849@gmail.com</div>
           <div><a href='https://github.com/Hwangsooneun'><AiFillGithub/>Hwangsooneun</a></div>
         </StyledDevInfo>
