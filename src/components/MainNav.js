@@ -62,7 +62,7 @@ export default function MainNav() {
         <ul>
           <li><Link to='/'>홈</Link></li>
           <li><Link to='/studyroom'>스터디룸</Link></li>
-          <li><Link to='/studylog'>스터디로그</Link></li>
+          <li><Link to='/studylog/todo'>스터디로그</Link></li>
         </ul>
         <ul>
           <li><Link to='/login'>로그인</Link></li>

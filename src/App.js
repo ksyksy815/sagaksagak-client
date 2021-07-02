@@ -6,6 +6,7 @@ import MainNav from "./components/MainNav";
 import LandingPage from "./pages/LandingPage";
 import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
+import Studylog from "./pages/Studylog";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -30,6 +31,9 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignUpPage />
+          </Route>
+          <Route path="/studylog">
+            <Studylog />
           </Route>
         </Switch>
       </StyledApp>
