@@ -1,17 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 import circle from '../assets/circle-bg.svg'
 
-const effectOnLanding = keyframes`
-  from {
-    opacity: 0;
-    bottom: 35%;
-  }
-  to {
-    opacity: 1;
-    bottom: 15%;
-  }
-`
-
 export const StyledLandingPage = styled.div`
 width: 100vw;
 height: auto;
@@ -45,7 +34,6 @@ export const StyledSectionTop = styled.section`
     position: absolute;
     left: 10%;
     bottom: 15%;
-    animation: ${effectOnLanding} 2s;
 
     h1 {
       font-size: 3rem;
@@ -67,7 +55,6 @@ export const StyledSectionTop = styled.section`
     position: absolute;
     bottom: 15%;
     left: 45%;
-    animation: ${effectOnLanding} 0.5s;
   }
 
 `
@@ -193,8 +180,14 @@ export const StyledSectionMid = styled.section`
 `
 export const StyledSectionBottom = styled.section`
   width: 100%;
-  height: 100vh;
+  height: auto;
   scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 30% 0;
 `
 
 export const ButtonBox = styled.span`
@@ -211,7 +204,20 @@ export const LandingPageBtn = styled.button`
   background-color: ${(props) => props.backgroundColor};
   border: none;
   font-weight: bold;
-  color: ${(props) => props.color};
+  transition: 0.2s;
+  
+  a{
+    text-decoration: none;
+    color: ${(props) => props.color};
+  }
+
+  &:hover {
+    background-color: ${(props) => props.color};
+  }
+
+  &:hover a {
+    color: #fff;
+  }
 `
 
 export const ParallaxImg = styled.div`

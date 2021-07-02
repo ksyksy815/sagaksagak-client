@@ -27,5 +27,9 @@ Dark pink: #DE877F
 Light pink: #F5C3B8
 
 Dark green: #205B5A
+-> with opacity: #205b5ab4
 Light green: #A2C8BF
+
+Yellow: #FECF2D
+-> with opacity: #fed12dc9
 */

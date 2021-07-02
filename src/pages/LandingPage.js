@@ -1,20 +1,15 @@
-import { useState, useRef, useEffect } from "react";
-import {
-  StyledLandingPage,
-  StyledSectionTop,
-  StyledSectionMid,
-  StyledSectionBottom,
-  ButtonBox,
-  LandingPageBtn,
-  ParallaxImg,
-} from "../components/LandingPageStyles";
-import Footer from "../components/Footer";
-import CategorySelectModal from "../components/modals/CategorySelectModal";
-import imgVideoChat from "../assets/imgVideoChat.png";
-import imgStudyingAloneHard from "../assets/imgStudyingAloneHard.svg";
-import calculator from "../assets/calculator.svg";
-import book from "../assets/book-stack.svg";
-import mouse from "../assets/mouse.svg";
+import { useState, useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useSpring, animated } from 'react-spring'
+import { StyledLandingPage, StyledSectionTop, StyledSectionMid, ButtonBox, LandingPageBtn, ParallaxImg } from '../components/LandingPage.styles.js'
+import Testimonials from '../components/Testimonials'
+import Footer from '../components/Footer'
+import imgVideoChat from '../assets/imgVideoChat.png'
+import imgStudyingAloneHard from '../assets/imgStudyingAloneHard.svg'
+import calculator from '../assets/calculator.svg'
+import book from '../assets/book-stack.svg'
+import mouse from '../assets/mouse.svg'
+
 
 export default function LandingPage() {
   const [offsetY, setOffsetY] = useState(0);
@@ -24,9 +19,10 @@ export default function LandingPage() {
     setOffsetY(window.pageYOffset);
   };
 
-  const changeViewToMid = () => {
-    sectionMid.current.scrollIntoView();
-  };
+  const divProps = useSpring({
+    from: { bottom: "100%", opacity: "0"},
+    to: { bottom: "15%", opacity: "1"}
+  })
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -34,10 +30,10 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <StyledLandingPage>
-      <CategorySelectModal />
-      <StyledSectionTop>
-        <div style={{ transform: `translateY(${offsetY * 0.1}px)` }}>
+    <StyledLandingPage >
+      <StyledSectionTop >
+        <animated.div style={divProps}>
+
           <h3>목표 달성을 위한 긴 여정,</h3>
           <h1>사각사각과 함께 하세요!</h1>
           <p>
@@ -47,17 +43,17 @@ export default function LandingPage() {
           </p>
           <ButtonBox>
             <LandingPageBtn backgroundColor={`#F5D0A9`} color={`#F58820`}>
-              참여하기
+              <Link to="/studyroom">스터디룸 참여하기</Link>
             </LandingPageBtn>
             <LandingPageBtn backgroundColor={`#A2C8BF`} color={`#205B5A`}>
-              데이빋졍
+              <Link to="/studylog">To-do 작성하기</Link>
             </LandingPageBtn>
           </ButtonBox>
-        </div>
-        <img
-          src={imgVideoChat}
-          alt="Video chat illustration"
-          style={{ transform: `translateY(${offsetY * 0.3}px)` }}
+        </animated.div>
+        <animated.img 
+          src={imgVideoChat} 
+          alt="Video chat illustration" 
+          style={{transform: `translateY(${offsetY*0.2}px)`}}
         />
       </StyledSectionTop>
       <StyledSectionMid>
@@ -133,21 +129,18 @@ export default function LandingPage() {
               참여 기록 열람 화상채팅방 안에서도 투두리스트에 접근할 수 있음.
             </p>
             <div className="three-btnBox">
-              <LandingPageBtn
-                onClick={changeViewToMid}
-                backgroundColor={`#F5C3B8`}
-                color={`#DE877F`}
-              >
-                스터디룸 참여하기
+              <LandingPageBtn backgroundColor={`#F5C3B8`} color={`#DE877F`}>
+                <Link to="/studyroom">스터디룸 참여하기</Link>
+
               </LandingPageBtn>
               <LandingPageBtn backgroundColor={`#A2C8BF`} color={`#205B5A`}>
-                To-Do 작성하기
+                <Link to="/studylog">To-do 작성하기</Link>
               </LandingPageBtn>
             </div>
           </div>
         </div>
       </StyledSectionMid>
-      <StyledSectionBottom>후기 carousel</StyledSectionBottom>
+      <Testimonials offsetY={offsetY}/>
       <Footer />
     </StyledLandingPage>
   );
