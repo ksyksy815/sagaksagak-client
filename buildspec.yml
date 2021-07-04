@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - echo Checking Node version 14...
+      - node -v
+      - npm -v
+  pre_build:
+    commands:
+      - echo Installing dependencies....
+      - npm install
+  build:
+    commands:
+      - echo Building...
+      - npm run build
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no
+  base-directory: build
