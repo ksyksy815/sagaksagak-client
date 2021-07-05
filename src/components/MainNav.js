@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -6,7 +5,7 @@ const StyledMainNav = styled.nav`
   box-sizing: border-box;
   width: 100vw;
   max-width: 1200px;
-  display: flex;
+  display: ${props => props.isOnVideoChat ? `none` : `flex`};
   justify-content: space-between;
   align-items: center;
   padding: 0 1.5rem;
@@ -71,13 +70,13 @@ const StyledMainNav = styled.nav`
   }
 `
 
-export default function MainNav( {isLogedIn} ) {
+export default function MainNav( {isLogedIn, isOnVideoChat} ) {
   const handleLogOut = () => {
     //로그아웃 로직 구현
   }
 
   return (
-    <StyledMainNav>
+    <StyledMainNav isOnVideoChat={isOnVideoChat}>
       <h2><Link to='/'>사각사각</Link></h2>
       <div>
         <ul>

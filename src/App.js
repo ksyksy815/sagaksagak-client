@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from 'react-redux'
@@ -25,11 +25,21 @@ function App() {
   const state = useSelector(state => state.logInStatusReducer)
   const { user } = state
 
+  // Local States
+  const [isOnVideoChat, setIsOnVideoChat] = useState(false)
+  useEffect(() => {
+    if ( /\/room/g.test(window.location.pathname) ) {
+      setIsOnVideoChat(true)
+    } else {
+      setIsOnVideoChat(false)
+    }
+  }, [])
+
   return (
     <Router>
       <GlobalStyles />
       <StyledApp>
-        <MainNav isLogedIn={user.isLogedIn}/>
+        <MainNav isLogedIn={user.isLogedIn} isOnVideoChat={isOnVideoChat}/>
         <Switch>
           <Route exact path="/">
             <LandingPage />
