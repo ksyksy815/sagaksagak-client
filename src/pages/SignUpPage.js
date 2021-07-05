@@ -139,7 +139,9 @@ const SignUpPage = () => {
     const { username } = userInput;
 
     axios
-      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/signup/:${username}`)
+      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/signup/username-exist`, {
+        username: username,
+      })
       .then(() => {
         setErrMessage({
           ...errMessage,
@@ -276,10 +278,17 @@ const SignUpPage = () => {
       .catch((err) => {
         if (err.response) {
           if (err.response.status === 409) {
-            setErrMessage({
-              ...errMessage,
-              other: "이미 가입한 회원입니다",
-            });
+            if (err.response.data.message === "email exist") {
+              setErrMessage({
+                ...errMessage,
+                other: "이미 가입한 회원입니다",
+              });
+            } else {
+              setErrMessage({
+                ...errMessage,
+                other: "중복되는 유저이름이 있습니다",
+              });
+            }
             console.log(err.response);
           } else if (err.request) {
             console.log(err.request);

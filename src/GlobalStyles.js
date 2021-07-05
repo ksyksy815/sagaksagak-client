@@ -32,4 +32,7 @@ Light green: #A2C8BF
 
 Yellow: #FECF2D
 -> with opacity: #fed12dc9
+
+Blue: #66B0F0
+-> with opacity: #66b0f0b2
 */
