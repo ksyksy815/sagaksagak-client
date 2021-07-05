@@ -25,41 +25,36 @@ function App() {
   const state = useSelector(state => state.logInStatusReducer)
   const { user } = state
 
-  // Local States
-  const [isOnVideoChat, setIsOnVideoChat] = useState(false)
-  useEffect(() => {
-    if ( /\/room/g.test(window.location.pathname) ) {
-      setIsOnVideoChat(true)
-    } else {
-      setIsOnVideoChat(false)
-    }
-  }, [])
-
   return (
     <Router>
       <GlobalStyles />
       <StyledApp>
-        <MainNav isLogedIn={user.isLogedIn} isOnVideoChat={isOnVideoChat}/>
         <Switch>
           <Route exact path="/">
+            <MainNav isLogedIn={user.isLogedIn} />
             <LandingPage />
           </Route>
           <Route path="/login">
+            <MainNav isLogedIn={user.isLogedIn} />
             <LogInPage />
           </Route>
           <Route path="/signup">
+            <MainNav isLogedIn={user.isLogedIn} />
             <SignUpPage />
           </Route>
           <Route path="/studyroom">
+            <MainNav isLogedIn={user.isLogedIn} />
             <Lobby />
           </Route>
           <Route path='/room'>
             <VideoChatRoom/>
           </Route>
           <Route path="/studylog/todo">
+            <MainNav isLogedIn={user.isLogedIn} />
             <Studylog />
           </Route>
           <Route path="/mypage">
+            <MainNav isLogedIn={user.isLogedIn} />
             <MyPage />
           </Route>
         </Switch>

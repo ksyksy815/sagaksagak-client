@@ -5,7 +5,7 @@ const StyledMainNav = styled.nav`
   box-sizing: border-box;
   width: 100vw;
   max-width: 1200px;
-  display: ${props => props.isOnVideoChat ? `none` : `flex`};
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 1.5rem;
@@ -70,13 +70,13 @@ const StyledMainNav = styled.nav`
   }
 `
 
-export default function MainNav( {isLogedIn, isOnVideoChat} ) {
+export default function MainNav( {isLogedIn} ) {
   const handleLogOut = () => {
     //로그아웃 로직 구현
   }
 
   return (
-    <StyledMainNav isOnVideoChat={isOnVideoChat}>
+    <StyledMainNav>
       <h2><Link to='/'>사각사각</Link></h2>
       <div>
         <ul>
