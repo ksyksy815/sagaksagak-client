@@ -6,6 +6,7 @@ import MainNav from "./components/MainNav";
 import LandingPage from "./pages/LandingPage";
 import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
+import Studylog from "./pages/Studylog";
 import MyPage from "./pages/MyPage";
 
 const StyledApp = styled.div`
@@ -32,8 +33,9 @@ function App() {
           <Route path="/signup">
             <SignUpPage />
           </Route>
+          <Route path="/studylog">
+            <Studylog />
           <Route path="/mypage">
-            <MyPage />
           </Route>
         </Switch>
       </StyledApp>
