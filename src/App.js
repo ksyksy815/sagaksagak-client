@@ -35,7 +35,9 @@ function App() {
           </Route>
           <Route path="/studylog">
             <Studylog />
+          </Route>
           <Route path="/mypage">
+            <MyPage />
           </Route>
         </Switch>
       </StyledApp>
