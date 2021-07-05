@@ -16,6 +16,13 @@ const StyledMainNav = styled.nav`
   letter-spacing: 1.5px;
   margin: 0 2rem;
 
+  h2 {
+    a {
+      text-decoration: none;
+      color: #225E5C;
+    }
+  }
+
   div {
     display: flex;
     column-gap: 6rem;
@@ -34,11 +41,22 @@ const StyledMainNav = styled.nav`
 
     li {
       transition: 0.2s;
-      a {
+      button {
+        background: transparent;
+        border: none;
+        font-size: 1rem;
+        
+        &:hover {
+          transform: translateY(-3px);
+          cursor: pointer;
+          color: #F58820;
+        }
+
+      }
+      a, button {
         color: #225E5C;
         font-weight: bold;
         text-decoration: none;
-        
       }
       
       &:hover {
@@ -53,21 +71,31 @@ const StyledMainNav = styled.nav`
   }
 `
 
+export default function MainNav( {isLogedIn} ) {
+  const handleLogOut = () => {
+    //로그아웃 로직 구현
+  }
 
-export default function MainNav() {
   return (
     <StyledMainNav>
-      <h2>사각사각</h2>
+      <h2><Link to='/'>사각사각</Link></h2>
       <div>
         <ul>
           <li><Link to='/'>홈</Link></li>
           <li><Link to='/studyroom'>스터디룸</Link></li>
           <li><Link to='/studylog/todo'>스터디로그</Link></li>
         </ul>
+        {isLogedIn ? 
+        <ul>
+          <li><Link to='/mypage'>마이페이지</Link></li>
+          <li onCLick={handleLogOut}><button>로그아웃</button></li>
+        </ul>
+          :
         <ul>
           <li><Link to='/login'>로그인</Link></li>
           <li><Link to='/signup'>회원가입</Link></li>
         </ul>
+        }
       </div>
     </StyledMainNav>
   )
