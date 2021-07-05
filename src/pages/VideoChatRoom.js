@@ -42,7 +42,7 @@ export default function VideoChatRoom() {
   const myVideo = useRef()
   
   useEffect(() => {
-    const socket = io(`localhost:4000`)
+    const socket = io(process.env.REACT_APP_IO)
     const peer = new Peer()
 
     // 클라의 영상 스트림 비디오에 넣기
