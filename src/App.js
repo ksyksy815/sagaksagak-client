@@ -7,8 +7,10 @@ import MainNav from "./components/MainNav";
 import LandingPage from "./pages/LandingPage";
 import LogInPage from "./pages/LogInPage";
 import SignUpPage from "./pages/SignUpPage";
+import Lobby from "./pages/Lobby"
 import Studylog from "./pages/Studylog";
 import MyPage from "./pages/MyPage";
+import VideoChatRoom from "./pages/VideoChatRoom";
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -37,6 +39,12 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignUpPage />
+          </Route>
+          <Route path="/studyroom">
+            <Lobby />
+          </Route>
+          <Route path='/room'>
+            <VideoChatRoom/>
           </Route>
           <Route path="/studylog/todo">
             <Studylog />
