@@ -6,53 +6,103 @@ const StyledMyPage = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: solid 1px red;
   width: 100vw;
   height: 100vh;
 `;
 
 const StyledContentWrapper = styled.div`
+  position: relative;
+  top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  border: solid 1px blue;
+  justify-content: center;
   width: 50%;
   height: 70%;
+  row-gap: 3rem;
 `;
 
 const StyledSectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 0.5rem;
+  row-gap: 1rem;
 
-  & p {
+  div {
     margin: 0;
-    padding: 10px 0 0 0;
     font-size: 1.1rem;
+    justify-self: center;
+
+    button {
+      height: 1.5rem;
+      background: #dddddd;
+      border: none;
+      border-radius: 5px;
+      width: 100px;
+    }
   }
 
-  & label {
+  label {
     font-size: 1.8rem;
     font-weight: 700;
-    border-bottom: solid 1px black;
     width: 400px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    & div {
+    div {
       display: flex;
       justify-content: center;
       align-items: center;
 
-      & button {
+      button {
         height: 1.5rem;
         background: #dddddd;
         border: none;
         border-radius: 5px;
         width: 100px;
       }
+    }
+  }
+
+  #email {
+    position: relative;
+    right: -15px;
+    height: 1.5em;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  #username {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    div {
+      position: relative;
+      right: -15px;
+      font-size: 1.1rem;
+      height: 1.5rem;
+      border: none;
+    }
+  }
+
+  #category {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1em;
+
+    div {
+      border: solid 1px black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100px;
+      width: 100px;
+      border-radius: 10px;
     }
   }
 `;
@@ -63,16 +113,14 @@ const MyPage = () => {
       <StyledContentWrapper>
         <StyledSectionWrapper>
           <label>이메일</label>
-          <p>test@gmail.com</p>
+          <div id="email">test@gmail.com</div>
         </StyledSectionWrapper>
         <StyledSectionWrapper>
-          <label>
-            닉네임
-            <div>
-              <button>변경하기</button>
-            </div>
-          </label>
-          <p>나는실험용</p>
+          <label>닉네임</label>
+          <div id="username">
+            <div id="username">나는 실험용</div>
+            <button>변경하기</button>
+          </div>
         </StyledSectionWrapper>
         <StyledSectionWrapper>
           <label>
@@ -89,7 +137,19 @@ const MyPage = () => {
               <button>변경하기</button>
             </div>
           </label>
-          <ul></ul>
+          <div id="category">
+            <div>영어</div>
+            <div>코딩</div>
+            <div>자격증</div>
+          </div>
+        </StyledSectionWrapper>
+        <StyledSectionWrapper>
+          <label>
+            회원탈퇴
+            <div>
+              <button>탈퇴</button>
+            </div>
+          </label>
         </StyledSectionWrapper>
       </StyledContentWrapper>
     </StyledMyPage>
