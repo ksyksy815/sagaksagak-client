@@ -36,8 +36,8 @@ export default function VideoChatRoom() {
   // Local
   const [cameraOn, setCameraOn] = useState(true)
   const roomId = window.location.pathname.slice(6)
-  const username = user.username !== '' ? user.username : `GUEST`
-  const userId = user.userId !== '' ? user.userId : `${Math.round(Math.random()*100000)}`
+  const username = user.username !== '' ? user.username : `GUEST${Math.round(Math.random()*100000)}`
+  const userId = user.userId !== '' ? user.userId : 1
   let myStream = null
 
   const videoGrid = useRef()
