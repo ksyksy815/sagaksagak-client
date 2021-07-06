@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from 'react-redux'
@@ -29,27 +29,32 @@ function App() {
     <Router>
       <GlobalStyles />
       <StyledApp>
-        <MainNav isLogedIn={user.isLogedIn}/>
         <Switch>
           <Route exact path="/">
+            <MainNav isLogedIn={user.isLogedIn} />
             <LandingPage />
           </Route>
           <Route path="/login">
+            <MainNav isLogedIn={user.isLogedIn} />
             <LogInPage />
           </Route>
           <Route path="/signup">
+            <MainNav isLogedIn={user.isLogedIn} />
             <SignUpPage />
           </Route>
           <Route path="/studyroom">
+            <MainNav isLogedIn={user.isLogedIn} />
             <Lobby />
           </Route>
           <Route path='/room'>
             <VideoChatRoom/>
           </Route>
           <Route path="/studylog/todo">
+            <MainNav isLogedIn={user.isLogedIn} />
             <Studylog />
           </Route>
           <Route path="/mypage">
+            <MainNav isLogedIn={user.isLogedIn} />
             <MyPage />
           </Route>
         </Switch>
