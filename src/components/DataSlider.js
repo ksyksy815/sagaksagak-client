@@ -64,7 +64,7 @@ const StyledSlider = styled.section`
 
   .right-arrow {
     position: absolute;
-    top: 47%;
+    top: 45%;
     right: 32px;
     font-size: 2rem;
     color: white;
@@ -75,7 +75,7 @@ const StyledSlider = styled.section`
 
   .left-arrow {
     position: absolute;
-    top: 47%;
+    top: 45%;
     left: 32px;
     font-size: 2rem;
     color: white;
@@ -96,7 +96,7 @@ const StyledSlider = styled.section`
 
   .container-dots {
     position: absolute;
-    bottom: 20px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
