@@ -26,7 +26,7 @@ export default function Lobby() {
 
   const handleNewRoom = () => {
     axios.post(`${process.env.REACT_APP_SERVER_DOMAIN}/room/new`, {
-      userId: user.userId,
+      userId: user.userId === '' ? Math.round(Math.random()*100000) : user.userId,
       category: "공무원",
       roomName: "고시생 모여라"
     })
