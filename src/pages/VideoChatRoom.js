@@ -4,6 +4,7 @@ import Peer from 'peerjs'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import ChatRoomNav from '../components/ChatRoomNav'
+import ClosedRoomRedirctModal from '../components/modals/ClosedRoomRedirctModal'
 
 const ChatRoom = styled.div`
   width: 100vw;
@@ -35,9 +36,10 @@ export default function VideoChatRoom() {
 
   // Local
   const [cameraOn, setCameraOn] = useState(true)
+  const [roomClosed, setRoomClosed] = useState(false)
   const roomId = window.location.pathname.slice(6)
-  const username = user.username !== '' ? user.username : `GUEST`
-  const userId = user.userId !== '' ? user.userId : `${Math.round(Math.random()*100000)}`
+  const username = user.username !== '' ? user.username : `GUEST${Math.round(Math.random()*100000)}`
+  const userId = user.userId !== '' ? user.userId : 1
   let myStream = null
 
   const videoGrid = useRef()
@@ -107,7 +109,11 @@ export default function VideoChatRoom() {
     socket.on('user-disconnected', (peerId, username) => {
       const video = document.getElementById(`${peerId}`)
       console.log(video)
-      video.remove()
+      if (video !== null) {
+        video.remove()
+      } else {
+        setRoomClosed(true)
+      }
       console.log(`유저 나갔다. 나간놈 이름: ${username}`)
     })
 
@@ -130,6 +136,9 @@ export default function VideoChatRoom() {
           <video ref={myVideo}></video>
         </div>
       </ChatRoom>
+      {
+        roomClosed && <ClosedRoomRedirctModal />
+      }
     </>
   )
 }
