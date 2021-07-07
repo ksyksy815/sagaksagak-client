@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { RiRefreshLine } from "react-icons/ri";
 
-const StyledControllBar = styled.div`
+const StyledControllBar = styled.section`
   padding: 0 80px;
   display: flex;
   justify-content: space-between;
@@ -51,13 +51,15 @@ const StyledControllBar = styled.div`
   }
 `;
 
-const ControllBar = () => {
+const ControllBar = ({ handleCRBtn, getRoomList }) => {
   return (
     <StyledControllBar>
       <div className="room-controller">
-        <button className="make-room">방만들기</button>
+        <button className="make-room" onClick={handleCRBtn}>
+          방만들기
+        </button>
         <button>
-          <RiRefreshLine className="refresh-btn" />
+          <RiRefreshLine className="refresh-btn" onClick={getRoomList} />
         </button>
       </div>
       <div className="search-controller">

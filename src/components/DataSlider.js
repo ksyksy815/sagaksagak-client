@@ -32,7 +32,7 @@ const StyledSlider = styled.section`
     border-radius: 10px;
     backdrop-filter: blur(10px);
     position: absolute;
-    top: 10%;
+    top: 5%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -44,7 +44,7 @@ const StyledSlider = styled.section`
     @media only screen and (max-width: 600px) {
       width: 300px;
       height: 200px;
-      top: 18%;
+      top: 10%;
       font-size: 0.8rem;
     }
   }
@@ -64,7 +64,7 @@ const StyledSlider = styled.section`
 
   .right-arrow {
     position: absolute;
-    top: 45%;
+    top: 20%;
     right: 32px;
     font-size: 2rem;
     color: white;
@@ -75,7 +75,7 @@ const StyledSlider = styled.section`
 
   .left-arrow {
     position: absolute;
-    top: 45%;
+    top: 20%;
     left: 32px;
     font-size: 2rem;
     color: white;
@@ -96,7 +96,7 @@ const StyledSlider = styled.section`
 
   .container-dots {
     position: absolute;
-    bottom: 50px;
+    top: 370px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -117,7 +117,7 @@ const StyledSlider = styled.section`
   }
 `;
 
-const DataSlider = () => {
+const DataSlider = ({ recommend }) => {
   const [current, setCurrent] = useState(0);
   const length = sliderData.length;
   const autoPlayRef = useRef();
