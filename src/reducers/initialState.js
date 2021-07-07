@@ -23,4 +23,8 @@ export const initialState = {
       isChecked: true,
     },
   ],
+  chatroom: {
+    roomId: "",
+    participants: []
+  }
 };

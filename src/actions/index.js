@@ -10,6 +10,10 @@ export const NEW_TO_DO = "NEW_TO_DO";
 export const TO_DO_CHECKED = "TO_DO_CHECKED";
 export const TO_DO_UNCHECKED = "TO_DO_UNCHECKED";
 
+//화상채팅방 관련 액션
+export const ROOM_ID = "ROOM_ID";
+export const PARTICIPANTS = "PARTICIPANTS";
+
 export const setAccessToken = (token) => {
   return {
     type: SET_ACCESS_TOKEN,
@@ -106,3 +110,21 @@ export const todoUnchecked = (id, todo) => {
     },
   };
 };
+
+export const setRoomId = (roomId) => {
+  return {
+    type: ROOM_ID,
+    payload: {
+      roomId
+    }
+  }
+}
+
+export const setParticipants = (entry) => {
+  return {
+    type: PARTICIPANTS,
+    payload: {
+      participants: entry
+    }
+  }
+}
