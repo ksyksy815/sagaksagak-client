@@ -1,6 +1,6 @@
 export const initialState = {
   user: {
-    userId: "",
+    userId: 1,
     username: "",
     googleId: "",
     accessToken: "",
