@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledRoomListWrapper = styled.section`
@@ -44,8 +43,6 @@ const StyledRoomListWrapper = styled.section`
 `;
 
 const RoomList = ({ roomList, handleEntrance }) => {
-  const history = useHistory();
-
   return (
     <StyledRoomListWrapper>
       <div className="list-header">

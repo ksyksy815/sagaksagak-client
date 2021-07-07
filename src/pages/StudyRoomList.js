@@ -8,6 +8,7 @@ import ControllBar from "../components/ControllBar";
 import RoomList from "../components/RoomList";
 import CreateRoomModal from "../components/modals/CreateRoomModal";
 import FullRoomModal from "../components/modals/FullRoomModal";
+import Slider from "../components/Slider";
 
 const StyledStudyLoby = styled.div`
   position: relative;
@@ -168,7 +169,8 @@ const StudyRoomList = () => {
         />
       )}
       {isRoomFull && <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} />}
-      <DataSlider recommend={recommend} />
+      {/* <DataSlider recommend={recommend} /> */}
+      <Slider />
       <ControllBar handleCRBtn={handleCRBtn} getRoomList={getRoomList} />
       <RoomList roomList={roomList} handleEntrance={handleEntrance} />
     </StyledStudyLoby>
