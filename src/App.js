@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from 'react-redux'
-import { GlobalStyles } from "./globalStyles";
+import { GlobalStyles } from "./GlobalStyles";
 import MainNav from "./components/MainNav";
 import LandingPage from "./pages/LandingPage";
 import LogInPage from "./pages/LogInPage";
