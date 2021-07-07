@@ -82,7 +82,7 @@ export default function MainNav( {isLogedIn} ) {
         <ul>
           <li><Link to='/'>홈</Link></li>
           <li><Link to='/studyroom'>스터디룸</Link></li>
-          <li><Link to='/studylog/todo'>스터디로그</Link></li>
+          <li><Link to='/studylog'>스터디로그</Link></li>
         </ul>
         {isLogedIn ? 
         <ul>
