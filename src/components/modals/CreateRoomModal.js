@@ -52,6 +52,8 @@ const CreateRoomModal = ({ handleCRCloseBtn }) => {
   const [headerTitle, setHeaderTitle] = useState("카테고리를 선택해 주세요");
   const [selectedItem, setSelectedItem] = useState("");
   const [errMessage, setErrMessage] = useState("");
+  const [roomReady, setRoomReady] = useState(false);
+  const [roomId, setRoomId] = useState("");
 
   const handleSelect = (selected) => {
     setSelectedItem(selected);
@@ -73,14 +75,38 @@ const CreateRoomModal = ({ handleCRCloseBtn }) => {
 
     axios
       .post(`${process.env.REACT_APP_SERVER_DOMAIN}/room/new`, {
-        userId: state.user.isLogedIn ? state.user.userId : "guest",
+        userId: state.user.isLogedIn ? state.user.userId : 1,
         category: selectedItem,
         roomName: roomname,
       })
-      .then((res) => history.push(`/room/${res.roomId}`))
+      .then((res) => {
+        setRoomId(res.data.roomId);
+        setRoomReady(true);
+      })
       .catch((err) => {
         if (err.response) {
           console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
+  };
+
+  const handleEntrance = () => {
+    axios
+      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/room/${roomId}`)
+      .then((data) => {
+        history.push(`/room/${roomId}`);
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 403) {
+            setErrMessage(`Oops! 방이 가득찼습니다. 다른 방에 참여해주세요.`);
+            console.log(err.response);
+          }
         } else if (err.request) {
           console.log(err.request);
         } else {
@@ -171,10 +197,17 @@ const CreateRoomModal = ({ handleCRCloseBtn }) => {
             </button>
           </div>
         </div>
-        <div className="modal-btns">
-          <button onClick={handleCreateRoom}>방만들기</button>
-          <button onClick={handleCRCloseBtn}>돌아가기</button>
-        </div>
+        {roomReady ? (
+          <div>
+            방 다 만들어졌슴다 참여하실?
+            <button onClick={handleEntrance}>입장하기</button>
+          </div>
+        ) : (
+          <div className="modal-btns">
+            <button onClick={handleCreateRoom}>방만들기</button>
+            <button onClick={handleCRCloseBtn}>돌아가기</button>
+          </div>
+        )}
         {errMessage && <p>{errMessage}</p>}
       </div>
     </StyledCreateRoomModal>
