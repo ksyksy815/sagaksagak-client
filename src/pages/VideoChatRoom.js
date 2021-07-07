@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
+import { useHistory } from 'react-router-dom'
 import Peer from 'peerjs'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -12,19 +13,18 @@ const ChatRoom = styled.div`
   background-color: #262524;
 
   #video-grid {
-  width: 100%;
-  height: 100%;
-  padding: 1rem;
-  display: flex;
-  box-sizing: border-box;
-  
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    //임시 CSS
     video {
-      width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: cover;
-      border: 1px solid white;
       box-sizing: border-box;
-      position: relative;
     }
   }
 `
@@ -44,6 +44,7 @@ export default function VideoChatRoom() {
 
   const videoGrid = useRef()
   const myVideo = useRef()
+  const history = useHistory()
   
   const handleCamera = () => {
     setCameraOn(prev => !prev)
@@ -90,20 +91,35 @@ export default function VideoChatRoom() {
         })
       })
 
-      socket.on('user-connected', (peerId, username) => {
-        console.log(`새로 들어옴`)
-        const mediaConnection = peer.call(peerId, stream)
-        const newVideo = document.createElement('video')
-        newVideo.setAttribute('id', `${peerId}`)
-
-        mediaConnection.on('stream', newStream => {
-          addVideoStream(newVideo, newStream)
-          videoGrid.current.append(newVideo)
-        })
-        
-        //작동함
-        console.log(`새로운 유저가 접속했습니다! 유저이름: ${username} / 유저ID: ${peerId}`)
+      socket.on('user-connected', (peerId, username, text) => {
+        if (text === 'full room') {
+          socket.disconnect()
+          history.push('/')
+        } else {
+          const mediaConnection = peer.call(peerId, stream)
+          const newVideo = document.createElement('video')
+          newVideo.setAttribute('id', `${peerId}`)
+  
+          mediaConnection.on('stream', newStream => {
+            addVideoStream(newVideo, newStream)
+            videoGrid.current.append(newVideo)
+          })
+          
+          //작동함
+          console.log(`새로운 유저가 접속했습니다! 유저이름: ${username} / 유저ID: ${peerId}`)
+        }
       })
+    })
+
+    socket.on('user-camera-off', (peerId, username) => {
+      const video = document.getElementById(`${peerId}`)
+      console.log(`유저 카메라 꺼짐: ${video}`)
+      
+    })
+
+    socket.on('user-camera-on', (peerId, username) => {
+      const video = document.getElementById(`${peerId}`)
+      console.log(`유저 카메라 켜짐: ${video}`)
     })
 
     socket.on('user-disconnected', (peerId, username) => {

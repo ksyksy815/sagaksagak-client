@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
@@ -50,7 +50,7 @@ function App() {
           <Route path="/room">
             <VideoChatRoom />
           </Route>
-          <Route path="/studylog/todo">
+          <Route path="/studylog">
             <MainNav isLogedIn={user.isLogedIn} />
             <Studylog />
           </Route>

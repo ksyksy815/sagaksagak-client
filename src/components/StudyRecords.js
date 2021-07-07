@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const RecordsWrapper = styled.div`
-  background-color: #D9E3E2;
+  background-color: #F5EFE1;
 `
 export default function StudyRecords() {
   return (

@@ -4,18 +4,28 @@ import styled from 'styled-components'
 import { RiTodoFill, RiPieChart2Fill } from 'react-icons/ri'
 
 const Nav = styled.nav`
+  box-sizing: border-box;
+  flex: 1 1 20%;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 80%;
+  z-index: 10;
+  row-gap: 0.5rem;
+  margin-top: 5vh;
 `
 const NavHeader = styled.div`
-  color: #fff;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  background-color: #183d3d;
   padding: 2rem 0;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
   h2 {
     margin: 0;
@@ -23,68 +33,57 @@ const NavHeader = styled.div`
 `
 
 const NavUl = styled.ul`
-  flex: 1 1 auto;
-  list-style: none;
-  margin: 0;
   box-sizing: border-box;
-  border-left: 10px solid #205B5A;
-  padding: 0;
-  background-color: #D9E3E2;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 1rem 0;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  
   li {
-    padding: 1rem 0.5rem;
-    background-color: #205B5A;
-
+    width: 100%;
+    
     &:first-child {
-      border-bottom-right-radius: ${props => props.todoClicked ? 15+`px` : 0 };
-    }
-    &:nth-child(2) {
-      padding: 0;
-      background-color: ${props => props.todoClicked ? `#205B5A` : `#D9E3E2`};
-      a {
-        padding: 1rem 0.5rem;
-        background-color: ${props => props.todoClicked ? `#D9E3E2` : `#205B5A`};
-        color: ${props => props.todoClicked ?  `#205B5A` : `#fff`};
-        border-top-left-radius: ${props => props.todoClicked ? 15+`px` : 0 };
-        border-bottom-right-radius: ${props => props.recordsClicked ? 15+`px` : 0 };
-        border-bottom-left-radius: ${props => props.todoClicked ? 15+`px` : 0 };
-      }
-      svg {
-        color: ${props => props.todoClicked ?  `#205B5A` : `#A2C8BF`};
-      }
-    }
-    &:nth-child(3) {
-      padding: 0;
-      background-color: ${props => props.recordsClicked ? `#205B5A` : `#D9E3E2` };
-      a {
-        padding: 1rem 0.5rem;
-        color: ${props => props.recordsClicked ?  `#205B5A` : `#fff`};
-        background-color: ${props => props.recordsClicked ?  `#D9E3E2` : `#205B5A`};
-        border-top-right-radius: ${props => props.todoClicked ? 15+`px` : 0 };
-        border-top-left-radius: ${props => props.recordsClicked ? 15+`px` : 0 };
-        border-bottom-left-radius: ${props => props.recordsClicked ? 15+`px` : 0 };
-      }
-      svg {
-        color: ${props => props.recordsClicked ?  `#205B5A` : `#A2C8BF`};
+      a{
+        font-size: ${props => props.todoClicked ?  `1.2rem` : `1rem`};
+        font-weight: bold;
       }
     }
     &:last-child {
-      flex: 1 1 auto;
-      border-top-right-radius: ${props => props.recordsClicked ? 15+`px` : 0 };
+      a{
+        color: ${props => props.recordsClicked ?  `#DE877F` : `grey`};
+      }
     }
-    a {
+    
+    a{
       display: flex;
+      column-gap: 0.5rem;
+      justify-content: center;
       align-items: center;
-      column-gap: 1rem;
+      color: rgb(10,10,10);
       text-decoration: none;
-      color: #fff;
-      font-weight: bold;
+      transition: 0.2s;
+      padding: 1rem 0;
+    }
 
-      svg {
-        font-size: 1.5rem;
-        color: #A2C8BF;
+
+    &:hover {
+      cursor: pointer;
+      background: #DE877F;
+      
+      a{
+        color: #fff;
+        transform: translateY(-3px);
       }
     }
   }
@@ -112,10 +111,9 @@ export default function StudylogNav() {
         <h2>Guest</h2>
         <span>imaguest@gmail.com</span>
       </NavHeader>
-      <NavUl todoClicked={todoListClicked} recordsClicked={recordsClicked ? 15 : 0}>
-        <li></li>
+      <NavUl todoClicked={todoListClicked} recordsClicked={recordsClicked}>
         <li onClick={handleClickTodo}>
-          <Link to='/studylog/todo'>
+          <Link to='/studylog'>
             <RiTodoFill/>
             <span>To-Do List</span>
           </Link>
@@ -126,7 +124,6 @@ export default function StudylogNav() {
             <span>공부 기록</span>
           </Link>
         </li>
-        <li></li>
       </NavUl>
     </Nav>
   )
