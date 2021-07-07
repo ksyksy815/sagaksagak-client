@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
 import axios from "axios";
 import styled from "styled-components";
 import { FaAngleUp, FaAngleDown, FaCheck } from "react-icons/fa";
@@ -44,16 +43,20 @@ const StyledCreateRoomModal = styled.section`
   }
 `;
 
-const CreateRoomModal = ({ handleCRCloseBtn }) => {
+const CreateRoomModal = ({
+  handleCRCloseBtn,
+  handleEntrance,
+  setRoomId,
+  setRoomReady,
+  roomId,
+  roomReady,
+}) => {
   const state = useSelector((state) => state.logInStatusReducer);
-  const history = useHistory();
   const [roomname, setRoomname] = useState("");
   const [isListOpen, setIsListOpen] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("카테고리를 선택해 주세요");
   const [selectedItem, setSelectedItem] = useState("");
   const [errMessage, setErrMessage] = useState("");
-  const [roomReady, setRoomReady] = useState(false);
-  const [roomId, setRoomId] = useState("");
 
   const handleSelect = (selected) => {
     setSelectedItem(selected);
@@ -92,27 +95,7 @@ const CreateRoomModal = ({ handleCRCloseBtn }) => {
           console.log("Error :", err.message);
         }
         console.log(err.config);
-      });
-  };
-
-  const handleEntrance = () => {
-    axios
-      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/room/${roomId}`)
-      .then((data) => {
-        history.push(`/room/${roomId}`);
-      })
-      .catch((err) => {
-        if (err.response) {
-          if (err.response.status === 403) {
-            setErrMessage(`Oops! 방이 가득찼습니다. 다른 방에 참여해주세요.`);
-            console.log(err.response);
-          }
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("Error :", err.message);
-        }
-        console.log(err.config);
+        setErrMessage("방생성에 실패 하였습니다. 다시 시도해 주세요!");
       });
   };
 
@@ -200,7 +183,7 @@ const CreateRoomModal = ({ handleCRCloseBtn }) => {
         {roomReady ? (
           <div>
             방 다 만들어졌슴다 참여하실?
-            <button onClick={handleEntrance}>입장하기</button>
+            <button onClick={() => handleEntrance(roomId)}>입장하기</button>
           </div>
         ) : (
           <div className="modal-btns">

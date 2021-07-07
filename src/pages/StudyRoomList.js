@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import axios from "axios";
 import DataSlider from "../components/DataSlider";
 import styled from "styled-components";
 import ControllBar from "../components/ControllBar";
 import RoomList from "../components/RoomList";
 import CreateRoomModal from "../components/modals/CreateRoomModal";
+import FullRoomModal from "../components/modals/FullRoomModal";
 
 const StyledStudyLoby = styled.div`
   position: relative;
@@ -21,6 +23,7 @@ const StyledStudyLoby = styled.div`
 `;
 
 const StudyRoomList = () => {
+  const history = useHistory();
   const state = useSelector((state) => state.logInStatusReducer);
   const [roomList, setRoomList] = useState([
     {
@@ -79,15 +82,21 @@ const StudyRoomList = () => {
     },
   ]);
   const [recommend, setRecommend] = useState([]);
-  //모달 조건부 렌더링 나중에 제대로 상태 설정 해야함
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCRModalOpen, setIsCRModalOpen] = useState(false);
+  const [roomId, setRoomId] = useState("");
+  const [roomReady, setRoomReady] = useState(false);
+  const [isRoomFull, setIsRoomFull] = useState(false);
 
   const handleCRBtn = () => {
-    setIsModalOpen(true);
+    setIsCRModalOpen(true);
   };
 
   const handleCRCloseBtn = () => {
-    setIsModalOpen(false);
+    setIsCRModalOpen(false);
+  };
+
+  const handleFRMCloseBtn = () => {
+    setIsRoomFull(false);
   };
 
   const handleAjax = (isLogedIn) => {
@@ -117,7 +126,30 @@ const StudyRoomList = () => {
         }
         console.log(err.config);
       });
-  }, [handleAjax]);
+  }, []);
+
+  const handleEntrance = (roomId) => {
+    axios
+      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/room/${roomId}`, {
+        userId: state.user.userId,
+      })
+      .then(() => {
+        history.push(`/room/${roomId}`);
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 403) {
+            setIsRoomFull(true);
+            console.log(err.response);
+          }
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
+  };
 
   useEffect(() => {
     getRoomList();
@@ -125,10 +157,20 @@ const StudyRoomList = () => {
 
   return (
     <StyledStudyLoby>
-      {isModalOpen && <CreateRoomModal handleCRCloseBtn={handleCRCloseBtn} />}
+      {isCRModalOpen && (
+        <CreateRoomModal
+          handleCRCloseBtn={handleCRCloseBtn}
+          handleEntrance={handleEntrance}
+          setRoomId={setRoomId}
+          setRoomReady={setRoomReady}
+          roomId={roomId}
+          roomReady={roomReady}
+        />
+      )}
+      {isRoomFull && <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} />}
       <DataSlider recommend={recommend} />
       <ControllBar handleCRBtn={handleCRBtn} getRoomList={getRoomList} />
-      <RoomList roomList={roomList} />
+      <RoomList roomList={roomList} handleEntrance={handleEntrance} />
     </StyledStudyLoby>
   );
 };

@@ -43,7 +43,7 @@ const StyledRoomListWrapper = styled.section`
   }
 `;
 
-const RoomList = ({ roomList }) => {
+const RoomList = ({ roomList, handleEntrance }) => {
   const history = useHistory();
 
   return (
@@ -57,7 +57,7 @@ const RoomList = ({ roomList }) => {
             <div
               className="room"
               key={idx}
-              onClick={() => history.push(`/room/${room.roomUuid}`)}
+              onClick={() => handleEntrance(room.roomUuid)}
             >
               <h3>{`[${room.category}] ${room.roomName}`}</h3>
               <h5>{`${room.usersNum}/6`}</h5>
