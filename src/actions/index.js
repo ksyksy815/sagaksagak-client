@@ -120,11 +120,12 @@ export const setRoomId = (roomId) => {
   }
 }
 
-export const setParticipants = (entry) => {
+export const setParticipants = (peerId, username) => {
   return {
     type: PARTICIPANTS,
     payload: {
-      participants: entry
+      peerId,
+      username
     }
   }
 }
