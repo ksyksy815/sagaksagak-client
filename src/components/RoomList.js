@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledRoomListWrapper = styled.section`
@@ -43,9 +42,7 @@ const StyledRoomListWrapper = styled.section`
   }
 `;
 
-const RoomList = ({ roomList }) => {
-  const history = useHistory();
-
+const RoomList = ({ roomList, handleEntrance }) => {
   return (
     <StyledRoomListWrapper>
       <div className="list-header">
@@ -57,7 +54,7 @@ const RoomList = ({ roomList }) => {
             <div
               className="room"
               key={idx}
-              onClick={() => history.push(`/room/${room.roomUuid}`)}
+              onClick={() => handleEntrance(room.roomUuid)}
             >
               <h3>{`[${room.category}] ${room.roomName}`}</h3>
               <h5>{`${room.usersNum}/6`}</h5>
