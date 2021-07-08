@@ -1,6 +1,6 @@
 export const initialState = {
   user: {
-    userId: "",
+    userId: 1,
     username: "",
     googleId: "",
     accessToken: "",
@@ -23,4 +23,8 @@ export const initialState = {
       isChecked: true,
     },
   ],
+  chatroom: {
+    roomId: "",
+    participants: []
+  }
 };

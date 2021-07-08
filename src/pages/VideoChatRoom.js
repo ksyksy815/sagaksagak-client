@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
 import { useHistory } from 'react-router-dom'
 import Peer from 'peerjs'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setParticipants } from '../actions/index'
 import styled from 'styled-components'
 import ChatRoomNav from '../components/ChatRoomNav'
 import ClosedRoomRedirctModal from '../components/modals/ClosedRoomRedirctModal'
@@ -31,16 +32,19 @@ const ChatRoom = styled.div`
 
 export default function VideoChatRoom() {
   // Global
-  const state = useSelector(state => state.logInStatusReducer)
-  const { user } = state
+  const state = useSelector(state => state.logInStatusReducer) 
+  const dispatch = useDispatch() 
+  const { user, chatroom } = state //roomId(str), participants(array)
 
   // Local
   const [cameraOn, setCameraOn] = useState(true)
   const [roomClosed, setRoomClosed] = useState(false)
-  const roomId = window.location.pathname.slice(6)
-  const username = user.username !== '' ? user.username : `GUEST${Math.round(Math.random()*100000)}`
-  const userId = user.userId !== '' ? user.userId : 1
+  const [isLoading, setIsLoading] = useState(true)
+  const roomId = window.location.pathname.slice(6) //chatroom.roomId
+  const username = user.isLogedIn? user.username : `GUEST${Math.round(Math.random()*100000)}`
+  const userId = user.userId
   let myStream = null
+  let myPeerId = ''
 
   const videoGrid = useRef()
   const myVideo = useRef()
@@ -52,6 +56,7 @@ export default function VideoChatRoom() {
       myStream.getTracks().forEach(track => {
         track.stop()
       })
+
     } else if ( !cameraOn ) {
       navigator.mediaDevices.getUserMedia({video: true})
       .then (stream => {
@@ -65,18 +70,24 @@ export default function VideoChatRoom() {
     const socket = io(process.env.REACT_APP_IO)
     const peer = new Peer()
 
+    
     // 클라의 영상 스트림 비디오에 넣기
     navigator.mediaDevices.getUserMedia({video: true})
     .then(stream => {
       myStream = stream
       addVideoStream(myVideo.current, stream)
       videoGrid.current.append(myVideo.current)
-
+      setIsLoading(false)
+      
       // 피어 생성하기
       
       peer.on('open', peerId => {
         //소켓을 통해 서버로 방ID, 유저ID 보내주기
+        myPeerId = peerId
         socket.emit('join-room', roomId, peerId, userId, username)
+
+        //전역변수 chatroom.participants에 본인 더하기
+        dispatch(setParticipants( peerId, username ))
       })
 
       // 새로운 피어가 연결을 원할 때
@@ -89,25 +100,24 @@ export default function VideoChatRoom() {
           addVideoStream(newVideo, newStream)
           videoGrid.current.append(newVideo)
         })
+
+        mediaConnection.on('close', () => {
+          socket.emit('camera-off', myPeerId, username)
+        })
       })
 
-      socket.on('user-connected', (peerId, username, text) => {
-        if (text === 'full room') {
-          socket.disconnect()
-          history.push('/')
-        } else {
-          const mediaConnection = peer.call(peerId, stream)
-          const newVideo = document.createElement('video')
-          newVideo.setAttribute('id', `${peerId}`)
-  
-          mediaConnection.on('stream', newStream => {
-            addVideoStream(newVideo, newStream)
-            videoGrid.current.append(newVideo)
-          })
-          
-          //작동함
-          console.log(`새로운 유저가 접속했습니다! 유저이름: ${username} / 유저ID: ${peerId}`)
-        }
+      socket.on('user-connected', (peerId, username) => {
+        const mediaConnection = peer.call(peerId, stream)
+        const newVideo = document.createElement('video')
+        newVideo.setAttribute('id', `${peerId}`)
+
+        mediaConnection.on('stream', newStream => {
+          addVideoStream(newVideo, newStream)
+          videoGrid.current.append(newVideo)
+        })
+        
+        //작동함
+        console.log(`새로운 유저가 접속했습니다! 유저이름: ${username} / 유저ID: ${peerId}`)
       })
     })
 
@@ -148,9 +158,11 @@ export default function VideoChatRoom() {
     <>
       <ChatRoomNav cameraOn={cameraOn} handleCamera={handleCamera}/>
       <ChatRoom>
+        { isLoading && <span>Loading...</span> }
         <div ref={videoGrid} id="video-grid">
           <video ref={myVideo}></video>
         </div>
+        
       </ChatRoom>
       {
         roomClosed && <ClosedRoomRedirctModal />
