@@ -1,19 +1,29 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { device } from '../device'
+import { AiOutlineMenu } from 'react-icons/ai'
+import MobileMainNav from '../components/MobileMainNav'
 
 const StyledMainNav = styled.nav`
-  box-sizing: border-box;
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  
+  border: 1px solid red;
   width: 100vw;
-  max-width: 1200px;
+  height: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem;
   position: absolute;
   top: 0;
-  z-index: 2;
+  z-index: 100;
   letter-spacing: 1.5px;
   margin: 0 2rem;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
 
   h2 {
     a {
@@ -22,63 +32,85 @@ const StyledMainNav = styled.nav`
     }
   }
 
-  div {
+  .nav-menus {
     display: flex;
     column-gap: 6rem;
     justify-content: center;
     align-items: center;
-  }
 
-  ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    text-decoration: none;
-    column-gap: 3rem;
-    
+    ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      list-style: none;
+      text-decoration: none;
+      column-gap: 3rem;
+      
+  
+      li {
+        transition: 0.2s;
 
-    li {
-      transition: 0.2s;
-      button {
-        background: transparent;
-        border: none;
-        font-size: 1rem;
+        button {
+          background: transparent;
+          border: none;
+          font-size: 1rem;
+          
+          &:hover {
+            transform: translateY(-3px);
+            cursor: pointer;
+            color: #F58820;
+          }
+  
+        }
+
+        a, button {
+          color: #225E5C;
+          font-weight: bold;
+          text-decoration: none;
+          padding: 1rem 0;
+        }
         
         &:hover {
           transform: translateY(-3px);
-          cursor: pointer;
-          color: #F58820;
-        }
-
-      }
-      a, button {
-        color: #225E5C;
-        font-weight: bold;
-        text-decoration: none;
-      }
-      
-      &:hover {
-        transform: translateY(-3px);
-        & a {
-          cursor: pointer;
-          color: #F58820;
-          
+          & a {
+            cursor: pointer;
+            color: #F58820;
+            
+          }
         }
       }
     }
   }
+
+  @media ${device.laptop} {
+      max-width: 1200px;
+  }
+
+  @media ${device.tablet} {
+    .nav-menus {
+      display: none;
+    }
+  }
+
 `
 
 export default function MainNav( {isLogedIn} ) {
+  const [menuOn, setMenuOn] = useState(false)
+
   const handleLogOut = () => {
     //로그아웃 로직 구현
   }
 
+  const toggleMenus = () => {
+    setMenuOn(prev=>!prev)
+  }
+
+
   return (
     <StyledMainNav>
       <h2><Link to='/'>사각사각</Link></h2>
-      <div>
+      <AiOutlineMenu className="menu-btn" onClick={toggleMenus}/>
+      <div className="nav-menus">
         <ul>
           <li><Link to='/'>홈</Link></li>
           <li><Link to='/studyroom'>스터디룸</Link></li>
@@ -96,6 +128,10 @@ export default function MainNav( {isLogedIn} ) {
         </ul>
         }
       </div>
+      {
+        menuOn &&
+        <MobileMainNav toggleMenus={toggleMenus} isLogedIn={isLogedIn} handleLogOut={handleLogOut} />
+      }
     </StyledMainNav>
   )
 }
