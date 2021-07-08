@@ -31,6 +31,10 @@ const StyledMainNav = styled.nav`
       color: #225E5C;
     }
   }
+  
+  .menu-btn {
+    display: none;
+  }
 
   .nav-menus {
     display: flex;
@@ -87,9 +91,14 @@ const StyledMainNav = styled.nav`
   }
 
   @media ${device.tablet} {
+    .menu-btn {
+      display: block;
+    }
+
     .nav-menus {
       display: none;
     }
+
   }
 
 `
