@@ -19,6 +19,7 @@ const StyledApp = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #CCB19D;
 `;
 
 function App() {

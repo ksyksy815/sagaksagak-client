@@ -13,7 +13,7 @@ import Testimonials from "../components/Testimonials";
 import Footer from "../components/Footer";
 import CategorySelectModal from "../components/modals/CategorySelectModal.js";
 import imgVideoChat from "../assets/imgVideoChat.png";
-import imgStudyingAloneHard from "../assets/imgStudyingAloneHard.svg";
+import imgStudyingAloneHard from "../assets/imgStudyingAloneHardVer2.svg";
 import calculator from "../assets/calculator.svg";
 import book from "../assets/book-stack.svg";
 import mouse from "../assets/mouse.svg";
@@ -116,11 +116,6 @@ export default function LandingPage() {
         >
           <div className="two-text">
             <h1>우리 서비스가 그 불편함을 해소할 수 있다</h1>
-            <p>
-              사각사각은 이러한 서비스이다. 그러하다 저러하다 스터디룸 페이지에
-              가면 여러 방들을 볼 수 있고 선택해서 들어갈 수 있다 자신이
-              공부하고자하는 카테고리로 검색도 가능하다
-            </p>
             <p>
               사각사각은 이러한 서비스이다. 그러하다 저러하다 스터디룸 페이지에
               가면 여러 방들을 볼 수 있고 선택해서 들어갈 수 있다 자신이

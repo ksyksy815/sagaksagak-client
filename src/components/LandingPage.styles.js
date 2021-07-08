@@ -1,19 +1,41 @@
 import styled, { keyframes } from 'styled-components'
 import circle from '../assets/circle-bg.svg'
+import { device } from '../device'
 
 export const StyledLandingPage = styled.div`
-width: 100vw;
-height: auto;
-background-image: url(${circle}),  url(${circle}), url(${circle}), url(${circle}), url(${circle});
-background-repeat: no-repeat;
-background-size: 50%, 30%, 80%, 40%, 80%;
-background-position: top -5% left -20%, top 20% right -10%, bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-position: relative;
+  width: 100vw;
+  height: auto;
+  background-image:   url(${circle}), url(${circle}), url(${circle}), url(${circle});
+  background-repeat: no-repeat;
+  background-size:  30%, 80%, 40%, 80%;
+  background-position:  top 20% right -10%, bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+
+  @media ${device.tablet} {
+    background-image:   url(${circle}), url(${circle}), url(${circle}), url(${circle});
+    background-repeat: no-repeat;
+    background-size:  60%, 80%, 50%, 80%;
+    background-position:  top 20% right -200px, top 35% left -200px, bottom 30% right -40%, bottom 5% left -80%;
+  }
+
+  @media ${device.mobile} {
+    background-image:   url(${circle}), url(${circle}), url(${circle}), url(${circle});
+    background-repeat: no-repeat;
+    background-size: 80%, 90%, 70%, 90%;
+    background-position: top 12% right -200px, top 30% left -200px, bottom 35% right -100px, bottom 10% left -150px;
+  }
+
+
 `
 export const StyledSectionTop = styled.section`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   width: 100%;
   height: 100vh;
   overflow: hidden; 
@@ -32,12 +54,13 @@ export const StyledSectionTop = styled.section`
     z-index: 5;
     color: #1B1110;
     position: absolute;
-    left: 10%;
+    left: 15%;
     bottom: 15%;
+    row-gap: 1rem;
 
     h1 {
       font-size: 3rem;
-      color: #F58820;
+      color: #fff;
       letter-spacing: 2px;
       margin: 0;
     }
@@ -45,6 +68,7 @@ export const StyledSectionTop = styled.section`
     p {
       font-size: 1.2rem;
       line-height: 1.6;
+      color: #f5f5f5;
     }
   }
 
@@ -54,12 +78,61 @@ export const StyledSectionTop = styled.section`
     object-fit: cover;
     position: absolute;
     bottom: 15%;
-    left: 45%;
+    left: 50%;
   }
 
+  @media ${device.tablet} {
+    height: auto;
+    min-height: 100vh;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    row-gap: 0.5rem;
+
+    div {
+      min-width: 100vw;
+      position: static;
+      background-color: #f5f5f5;
+      padding: 1rem 2rem;
+      h1 {
+        font-size: 2rem;
+        margin: 0.5rem 0;
+        color: #444444;
+      }
+      p {
+        color: #444444;
+      }
+    }
+    img {
+      position: static;
+      max-width: 370px;
+    }
+  }
+
+  @media ${device.mobile} {
+    div {
+      h3 {
+        font-size: 1rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+    img {
+      max-width: 350px;
+    }
+  }
 `
 
 export const StyledSectionMid = styled.section`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   width: 100%;
   height: 430vh;
   scroll-snap-align: start;
@@ -80,7 +153,7 @@ export const StyledSectionMid = styled.section`
 
   .one {
     img {
-      max-width: 800px;
+      max-width: 600px;
       height: auto;
       object-fit: cover;
       position: absolute;
@@ -98,6 +171,10 @@ export const StyledSectionMid = styled.section`
       background-color: #a2c8bfc4;
       border-radius: 15px;
       box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
 
       h1 {
         color: #205B5A;
@@ -106,6 +183,38 @@ export const StyledSectionMid = styled.section`
       p {
         color: #fff;
         font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 1190px) {
+      .one-text {
+        top: 10%;
+        right: 5%;
+      }
+    }
+
+    @media ${device.tablet} {
+      height: 100vh;
+      flex-direction: column;
+      img {
+        position: static;
+        max-width: 500px;
+      }
+      .one-text {
+        position: static;
+        width: 100%;
+        height: 50vh;
+        border-radius: 0;
+        box-shadow: none;
+        row-gap: 1rem;
+      }
+    }
+
+    @media ${device.mobile} {
+      .one-text {
+        h1 {
+          font-size: 1.5rem;
+        }
       }
     }
   }
@@ -118,12 +227,17 @@ export const StyledSectionMid = styled.section`
       left: 15%;
       top: 0%;
       padding: 2rem;
-      background-color: #F5C3B8;
+      background-color: #a2c8bfc4;
       border-radius: 15px;
       box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      row-gap: 1rem;
     
       h1 {
-        color: #DE877F;
+        color: #205B5A;
       }
 
       p {
@@ -138,6 +252,30 @@ export const StyledSectionMid = styled.section`
       top: 50%;
       right: 30%;
     }
+
+    @media ${device.tablet} {
+      flex-direction: column-reverse;
+      .two-text, .two-img {
+        position: static;
+        width: 100vw;
+      }
+      .two-text {
+        height: 40vh;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      .two-img {
+        height: 60vh;
+      }
+    }
+
+    @media ${device.mobile} {
+      .two-text {
+        h1 {
+          font-size: 1.5rem;
+        }
+      }
+    }
   }
 
   .three {
@@ -149,12 +287,17 @@ export const StyledSectionMid = styled.section`
       right: 15%;
       top: 5%;
       padding: 2rem;
-      background-color: #f5d0a9c4;
+      background-color: #a2c8bfc4;
       border-radius: 15px;
       box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      row-gap: 1rem;
       
       h1 {
-        color: #F58820;
+        color: #205B5A;
       }
 
       p {
@@ -176,9 +319,45 @@ export const StyledSectionMid = styled.section`
       justify-content: flex-end;
       align-items: center;
     }
+
+    @media ${device.tablet} {
+      height: 100vh;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .three-img, .three-text {
+        position: static;
+        width: 100vw;
+      }
+      .three-img {
+        height: 60vh;
+      }
+      .three-text {
+        box-shadow: none;
+        border-radius: 0;
+        height: 40vh;
+      }
+      .three-btnBox {
+        width: 100%;
+      }
+    }
+
+    @media ${device.mobile} {
+      .three-text {
+        h1 {
+          font-size: 1.5rem;
+        }
+      }
+    }
   }
 `
 export const StyledSectionBottom = styled.section`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   width: 100%;
   height: auto;
   scroll-snap-align: start;
@@ -188,6 +367,27 @@ export const StyledSectionBottom = styled.section`
   align-items: center;
   box-sizing: border-box;
   padding: 30% 0;
+
+  h1 {
+    margin-bottom: 7rem;
+    font-size: 2rem;
+    color: #F58820;
+  }
+
+  @media (max-width: 1070px) {
+    height: 100vh;
+    padding: 0;
+    justify-content: flex-end;
+
+    h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+  }
+
+  @media ${device.tablet} {
+    height: 130vh;
+  }
 `
 
 export const ButtonBox = styled.span`
@@ -195,29 +395,42 @@ export const ButtonBox = styled.span`
   justify-content: flex-start;
   align-items: center;
   column-gap: 1rem;
+
+  @media ${device.tablet} {
+    width: 100%;
+    justify-content: flex-end;
+  }
 `
 
 export const LandingPageBtn = styled.button`
   width: 120px;
   padding: 0.7rem;
   border-radius: 15px;
-  background-color: ${(props) => props.backgroundColor};
+  background-color: #E9E4DE;
   border: none;
   font-weight: bold;
   transition: 0.2s;
   
   a{
     text-decoration: none;
-    color: ${(props) => props.color};
+    color: #444444;
   }
 
   &:hover {
-    background-color: ${(props) => props.color};
+    background-color: #f5f5f5;
   }
 
-  &:hover a {
-    color: #fff;
+  @media ${device.tablet} {
+    background-color: #7F554F;
+    a {
+      color: #f5f5f5;
+    }
+    &:hover {
+      background-color: #205B59;
+      transform: translateY(-3px);
+    }
   }
+
 `
 
 export const ParallaxImg = styled.div`

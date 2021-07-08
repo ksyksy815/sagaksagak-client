@@ -8,6 +8,9 @@ import user1 from '../assets/testimonials/user4.png'
 import user2 from '../assets/testimonials/user5.png'
 import user3 from '../assets/testimonials/user3.png'
 import user4 from '../assets/testimonials/user1.png'
+import { device } from '../device'
+
+// 후기 부분에 한해서 device 사이즈를 1070px로 사용
 
 const UserCard = styled.div`
   box-sizing: border-box;
@@ -63,8 +66,29 @@ const UserCard = styled.div`
 const MainCard = styled(UserCard)`
   width: 300px;
   height: 50vh;
+
   .userImg {
     width: 100px;
+  }
+
+  @media (max-width: 1070px) {
+    flex: 1 1 auto;
+    max-height: 300px;
+
+    p {
+      font-size: 1rem;
+      padding: 1rem;
+    }
+
+    .userInfo {
+      .userImg {
+        width: 80px;
+      }
+  
+      span {
+        font-size: 0.8rem;
+      }
+    }
   }
 `
 const SideCard = styled(UserCard)`
@@ -82,12 +106,6 @@ const SideCard = styled(UserCard)`
   }
 `
 
-const TestimonialTitle = styled.h1`
-  margin-bottom: 7rem;
-  font-size: 2rem;
-  color: #F58820;
-`
-
 const UserCardBox = styled.div`
   display: flex;
   column-gap: 1rem;
@@ -102,6 +120,10 @@ const UserCardBox = styled.div`
       color: #FECF2D;
     }
   }
+
+  @media (max-width: 1070px) {
+    display: none;
+  }
 `
 
 const Carousel = styled.div`
@@ -111,6 +133,28 @@ const Carousel = styled.div`
   justify-content: center;
   align-items: center;
   column-gap: 1rem;
+
+  @media (max-width: 1070px) {
+    display: none;
+  }
+`
+
+const MobileTestimonials = styled.div`
+  display: none;
+
+  @media (max-width: 1070px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 70vh;
+    column-gap: 1rem;
+
+    .arrows {
+      font-size: 3rem;
+      color: #F58820;
+    }
+  }
 `
 
 const userInfo = [
@@ -225,9 +269,10 @@ export default function Testimonials() {
       }
     })
   }
+
   return (
     <StyledSectionBottom>
-      <TestimonialTitle><IoFlowerOutline/> 이용 후기 <IoFlowerOutline/></TestimonialTitle>
+      <h1><IoFlowerOutline/> 이용 후기 <IoFlowerOutline/></h1>
       <UserCardBox>
         <BiLeftArrow className="arrows" onClick={handleClickLeft} />
         <Carousel>
@@ -255,6 +300,17 @@ export default function Testimonials() {
         </Carousel>
         <BiRightArrow className="arrows" onClick={handleClickRight}/>
       </UserCardBox>
+      <MobileTestimonials>
+        <BiLeftArrow className="arrows" onClick={handleClickLeft} />
+        <MainCard backgroundColor={userCards.main.bgColor}>
+          <p>{userCards.main.text}</p>
+          <div className="userInfo">
+            <img className="userImg" src={userCards.main.image} alt="User avatar"/>
+            <span>{userCards.main.title}</span>
+          </div>
+        </MainCard>
+        <BiRightArrow className="arrows" onClick={handleClickRight}/>
+      </MobileTestimonials>
     </StyledSectionBottom>
   )
 }

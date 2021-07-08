@@ -9,9 +9,9 @@ const StyledMainNav = styled.nav`
   *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
   }
   
-  border: 1px solid red;
   width: 100vw;
   height: auto;
   display: flex;
@@ -22,18 +22,24 @@ const StyledMainNav = styled.nav`
   z-index: 100;
   letter-spacing: 1.5px;
   margin: 0 2rem;
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
   box-sizing: border-box;
 
   h2 {
     a {
       text-decoration: none;
-      color: #225E5C;
+      color: #fff;
     }
   }
   
   .menu-btn {
     display: none;
+    color: #f5f5f5;
+    font-size: 2rem;
+    &:hover {
+      cursor: pointer;
+      color: #fff;
+    }
   }
 
   .nav-menus {
@@ -62,13 +68,13 @@ const StyledMainNav = styled.nav`
           &:hover {
             transform: translateY(-3px);
             cursor: pointer;
-            color: #F58820;
+            color: #fff;
           }
   
         }
 
         a, button {
-          color: #225E5C;
+          color: #f5f5f5;
           font-weight: bold;
           text-decoration: none;
           padding: 1rem 0;
@@ -78,7 +84,7 @@ const StyledMainNav = styled.nav`
           transform: translateY(-3px);
           & a {
             cursor: pointer;
-            color: #F58820;
+            color: #fff;
             
           }
         }
@@ -91,14 +97,22 @@ const StyledMainNav = styled.nav`
   }
 
   @media ${device.tablet} {
+    background-color: #7F554F;
     .menu-btn {
       display: block;
     }
-
     .nav-menus {
       display: none;
     }
+  }
 
+  @media ${device.mobile} {
+    h2 {
+      font-size: 1rem;
+    }
+    .menu-btn {
+      font-size: 1.5rem;
+    }
   }
 
 `
