@@ -1,22 +1,24 @@
-import styled, { keyframes } from 'styled-components'
-import circle from '../assets/circle-bg.svg'
+import styled, { keyframes } from "styled-components";
+import circle from "../assets/circle-bg.svg";
 
 export const StyledLandingPage = styled.div`
-width: 100vw;
-height: auto;
-background-image: url(${circle}),  url(${circle}), url(${circle}), url(${circle}), url(${circle});
-background-repeat: no-repeat;
-background-size: 50%, 30%, 80%, 40%, 80%;
-background-position: top -5% left -20%, top 20% right -10%, bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-position: relative;
-`
+  width: 100vw;
+  height: auto;
+  background-image: url(${circle}), url(${circle}), url(${circle}),
+    url(${circle}), url(${circle});
+  background-repeat: no-repeat;
+  background-size: 50%, 30%, 80%, 40%, 80%;
+  background-position: top -5% left -20%, top 20% right -10%,
+    bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+`;
 export const StyledSectionTop = styled.section`
   width: 100%;
   height: 100vh;
-  overflow: hidden; 
+  overflow: hidden;
   display: flex;
   box-sizing: border-box;
   scroll-snap-align: start;
@@ -30,14 +32,14 @@ export const StyledSectionTop = styled.section`
     display: flex;
     flex-direction: column;
     z-index: 5;
-    color: #1B1110;
+    color: #1b1110;
     position: absolute;
     left: 10%;
     bottom: 15%;
 
     h1 {
       font-size: 3rem;
-      color: #F58820;
+      color: #f58820;
       letter-spacing: 2px;
       margin: 0;
     }
@@ -56,8 +58,7 @@ export const StyledSectionTop = styled.section`
     bottom: 15%;
     left: 45%;
   }
-
-`
+`;
 
 export const StyledSectionMid = styled.section`
   width: 100%;
@@ -69,7 +70,9 @@ export const StyledSectionMid = styled.section`
   justify-content: flex-start;
   align-items: center;
 
-  .one, .two, .three {
+  .one,
+  .two,
+  .three {
     width: 100%;
     height: 150vh;
     display: flex;
@@ -97,10 +100,10 @@ export const StyledSectionMid = styled.section`
       padding: 2rem;
       background-color: #a2c8bfc4;
       border-radius: 15px;
-      box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+      box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
 
       h1 {
-        color: #205B5A;
+        color: #205b5a;
       }
 
       p {
@@ -118,12 +121,12 @@ export const StyledSectionMid = styled.section`
       left: 15%;
       top: 0%;
       padding: 2rem;
-      background-color: #F5C3B8;
+      background-color: #f5c3b8;
       border-radius: 15px;
-      box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
-    
+      box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+
       h1 {
-        color: #DE877F;
+        color: #de877f;
       }
 
       p {
@@ -151,10 +154,10 @@ export const StyledSectionMid = styled.section`
       padding: 2rem;
       background-color: #f5d0a9c4;
       border-radius: 15px;
-      box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
-      
+      box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+
       h1 {
-        color: #F58820;
+        color: #f58820;
       }
 
       p {
@@ -177,7 +180,7 @@ export const StyledSectionMid = styled.section`
       align-items: center;
     }
   }
-`
+`;
 export const StyledSectionBottom = styled.section`
   width: 100%;
   height: auto;
@@ -188,14 +191,14 @@ export const StyledSectionBottom = styled.section`
   align-items: center;
   box-sizing: border-box;
   padding: 30% 0;
-`
+`;
 
 export const ButtonBox = styled.span`
   display: flex;
   justify-content: flex-start;
   align-items: center;
   column-gap: 1rem;
-`
+`;
 
 export const LandingPageBtn = styled.button`
   width: 120px;
@@ -205,8 +208,8 @@ export const LandingPageBtn = styled.button`
   border: none;
   font-weight: bold;
   transition: 0.2s;
-  
-  a{
+
+  a {
     text-decoration: none;
     color: ${(props) => props.color};
   }
@@ -218,17 +221,17 @@ export const LandingPageBtn = styled.button`
   &:hover a {
     color: #fff;
   }
-`
+`;
 
 export const ParallaxImg = styled.div`
-  background-image: ${(props) => props.img} ;
+  background-image: ${(props) => props.img};
   background-repeat: no-repeat;
   background-size: 70%;
   position: absolute;
-  top: ${(props)=> props.top};
-  right: ${(props)=> props.right};
-  bottom: ${(props)=> props.bottom};
-  left: ${(props)=> props.left};
+  top: ${(props) => props.top};
+  right: ${(props) => props.right};
+  bottom: ${(props) => props.bottom};
+  left: ${(props) => props.left};
   width: 100px;
   height: 100px;
-`
+`;

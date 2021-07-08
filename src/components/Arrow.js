@@ -5,22 +5,24 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 const StyledArrow = styled.div`
   display: flex;
   position: absolute;
-  top: 50%;
+  top: 45%;
   ${(props) => (props.direction === "right" ? "right: 25px" : "left: 25px")};
   height: 50px;
   width: 50px;
   justify-content: center;
-  background: white;
+  background: transparent;
   border-radius: 50%;
   cursor: pointer;
   align-items: center;
   transition: transform ease-in 0.1s;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 
   .arrow {
+    color: white;
+    font-size: 2em;
     transform: translateX(
       ${(props) => (props.direction === "left" ? "-2" : "2")}px
     );

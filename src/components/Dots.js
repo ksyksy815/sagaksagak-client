@@ -2,9 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledDot = styled.span`
-  padding: 10px;
+  padding: 7px;
   margin-right: 5px;
-  cursor: pointer;
   border-radius: 50%;
   border: solid 1px white;
   background: ${(props) => (props.active ? "white" : "transparent")};
@@ -12,7 +11,7 @@ const StyledDot = styled.span`
 
 const StyledDots = styled.div`
   position: absolute;
-  bottom: 25px;
+  bottom: 18px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -27,7 +26,7 @@ const Dots = ({ slides, activeIndex }) => {
   return (
     <StyledDots>
       {slides.map((slide, idx) => (
-        <Dot key={slide} active={activeIndex === idx} />
+        <Dot key={idx} active={activeIndex === idx} />
       ))}
     </StyledDots>
   );

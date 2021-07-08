@@ -16,9 +16,11 @@ const StyledStudyLoby = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-  max-width: 70%;
+  width: 1010px;
+  display: flex;
+  align-items: center;
 
-  @media only screen and (max-width: 860px) {
+  @media only screen and (max-width: 1010px) {
     max-width: 100%;
   }
 `;
@@ -82,7 +84,26 @@ const StudyRoomList = () => {
       category: "영어",
     },
   ]);
-  const [recommend, setRecommend] = useState([]);
+  const [recommend, setRecommend] = useState([
+    {
+      roomName: "토익 만점이 1000점 이냐?",
+      roomUuid: "eiikc3ef-sasdf-aeijv11231",
+      usersNum: 5,
+      category: "영어",
+    },
+    {
+      roomName: "토익 만점이 1000점 이냐?",
+      roomUuid: "eiikc3ef-sasdf-aeijv11231",
+      usersNum: 5,
+      category: "영어",
+    },
+    {
+      roomName: "토익 만점이 1000점 이냐?",
+      roomUuid: "eiikc3ef-sasdf-aeijv11231",
+      usersNum: 5,
+      category: "영어",
+    },
+  ]);
   const [isCRModalOpen, setIsCRModalOpen] = useState(false);
   const [roomId, setRoomId] = useState("");
   const [roomReady, setRoomReady] = useState(false);
@@ -170,7 +191,7 @@ const StudyRoomList = () => {
       )}
       {isRoomFull && <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} />}
       {/* <DataSlider recommend={recommend} /> */}
-      <Slider />
+      <Slider recommend={recommend} handleEntrance={handleEntrance} />
       <ControllBar handleCRBtn={handleCRBtn} getRoomList={getRoomList} />
       <RoomList roomList={roomList} handleEntrance={handleEntrance} />
     </StyledStudyLoby>
