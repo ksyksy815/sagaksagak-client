@@ -53,12 +53,7 @@ const StyledControllBar = styled.section`
   }
 `;
 
-const ControllBar = ({
-  handleCRBtn,
-  getRoomList,
-  setRoomList,
-  setRecommend,
-}) => {
+const ControllBar = ({ handleCRBtn, getRoomList, setRoomList }) => {
   const [input, setInput] = useState("");
   const [errMessage, setErrMessage] = useState("");
   const state = useSelector((state) => state.logInStatusReducer);
@@ -71,10 +66,8 @@ const ControllBar = ({
         headers: { userId: user.userId },
       })
       .then((res) => {
-        const { rooms, recommend } = res.data;
-
+        const { rooms } = res.data;
         setRoomList(rooms);
-        setRecommend(recommend);
       })
       .catch((err) => {
         if (err.response) {

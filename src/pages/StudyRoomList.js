@@ -196,7 +196,6 @@ const StudyRoomList = () => {
         handleCRBtn={handleCRBtn}
         getRoomList={getRoomList}
         setRoomList={setRoomList}
-        setRecommend={setRecommend}
       />
       <RoomList roomList={roomList} handleEntrance={handleEntrance} />
     </StyledStudyLoby>
