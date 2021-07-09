@@ -5,10 +5,10 @@ import { device } from '../device'
 export const StyledLandingPage = styled.div`
   width: 100vw;
   height: auto;
-  background-image:   url(${circle}), url(${circle}), url(${circle}), url(${circle});
+  background-image: url(${circle}), url(${circle}), url(${circle}), url(${circle}), url(${circle});
   background-repeat: no-repeat;
-  background-size:  30%, 80%, 40%, 80%;
-  background-position:  top 20% right -10%, bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
+  background-size:  50%, 30%, 80%, 40%, 80%;
+  background-position: top -5% left -20%, top 20% right -10%, bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -60,7 +60,7 @@ export const StyledSectionTop = styled.section`
 
     h1 {
       font-size: 3rem;
-      color: #fff;
+      color: #7F554F;
       letter-spacing: 2px;
       margin: 0;
     }
@@ -68,7 +68,7 @@ export const StyledSectionTop = styled.section`
     p {
       font-size: 1.2rem;
       line-height: 1.6;
-      color: #f5f5f5;
+      color: #444444;
     }
   }
 
@@ -92,15 +92,18 @@ export const StyledSectionTop = styled.section`
     div {
       min-width: 100vw;
       position: static;
-      background-color: #f5f5f5;
+      background-color: #CCB19D;
       padding: 1rem 2rem;
+
+      h3 {
+        color: #fff;
+      }
       h1 {
         font-size: 2rem;
         margin: 0.5rem 0;
-        color: #444444;
       }
       p {
-        color: #444444;
+        color: #e5e5e5;
       }
     }
     img {
@@ -406,29 +409,20 @@ export const LandingPageBtn = styled.button`
   width: 120px;
   padding: 0.7rem;
   border-radius: 15px;
-  background-color: #E9E4DE;
+  background-color: #7F554F;
   border: none;
   font-weight: bold;
   transition: 0.2s;
   
   a{
     text-decoration: none;
-    color: #444444;
+    color: #f5f5f5;
   }
 
   &:hover {
     background-color: #f5f5f5;
-  }
-
-  @media ${device.tablet} {
-    background-color: #7F554F;
-    a {
-      color: #f5f5f5;
-    }
-    &:hover {
-      background-color: #205B59;
-      transform: translateY(-3px);
-    }
+    background-color: #205B59;
+    transform: translateY(-3px);
   }
 
 `

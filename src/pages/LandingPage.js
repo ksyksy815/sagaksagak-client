@@ -13,7 +13,7 @@ import Testimonials from "../components/Testimonials";
 import Footer from "../components/Footer";
 import CategorySelectModal from "../components/modals/CategorySelectModal.js";
 import imgVideoChat from "../assets/imgVideoChat.png";
-import imgStudyingAloneHard from "../assets/imgStudyingAloneHardVer2.svg";
+import imgStudyingAloneHard from "../assets/imgStudyingAloneHard.svg";
 import calculator from "../assets/calculator.svg";
 import book from "../assets/book-stack.svg";
 import mouse from "../assets/mouse.svg";

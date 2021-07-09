@@ -28,7 +28,7 @@ const StyledMainNav = styled.nav`
   h2 {
     a {
       text-decoration: none;
-      color: #fff;
+      color: #7F554F;
     }
   }
   
@@ -68,13 +68,13 @@ const StyledMainNav = styled.nav`
           &:hover {
             transform: translateY(-3px);
             cursor: pointer;
-            color: #fff;
+            color: #444444;
           }
   
         }
 
         a, button {
-          color: #f5f5f5;
+          color: #444444;
           font-weight: bold;
           text-decoration: none;
           padding: 1rem 0;
@@ -84,7 +84,7 @@ const StyledMainNav = styled.nav`
           transform: translateY(-3px);
           & a {
             cursor: pointer;
-            color: #fff;
+            color: #7F554F;
             
           }
         }
@@ -109,6 +109,7 @@ const StyledMainNav = styled.nav`
   @media ${device.mobile} {
     h2 {
       font-size: 1rem;
+      color: #fff;
     }
     .menu-btn {
       font-size: 1.5rem;
