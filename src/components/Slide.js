@@ -14,10 +14,10 @@ const SytledSlide = styled.div`
   align-items: center;
 `;
 
-const Slide = ({ content }) => {
+const Slide = ({ content, handleEntrance }) => {
   return (
-    <SytledSlide content={content}>
-      <RecommendCard />
+    <SytledSlide content={content.image}>
+      <RecommendCard handleEntrance={handleEntrance} content={content} />
     </SytledSlide>
   );
 };
