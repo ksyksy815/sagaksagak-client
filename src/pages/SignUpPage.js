@@ -139,9 +139,7 @@ const SignUpPage = () => {
     const { username } = userInput;
 
     axios
-      .post(`${process.env.REACT_APP_SERVER_DOMAIN}/signup/username-exist`, {
-        username: username,
-      })
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/signup/:${username}`)
       .then(() => {
         setErrMessage({
           ...errMessage,
