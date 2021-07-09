@@ -1,11 +1,16 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Nanum+Pen+Script&display=swap');
+// 필기체(제목 등 꾸미는 곳에 필요 시)font-family: 'Nanum Pen Script', cursive;
+
   * {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
     scroll-behavior: smooth;
+    font-family: 'Nanum Gothic', sans-serif;
+    color: #444444;
   }
 
   ::selection {

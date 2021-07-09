@@ -61,9 +61,15 @@ export const StyledSectionTop = styled.section`
     left: 15%;
     bottom: 15%;
     row-gap: 1rem;
+    
+    h3 {
+      font-size: 2rem;
+      font-family: 'Nanum Pen Script', cursive;
+      color: #444444;
+    }
 
     h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
       color: #7F554F;
 
       letter-spacing: 2px;
@@ -102,6 +108,7 @@ export const StyledSectionTop = styled.section`
 
       h3 {
         color: #fff;
+        font-size: 1.5rem;
       }
       h1 {
         font-size: 2rem;
@@ -185,9 +192,12 @@ export const StyledSectionMid = styled.section`
       flex-direction: column;
       align-items: flex-start;
       justify-content: center;
+      row-gap: 1rem;
 
       h1 {
+        font-family: 'Nanum Pen Script', cursive;
         color: #205b5a;
+        font-size: 2rem;
       }
 
       p {
@@ -222,6 +232,7 @@ export const StyledSectionMid = styled.section`
 
     @media ${device.mobile} {
       .one-text {
+        padding: 2rem 1rem;
         h1 {
           font-size: 1.5rem;
         }
@@ -247,7 +258,9 @@ export const StyledSectionMid = styled.section`
       row-gap: 1rem;
     
       h1 {
+        font-family: 'Nanum Pen Script', cursive;
         color: #205B5A;
+        font-size: 2rem;
 
       }
 
@@ -282,9 +295,7 @@ export const StyledSectionMid = styled.section`
 
     @media ${device.mobile} {
       .two-text {
-        h1 {
-          font-size: 1.5rem;
-        }
+        padding: 2rem 1rem;
       }
     }
   }
@@ -308,7 +319,9 @@ export const StyledSectionMid = styled.section`
       row-gap: 1rem;
       
       h1 {
+        font-family: 'Nanum Pen Script', cursive;
         color: #205B5A;
+        font-size: 2rem;
       }
 
       p {
@@ -325,10 +338,12 @@ export const StyledSectionMid = styled.section`
     }
 
     .three-btnBox {
+      width: 100%;
       display: flex;
       column-gap: 2rem;
       justify-content: flex-end;
       align-items: center;
+      margin-top: 1rem;
     }
 
     @media ${device.tablet} {
@@ -348,16 +363,11 @@ export const StyledSectionMid = styled.section`
         border-radius: 0;
         height: 40vh;
       }
-      .three-btnBox {
-        width: 100%;
-      }
     }
 
     @media ${device.mobile} {
       .three-text {
-        h1 {
-          font-size: 1.5rem;
-        }
+        padding: 2rem 1rem;
       }
     }
   }
@@ -382,7 +392,7 @@ export const StyledSectionBottom = styled.section`
   h1 {
     margin-bottom: 7rem;
     font-size: 2rem;
-    color: #F58820;
+    color: #444444;
   }
 
   @media (max-width: 1070px) {
@@ -414,7 +424,7 @@ export const ButtonBox = styled.span`
 `
 
 export const LandingPageBtn = styled.button`
-  width: 120px;
+  width: 130px;
   padding: 0.7rem;
   border-radius: 15px;
   background-color: #7F554F;

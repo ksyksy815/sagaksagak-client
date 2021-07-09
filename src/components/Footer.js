@@ -29,11 +29,16 @@ const StyledFooter = styled.footer`
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    color: #F5C3B8;
 
     h1 {
       color: #fff;
       letter-spacing: 3px;
+      margin-bottom: 0.5rem;
+    }
+
+    span, p {
+      color: #ebebeb;
+      padding-left: 0.5rem;
     }
   }
 
@@ -59,7 +64,7 @@ const StyledFooter = styled.footer`
       }
 
       a {
-        color: #F5C3B8;
+        color: #ebebeb;
 
         &:hover {
           cursor: pointer;
@@ -113,6 +118,10 @@ const StyledDevInfo = styled.div`
   div {
     display: flex;
     column-gap: 1rem;
+    color: #c9c9c9;
+    svg {
+      fill: #c9c9c9;
+    }
     a {
       display: flex;
       column-gap: 1rem;
@@ -137,11 +146,10 @@ export default function Footer() {
           <h1>사각사각</h1>
           <span>SAGAKSAGAK</span>
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-            Vero numquam quasi eius neque error eum?
+            CodeStates SEP 28th Team DevPull
           </p>
         </div>
-        <span>&copy; SagakSagak by Team DevPull {new Date().getFullYear()}</span>
+        <span>Copyrirght &copy; {new Date().getFullYear()} Team DevPull. <br/>All rights reverved. </span>
       </div>
       <ul className="footer-right">
         <li>
