@@ -21,7 +21,6 @@ const StyledMainNav = styled.nav`
   top: 0;
   z-index: 100;
   letter-spacing: 1.5px;
-  margin: 0 2rem;
   padding: 0.5rem 2rem;
   box-sizing: border-box;
 
