@@ -192,7 +192,12 @@ const StudyRoomList = () => {
       {isRoomFull && <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} />}
       {/* <DataSlider recommend={recommend} /> */}
       <Slider recommend={recommend} handleEntrance={handleEntrance} />
-      <ControllBar handleCRBtn={handleCRBtn} getRoomList={getRoomList} />
+      <ControllBar
+        handleCRBtn={handleCRBtn}
+        getRoomList={getRoomList}
+        setRoomList={setRoomList}
+        setRecommend={setRecommend}
+      />
       <RoomList roomList={roomList} handleEntrance={handleEntrance} />
     </StyledStudyLoby>
   );
