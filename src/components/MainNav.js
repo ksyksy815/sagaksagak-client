@@ -13,7 +13,7 @@ const StyledMainNav = styled.nav`
   }
   
   width: 100vw;
-  height: auto;
+  height: 45px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,6 +26,9 @@ const StyledMainNav = styled.nav`
   box-sizing: border-box;
 
   h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     a {
       text-decoration: none;
       color: #7F554F;
