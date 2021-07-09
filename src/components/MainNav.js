@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const StyledMainNav = styled.nav`
   box-sizing: border-box;
-  width: 100vw;
+  width: 100%;
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
@@ -13,12 +13,11 @@ const StyledMainNav = styled.nav`
   top: 0;
   z-index: 2;
   letter-spacing: 1.5px;
-  margin: 0 2rem;
 
   h2 {
     a {
       text-decoration: none;
-      color: #225E5C;
+      color: #225e5c;
     }
   }
 
@@ -36,7 +35,6 @@ const StyledMainNav = styled.nav`
     list-style: none;
     text-decoration: none;
     column-gap: 3rem;
-    
 
     li {
       transition: 0.2s;
@@ -44,58 +42,73 @@ const StyledMainNav = styled.nav`
         background: transparent;
         border: none;
         font-size: 1rem;
-        
+
         &:hover {
           transform: translateY(-3px);
           cursor: pointer;
-          color: #F58820;
+          color: #f58820;
         }
-
       }
-      a, button {
-        color: #225E5C;
+      a,
+      button {
+        color: #225e5c;
         font-weight: bold;
         text-decoration: none;
       }
-      
+
       &:hover {
         transform: translateY(-3px);
         & a {
           cursor: pointer;
-          color: #F58820;
-          
+          color: #f58820;
         }
       }
     }
   }
-`
+`;
 
-export default function MainNav( {isLogedIn} ) {
+export default function MainNav({ isLogedIn }) {
   const handleLogOut = () => {
     //로그아웃 로직 구현
-  }
+  };
 
   return (
     <StyledMainNav>
-      <h2><Link to='/'>사각사각</Link></h2>
+      <h2>
+        <Link to="/">사각사각</Link>
+      </h2>
       <div>
         <ul>
-          <li><Link to='/'>홈</Link></li>
-          <li><Link to='/studyroom'>스터디룸</Link></li>
-          <li><Link to='/studylog'>스터디로그</Link></li>
+          <li>
+            <Link to="/">홈</Link>
+          </li>
+          <li>
+            <Link to="/studyroom">스터디룸</Link>
+          </li>
+          <li>
+            <Link to="/studylog">스터디로그</Link>
+          </li>
         </ul>
-        {isLogedIn ? 
-        <ul>
-          <li><Link to='/mypage'>마이페이지</Link></li>
-          <li onCLick={handleLogOut}><button>로그아웃</button></li>
-        </ul>
-          :
-        <ul>
-          <li><Link to='/login'>로그인</Link></li>
-          <li><Link to='/signup'>회원가입</Link></li>
-        </ul>
-        }
+        {isLogedIn ? (
+          <ul>
+            <li>
+              <Link to="/mypage">마이페이지</Link>
+            </li>
+            <li onCLick={handleLogOut}>
+              <button>로그아웃</button>
+            </li>
+          </ul>
+        ) : (
+          <ul>
+            <li>
+              <Link to="/login">로그인</Link>
+            </li>
+            <li>
+              <Link to="/signup">회원가입</Link>
+            </li>
+          </ul>
+        )}
       </div>
     </StyledMainNav>
-  )
+  );
 }

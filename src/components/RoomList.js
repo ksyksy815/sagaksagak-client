@@ -9,6 +9,10 @@ const StyledRoomListWrapper = styled.section`
   align-items: center;
   row-gap: 30px;
 
+  @media only screen and (max-width: 1010px) {
+    width: 95%;
+  }
+
   .list-header {
     width: 100%;
     border-bottom: 2px solid black;
@@ -23,14 +27,19 @@ const StyledRoomListWrapper = styled.section`
   .room-container {
     display: grid;
     grid-template-columns: repeat(3, auto);
-    grid-template-rows: repeat(3, 1fr);
-    row-gap: 20px;
-    column-gap: 20px;
+    gap: 20px;
     width: 100%;
+
+    @media only screen and (max-width: 1010px) {
+      grid-template-columns: repeat(2, auto);
+    }
+
+    @media only screen and (max-width: 600px) {
+      grid-template-columns: auto;
+    }
   }
 
   .room {
-    width: 300px;
     padding: 10px 10px;
     background: #c7d2fe66;
     border-radius: 10px;

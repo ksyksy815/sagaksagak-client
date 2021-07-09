@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { RiRefreshLine } from "react-icons/ri";
 
 const StyledControllBar = styled.section`
-  padding: 0 80px;
+  width: 95%;
   display: flex;
   justify-content: space-between;
   align-items: center;

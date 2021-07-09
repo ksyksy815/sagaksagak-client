@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import SliderContent from "./SliderContent";
 import Slide from "./Slide";
@@ -25,52 +25,108 @@ const images = [
 
 const StyledSlider = styled.section`
   position: relative;
-  height: 100vh;
-  width: 100vw;
+  height: 400px;
+  width: 100%;
   margin: 0 auto;
   overflow: hidden;
 `;
 
-const Slider = () => {
-  const getWidth = () => window.innerWidth;
+const getWidth = () => {
+  if (window.innerWidth > 1010) return 1010;
+  return window.innerWidth;
+};
+
+const Slider = ({ recommend, handleEntrance }) => {
+  const firstSlide = images[0];
+  const secondSlide = images[1];
+  const lastSlide = images[images.length - 1];
 
   const [state, setState] = useState({
     activeIndex: 0,
-    translate: 0,
+    translate: getWidth(),
     transition: 0.45,
+    _slides: [lastSlide, firstSlide, secondSlide],
   });
 
-  const { translate, transition, activeIndex } = state;
+  const { translate, transition, activeIndex, _slides } = state;
 
-  const nextSlide = () => {
-    if (activeIndex === images.length - 1) {
-      return setState({
-        ...state,
-        translate: 0,
-        activeIndex: 0,
-      });
-    }
+  const autoPlayRef = useRef();
+  const transitionRef = useRef();
+  const resizeRef = useRef();
+
+  useEffect(() => {
+    autoPlayRef.current = nextSlide;
+    transitionRef.current = smoothTransition;
+    resizeRef.current = handleResize;
+  });
+
+  useEffect(() => {
+    const play = () => {
+      autoPlayRef.current();
+    };
+
+    const smooth = (e) => {
+      if (e.target.id === "slider-content") {
+        transitionRef.current();
+      }
+    };
+
+    const resize = () => {
+      resizeRef.current();
+    };
+
+    const transitionEnd = window.addEventListener("transitionend", smooth);
+    const interval = setInterval(play, 7000);
+    const onResize = window.addEventListener("resize", resize);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("transitionend", transitionEnd);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (transition === 0) setState({ ...state, transition: 0.45 });
+  }, [transition]);
+
+  const handleResize = () => {
+    setState({ ...state, translate: getWidth(), transition: 0 });
+    console.log(getWidth());
+  };
+
+  const smoothTransition = () => {
+    let slides = [];
+
+    //마지막 슬라이드
+    if (activeIndex === images.length - 1)
+      slides = [images[images.length - 2], lastSlide, firstSlide];
+    //첫번째 슬라이드
+    else if (activeIndex === 0) slides = [lastSlide, firstSlide, secondSlide];
+    //중간 슬라이드
+    else slides = images.slice(activeIndex - 1, activeIndex + 2);
 
     setState({
       ...state,
-      activeIndex: activeIndex + 1,
-      translate: (activeIndex + 1) * getWidth(),
+      _slides: slides,
+      transition: 0,
+      translate: getWidth(),
+    });
+  };
+
+  const nextSlide = () => {
+    setState({
+      ...state,
+      activeIndex: activeIndex === images.length - 1 ? 0 : activeIndex + 1,
+      translate: translate + getWidth(),
     });
   };
 
   const prevSlide = () => {
-    if (activeIndex === 0) {
-      return setState({
-        ...state,
-        translate: (images.length - 1) * getWidth(),
-        activeIndex: images.length - 1,
-      });
-    }
-
     setState({
       ...state,
-      activeIndex: activeIndex - 1,
-      translate: (activeIndex - 1) * getWidth(),
+      activeIndex: activeIndex === 0 ? images.length - 1 : activeIndex - 1,
+      translate: 0,
     });
   };
 
@@ -79,11 +135,11 @@ const Slider = () => {
       <SliderContent
         translate={translate}
         transition={transition}
-        width={getWidth() * images.length}
+        width={getWidth() * _slides.length}
       >
-        {images.map((slide, idx) => (
-          <Slide key={slide.image + idx} content={slide.image} />
-        ))}
+        {_slides.map((slide, idx) => {
+          return <Slide key={slide.image + idx} content={slide.image} />;
+        })}
       </SliderContent>
       <Arrow direction="left" handleClick={prevSlide} />
       <Arrow direction="right" handleClick={nextSlide} />
