@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { RiRefreshLine } from "react-icons/ri";
 import axios from "axios";
@@ -60,11 +61,14 @@ const ControllBar = ({
 }) => {
   const [input, setInput] = useState("");
   const [errMessage, setErrMessage] = useState("");
+  const state = useSelector((state) => state.logInStatusReducer);
+  const { user } = state;
 
   const getSearchResult = (input) => {
     axios
       .get(`${process.env.REACT_APP_SERVER_DOMAIN}/room/search`, {
         params: { q: input },
+        headers: { userId: user.userId },
       })
       .then((res) => {
         const { rooms, recommend } = res.data;
