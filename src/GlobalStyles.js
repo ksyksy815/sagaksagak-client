@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -12,7 +12,7 @@ export const GlobalStyles = createGlobalStyle`
     background-color: #FECF2D;
     color: #FE5244;
   }
-`
+`;
 
 // colors used
 /*

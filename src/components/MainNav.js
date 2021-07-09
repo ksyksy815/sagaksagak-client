@@ -123,7 +123,7 @@ export default function MainNav( {isLogedIn} ) {
 
   const handleLogOut = () => {
     //로그아웃 로직 구현
-  }
+  };
 
   const toggleMenus = () => {
     setMenuOn(prev=>!prev)
@@ -136,26 +136,40 @@ export default function MainNav( {isLogedIn} ) {
       <AiOutlineMenu className="menu-btn" onClick={toggleMenus}/>
       <div className="nav-menus">
         <ul>
-          <li><Link to='/'>홈</Link></li>
-          <li><Link to='/studyroom'>스터디룸</Link></li>
-          <li><Link to='/studylog'>스터디로그</Link></li>
+          <li>
+            <Link to="/">홈</Link>
+          </li>
+          <li>
+            <Link to="/studyroom">스터디룸</Link>
+          </li>
+          <li>
+            <Link to="/studylog">스터디로그</Link>
+          </li>
         </ul>
-        {isLogedIn ? 
-        <ul>
-          <li><Link to='/mypage'>마이페이지</Link></li>
-          <li onCLick={handleLogOut}><button>로그아웃</button></li>
-        </ul>
-          :
-        <ul>
-          <li><Link to='/login'>로그인</Link></li>
-          <li><Link to='/signup'>회원가입</Link></li>
-        </ul>
-        }
+        {isLogedIn ? (
+          <ul>
+            <li>
+              <Link to="/mypage">마이페이지</Link>
+            </li>
+            <li onCLick={handleLogOut}>
+              <button>로그아웃</button>
+            </li>
+          </ul>
+        ) : (
+          <ul>
+            <li>
+              <Link to="/login">로그인</Link>
+            </li>
+            <li>
+              <Link to="/signup">회원가입</Link>
+            </li>
+          </ul>
+        )}
       </div>
       {
         menuOn &&
         <MobileMainNav toggleMenus={toggleMenus} isLogedIn={isLogedIn} handleLogOut={handleLogOut} />
       }
     </StyledMainNav>
-  )
+  );
 }

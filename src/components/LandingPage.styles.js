@@ -2,13 +2,16 @@ import styled, { keyframes } from 'styled-components'
 import circle from '../assets/circle-bg.svg'
 import { device } from '../device'
 
+
 export const StyledLandingPage = styled.div`
   width: 100vw;
   height: auto;
+
   background-image: url(${circle}), url(${circle}), url(${circle}), url(${circle}), url(${circle});
   background-repeat: no-repeat;
   background-size:  50%, 30%, 80%, 40%, 80%;
   background-position: top -5% left -20%, top 20% right -10%, bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -30,6 +33,7 @@ export const StyledLandingPage = styled.div`
 
 
 `
+
 export const StyledSectionTop = styled.section`
   * {
     margin: 0;
@@ -38,7 +42,7 @@ export const StyledSectionTop = styled.section`
   }
   width: 100%;
   height: 100vh;
-  overflow: hidden; 
+  overflow: hidden;
   display: flex;
   box-sizing: border-box;
   scroll-snap-align: start;
@@ -52,7 +56,7 @@ export const StyledSectionTop = styled.section`
     display: flex;
     flex-direction: column;
     z-index: 5;
-    color: #1B1110;
+    color: #1b1110;
     position: absolute;
     left: 15%;
     bottom: 15%;
@@ -61,6 +65,7 @@ export const StyledSectionTop = styled.section`
     h1 {
       font-size: 3rem;
       color: #7F554F;
+
       letter-spacing: 2px;
       margin: 0;
     }
@@ -145,7 +150,9 @@ export const StyledSectionMid = styled.section`
   justify-content: flex-start;
   align-items: center;
 
-  .one, .two, .three {
+  .one,
+  .two,
+  .three {
     width: 100%;
     height: 150vh;
     display: flex;
@@ -180,7 +187,7 @@ export const StyledSectionMid = styled.section`
       justify-content: center;
 
       h1 {
-        color: #205B5A;
+        color: #205b5a;
       }
 
       p {
@@ -241,6 +248,7 @@ export const StyledSectionMid = styled.section`
     
       h1 {
         color: #205B5A;
+
       }
 
       p {
@@ -353,7 +361,7 @@ export const StyledSectionMid = styled.section`
       }
     }
   }
-`
+`;
 export const StyledSectionBottom = styled.section`
   * {
     margin: 0;
@@ -413,8 +421,8 @@ export const LandingPageBtn = styled.button`
   border: none;
   font-weight: bold;
   transition: 0.2s;
-  
-  a{
+
+  a {
     text-decoration: none;
     color: #f5f5f5;
   }
@@ -428,14 +436,14 @@ export const LandingPageBtn = styled.button`
 `
 
 export const ParallaxImg = styled.div`
-  background-image: ${(props) => props.img} ;
+  background-image: ${(props) => props.img};
   background-repeat: no-repeat;
   background-size: 70%;
   position: absolute;
-  top: ${(props)=> props.top};
-  right: ${(props)=> props.right};
-  bottom: ${(props)=> props.bottom};
-  left: ${(props)=> props.left};
+  top: ${(props) => props.top};
+  right: ${(props) => props.right};
+  bottom: ${(props) => props.bottom};
+  left: ${(props) => props.left};
   width: 100px;
   height: 100px;
-`
+`;
