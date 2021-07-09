@@ -13,7 +13,7 @@ const StyledMainNav = styled.nav`
   }
   
   width: 100vw;
-  height: auto;
+  height: 45px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,6 +26,9 @@ const StyledMainNav = styled.nav`
   box-sizing: border-box;
 
   h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     a {
       text-decoration: none;
       color: #7F554F;
@@ -34,11 +37,10 @@ const StyledMainNav = styled.nav`
   
   .menu-btn {
     display: none;
-    color: #f5f5f5;
+    fill: #fff;
     font-size: 2rem;
     &:hover {
       cursor: pointer;
-      color: #fff;
     }
   }
 
@@ -98,6 +100,14 @@ const StyledMainNav = styled.nav`
 
   @media ${device.tablet} {
     background-color: #7F554F;
+
+    h2 {
+      a {
+        font-size: 1.2rem;
+        color: #fff;
+      }
+    }
+
     .menu-btn {
       display: block;
     }
@@ -108,9 +118,12 @@ const StyledMainNav = styled.nav`
 
   @media ${device.mobile} {
     h2 {
-      font-size: 1rem;
-      color: #fff;
+      a {
+        font-size: 1.1rem;
+        color: #fff;
+      }
     }
+
     .menu-btn {
       font-size: 1.5rem;
     }
