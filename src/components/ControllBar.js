@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { RiRefreshLine } from "react-icons/ri";
+import axios from "axios";
 
 const StyledControllBar = styled.section`
   width: 95%;
@@ -51,7 +52,45 @@ const StyledControllBar = styled.section`
   }
 `;
 
-const ControllBar = ({ handleCRBtn, getRoomList }) => {
+const ControllBar = ({
+  handleCRBtn,
+  getRoomList,
+  setRoomList,
+  setRecommend,
+}) => {
+  const [input, setInput] = useState("");
+  const [errMessage, setErrMessage] = useState("");
+
+  const getSearchResult = (input) => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/room/search`, {
+        params: { q: input },
+      })
+      .then((res) => {
+        const { rooms, recommend } = res.data;
+
+        setRoomList(rooms);
+        setRecommend(recommend);
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 404) {
+            setErrMessage("검색 정보가 없습니다");
+          }
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
+  };
+
+  const handleInput = (e) => {
+    setInput(e.target.value);
+  };
+
   return (
     <StyledControllBar>
       <div className="room-controller">
@@ -63,8 +102,15 @@ const ControllBar = ({ handleCRBtn, getRoomList }) => {
         </button>
       </div>
       <div className="search-controller">
-        <input type="text" placeholder="검색어를 입력해주세요"></input>
-        <button className="search">검색</button>
+        {errMessage && <span>{errMessage}</span>}
+        <input
+          type="text"
+          placeholder="검색어를 입력해주세요"
+          onChange={handleInput}
+        ></input>
+        <button className="search" onClick={() => getSearchResult(input)}>
+          검색
+        </button>
       </div>
     </StyledControllBar>
   );
