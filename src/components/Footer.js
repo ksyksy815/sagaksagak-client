@@ -2,12 +2,18 @@ import { useState, useRef } from 'react'
 import styled from 'styled-components'
 import { MdPerson, MdEmail } from 'react-icons/md'
 import { AiFillGithub } from 'react-icons/ai'
+import { device } from '../device'
 
 
 const StyledFooter = styled.footer`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   width: 100vw;
   height: 50vh;
-  background-color: #DE877F;
+  background-color: #7F5550;
   display: flex;
   padding: 2rem 2rem;
   box-sizing: border-box;
@@ -62,6 +68,40 @@ const StyledFooter = styled.footer`
       }
     }
   }
+
+  @media ${device.tablet} {
+    flex-direction: column;
+    height: 70vh;
+    .footer-left {
+      justify-content: flex-start;
+      row-gap: 1rem;
+
+      p {
+        display: none;
+      }
+    }
+    .footer-right {
+      row-gap: 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    height: auto;
+    padding: 2rem 1rem;
+    row-gap: 2rem;
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      
+      li {
+        justify-content: center;
+        align-items: flex-start;
+        width: 250px;
+      }
+    }
+  }
 `
 
 const StyledDevInfo = styled.div`
@@ -106,35 +146,35 @@ export default function Footer() {
       <ul className="footer-right">
         <li>
           <span>WOOSUNG KIM</span>
-        <StyledDevInfo>
-          <div><MdPerson/>김우성</div>
-          <div onClick={handleClickCopy}><MdEmail/>rladntjd320@gmail.com</div>
-          <div><a href='https://github.com/IJMilk-WS'><AiFillGithub/>IJMilk-WS</a></div>
-        </StyledDevInfo>
+          <StyledDevInfo>
+            <div><MdPerson/>김우성</div>
+            <div onClick={handleClickCopy}><MdEmail/>rladntjd320@gmail.com</div>
+            <div><a href='https://github.com/IJMilk-WS'><AiFillGithub/>IJMilk-WS</a></div>
+          </StyledDevInfo>
         </li>
         <li>
           <span>SEOYEON KIM</span>
-        <StyledDevInfo>
-          <div><MdPerson/>김서연</div>
-          <div onClick={handleClickCopy}><MdEmail/>seoyeonkim815@gmail.com</div>
-          <div><a href='https://github.com/ksyksy815'><AiFillGithub/>ksyksy815</a></div>
-        </StyledDevInfo>
+          <StyledDevInfo>
+            <div><MdPerson/>김서연</div>
+            <div onClick={handleClickCopy}><MdEmail/>seoyeonkim815@gmail.com</div>
+            <div><a href='https://github.com/ksyksy815'><AiFillGithub/>ksyksy815</a></div>
+          </StyledDevInfo>
         </li>
         <li>
           <span>HYUNWOO JEONG</span>
-        <StyledDevInfo>
-          <div><MdPerson/>정현우</div>
-          <div onClick={handleClickCopy}><MdEmail/>wijeong@gmail.com</div>
-          <div><a href='https://github.com/david-Jeong95'><AiFillGithub/>david-Jeong95</a></div>
-        </StyledDevInfo>
+          <StyledDevInfo>
+            <div><MdPerson/>정현우</div>
+            <div onClick={handleClickCopy}><MdEmail/>wijeong@gmail.com</div>
+            <div><a href='https://github.com/david-Jeong95'><AiFillGithub/>david-Jeong95</a></div>
+          </StyledDevInfo>
         </li>
         <li>
           <span>SOONEUN HWANG</span>
-        <StyledDevInfo>
-          <div onClick={handleClickCopy}><MdPerson/>황순은</div>
-          <div><MdEmail/>catalyst8849@gmail.com</div>
-          <div><a href='https://github.com/Hwangsooneun'><AiFillGithub/>Hwangsooneun</a></div>
-        </StyledDevInfo>
+          <StyledDevInfo>
+            <div onClick={handleClickCopy}><MdPerson/>황순은</div>
+            <div><MdEmail/>catalyst8849@gmail.com</div>
+            <div><a href='https://github.com/Hwangsooneun'><AiFillGithub/>Hwangsooneun</a></div>
+          </StyledDevInfo>
         </li>
       </ul>
     </StyledFooter>
