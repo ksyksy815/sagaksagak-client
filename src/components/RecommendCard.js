@@ -26,13 +26,16 @@ const StyledRecommendCard = styled.div`
   }
 `;
 
-const RecommendCard = () => {
+const RecommendCard = ({ handleEntrance, content }) => {
   return (
     <StyledRecommendCard>
-      <div className="rec-room">
+      <div
+        className="rec-room"
+        onClick={() => handleEntrance(content.roomUuid)}
+      >
         <h1>이런 방을 추천해요</h1>
-        <h2>[영어] 토익 만점이 1000점 이냐?</h2>
-        <h3> 5/6 </h3>
+        <h2>{`[${content.category}] ${content.roomName}`}</h2>
+        <h3> {`${content.usersNum}/6`} </h3>
       </div>
     </StyledRecommendCard>
   );

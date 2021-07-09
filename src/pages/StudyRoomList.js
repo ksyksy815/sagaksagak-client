@@ -86,10 +86,10 @@ const StudyRoomList = () => {
   ]);
   const [recommend, setRecommend] = useState([
     {
-      roomName: "토익 만점이 1000점 이냐?",
+      roomName: "2021년 10월 지방직 9급 대비 함께 해요",
       roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
+      usersNum: 3,
+      category: "공무원",
     },
     {
       roomName: "토익 만점이 1000점 이냐?",
@@ -98,10 +98,10 @@ const StudyRoomList = () => {
       category: "영어",
     },
     {
-      roomName: "토익 만점이 1000점 이냐?",
+      roomName: "11월의 영광을 위해 함께 가즈아!",
       roomUuid: "eiikc3ef-sasdf-aeijv11231",
       usersNum: 5,
-      category: "영어",
+      category: "국내입시",
     },
   ]);
   const [isCRModalOpen, setIsCRModalOpen] = useState(false);
