@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
+import CategoryTag from "../CategoryTag";
 
 const StyledCreateRoomModal = styled.section`
   height: 100vh;
@@ -13,6 +14,23 @@ const StyledCreateRoomModal = styled.section`
 
   .room-name-input {
     display: flex;
+
+    input {
+      width: 240px;
+      height: 30px;
+      border-radius: 20px;
+      border: solid 1px lightgray;
+      box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        text-align: center;
+      }
+    }
   }
 
   .CR-modal-contents-wrapper {
@@ -23,25 +41,50 @@ const StyledCreateRoomModal = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-    row-gap: 8px;
-    width: 400px;
+    padding: 20px;
+    row-gap: 30px;
   }
 
-  .dd-list {
+  .category-select {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+    row-gap: 20px;
+
+    .dd-list {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+      border: solid 1px rgba(0, 0, 0, 0.19);
+      border-radius: 10px;
+      padding: 30px 10px;
+
+      .first-line {
+        display: flex;
+        column-gap: 10px;
+      }
+
+      .second-line {
+        display: flex;
+        column-gap: 10px;
+      }
+    }
   }
 
-  .dd-list-item {
-    background: none;
-    border: none;
-    padding: 2px;
-    text-align: left;
-    cursor: pointer;
+  .modal-btns {
+    display: flex;
+    column-gap: 20px;
 
-    &:hover {
-      background: lightgrey;
+    button {
+      border: none;
+      border-radius: 20px;
+      background: #7f554f;
+      height: 40px;
+      width: 90px;
+      cursor: pointer;
+      color: white;
+      font-size: 0.9em;
     }
   }
 `;
@@ -117,13 +160,35 @@ const CreateRoomModal = ({
         <div className="category-select">
           <h3 className="dd-header">카테고리 선택</h3>
           <div className="dd-list">
-            <div className="first-line"></div>
-            <div className="second-line"></div>
+            <div className="first-line">
+              {categoryListFirst.map((category) => {
+                return (
+                  <div key={category} onClick={() => handleSelect(category)}>
+                    <CategoryTag
+                      category={category}
+                      selected={selectedItem === category}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <div className="second-line">
+              {categoryListSecond.map((category) => {
+                return (
+                  <div key={category} onClick={() => handleSelect(category)}>
+                    <CategoryTag
+                      category={category}
+                      selected={selectedItem === category}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
         {roomReady ? (
-          <div>
-            방 다 만들어졌슴다 참여하실?
+          <div className="modal-btns">
+            <span>방이 생성되었습니다</span>
             <button onClick={() => handleEntrance(roomId)}>입장하기</button>
           </div>
         ) : (
@@ -132,7 +197,7 @@ const CreateRoomModal = ({
             <button onClick={handleCRCloseBtn}>돌아가기</button>
           </div>
         )}
-        {errMessage && <p>{errMessage}</p>}
+        {errMessage && <p className="err-message">{errMessage}</p>}
       </div>
     </StyledCreateRoomModal>
   );

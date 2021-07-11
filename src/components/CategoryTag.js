@@ -11,6 +11,12 @@ const StyledTagContainer = styled.div`
   width: 80px;
   height: 30px;
   border-radius: 5px;
+  ${(props) =>
+    props.selected &&
+    `box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+  rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;`}
+  cursor: pointer;
+  transition: 0.2s ease;
 
   p {
     color: ${(props) => {
@@ -22,7 +28,7 @@ const StyledTagContainer = styled.div`
   }
 `;
 
-const CategoryTag = ({ category }) => {
+const CategoryTag = ({ category, selected }) => {
   const handleColor = (category) => {
     switch (category) {
       case "국내입시":
@@ -51,7 +57,7 @@ const CategoryTag = ({ category }) => {
   };
 
   return (
-    <StyledTagContainer colorSet={handleColor(category)}>
+    <StyledTagContainer colorSet={handleColor(category)} selected={selected}>
       <p>{category}</p>
     </StyledTagContainer>
   );
