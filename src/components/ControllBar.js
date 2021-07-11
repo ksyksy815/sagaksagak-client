@@ -1,59 +1,52 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { RiRefreshLine } from "react-icons/ri";
 import axios from "axios";
 
 const StyledControllBar = styled.section`
   width: 95%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 
-  div {
+  .search-controller {
     display: flex;
     justify-content: center;
     align-self: center;
-    column-gap: 5px;
-  }
+    column-gap: 20px;
+    padding: 20px 0 0 0;
 
-  .room-controller {
     button {
       border: none;
-      border-radius: 5px;
-      background: #66b0f0;
-      height: 30px;
+      border-radius: 10px;
+      background: #7f554f;
+      height: 40px;
+      width: 80px;
       cursor: pointer;
-    }
-  }
-
-  .refresh-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-  }
-
-  .search-controller {
-    button {
-      border: none;
-      border-radius: 5px;
-      background: #66b0f0;
-      height: 30px;
-      cursor: pointer;
+      color: white;
+      font-size: 0.9em;
+      font-weight: 600;
     }
 
     input {
-      border-radius: 5px;
+      border-radius: 20px;
+      height: 40px;
+      width: 380px;
+      border: solid 1px lightgray;
+      box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
 
       &:focus {
         outline: none;
+      }
+
+      &::placeholder {
+        padding: 0 10px;
       }
     }
   }
 `;
 
-const ControllBar = ({ handleCRBtn, getRoomList, setRoomList }) => {
+const ControllBar = ({ setRoomList }) => {
   const [input, setInput] = useState("");
   const [errMessage, setErrMessage] = useState("");
   const state = useSelector((state) => state.logInStatusReducer);
@@ -90,19 +83,11 @@ const ControllBar = ({ handleCRBtn, getRoomList, setRoomList }) => {
 
   return (
     <StyledControllBar>
-      <div className="room-controller">
-        <button className="make-room" onClick={handleCRBtn}>
-          방만들기
-        </button>
-        <button>
-          <RiRefreshLine className="refresh-btn" onClick={getRoomList} />
-        </button>
-      </div>
       <div className="search-controller">
         {errMessage && <span>{errMessage}</span>}
         <input
           type="text"
-          placeholder="검색어를 입력해주세요"
+          placeholder="참여를 원하는 방을 검색해 보세요"
           onChange={handleInput}
         ></input>
         <button className="search" onClick={() => getSearchResult(input)}>

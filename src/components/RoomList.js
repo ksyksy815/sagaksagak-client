@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import Room from "./Room";
+import { AiOutlinePlus } from "react-icons/ai";
+import { RiRefreshLine } from "react-icons/ri";
 
 const StyledRoomListWrapper = styled.section`
   width: 100%;
@@ -16,96 +19,59 @@ const StyledRoomListWrapper = styled.section`
   .list-header {
     width: 100%;
     border-bottom: 2px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     h1 {
       align-self: flex-start;
       margin: 0;
       padding: 10px;
     }
+
+    .icon-container {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+      padding: 10px;
+
+      .new-room-icon {
+        font-size: 1.7em;
+        cursor: pointer;
+      }
+
+      .refresh-icon {
+        font-size: 1.6em;
+        cursor: pointer;
+      }
+    }
   }
 
   .room-container {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    gap: 20px;
-    width: 100%;
-
-    @media only screen and (max-width: 1010px) {
-      grid-template-columns: repeat(2, auto);
-    }
-
-    @media only screen and (max-width: 600px) {
-      grid-template-columns: auto;
-    }
-  }
-
-  .room {
-    padding: 10px 10px;
-    background: #c7d2fe66;
-    border-radius: 10px;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
-    flex-direction: column;
-    cursor: pointer;
+    gap: 25px;
+    width: 100%;
   }
 `;
 
-const RoomList = ({ roomList, handleEntrance }) => {
+const RoomList = ({ roomList, handleEntrance, handleCRBtn, getRoomList }) => {
   return (
     <StyledRoomListWrapper>
       <div className="list-header">
         <h1>방목록</h1>
+        <div className="icon-container">
+          <AiOutlinePlus className="new-room-icon" onClick={handleCRBtn} />
+          <RiRefreshLine className="refresh-icon" onClick={getRoomList} />
+        </div>
       </div>
       <div className="room-container">
         {roomList.map((room, idx) => {
           return (
-            <div
-              className="room"
-              key={idx}
-              onClick={() => handleEntrance(room.roomUuid)}
-            >
-              <h3>{`[${room.category}] ${room.roomName}`}</h3>
-              <h5>{`${room.usersNum}/6`}</h5>
-            </div>
+            <Room key={idx} room={room} handleEntance={handleEntrance}></Room>
           );
         })}
-        {/* <div className="test">
-          <h3>[영어] 토익 만점이 1000점 이냐?</h3>
-          <h5>5/6</h5>
-        </div>
-        <div className="test">
-          <h3>[영어] 토익 만점이 1000점 이냐?</h3>
-          <h5>5/6</h5>
-        </div>
-        <div className="test">
-          <h3>[영어] 토익 만점이 1000점 이냐?</h3>
-          <h5>5/6</h5>
-        </div>
-        <div className="test">
-          <h3>[영어] 토익 만점이 1000점 이냐?</h3>
-          <h5>5/6</h5>
-        </div>
-        <div className="test">
-          <h3>[영어] 토익 만점이 1000점 이냐?</h3>
-          <h5>5/6</h5>
-        </div>
-        <div className="test">
-          <h3>[영어] 토익 만점이 1000점 이냐?</h3>
-          <h5>5/6</h5>
-        </div>
-        <div className="test">
-          <h3>[영어] 토익 만점이 1000점 이냐?</h3>
-          <h5>5/6</h5>
-        </div>
-        <div className="test">
-          <h3>[영어] 토익 만점이 1000점 이냐?</h3>
-          <h5>5/6</h5>
-        </div>
-        <div className="test">
-          <h3>[영어] 토익 만점이 1000점 이냐?</h3>
-          <h5>5/6</h5>
-        </div> */}
       </div>
     </StyledRoomListWrapper>
   );
