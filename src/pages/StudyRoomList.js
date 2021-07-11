@@ -12,7 +12,7 @@ import Slider from "../components/Slider";
 
 const StyledStudyLoby = styled.div`
   position: relative;
-  top: 70px;
+  top: 45px;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
@@ -192,12 +192,13 @@ const StudyRoomList = () => {
       {isRoomFull && <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} />}
       {/* <DataSlider recommend={recommend} /> */}
       <Slider recommend={recommend} handleEntrance={handleEntrance} />
-      <ControllBar
+      <ControllBar setRoomList={setRoomList} />
+      <RoomList
+        roomList={roomList}
+        handleEntrance={handleEntrance}
         handleCRBtn={handleCRBtn}
         getRoomList={getRoomList}
-        setRoomList={setRoomList}
       />
-      <RoomList roomList={roomList} handleEntrance={handleEntrance} />
     </StyledStudyLoby>
   );
 };

@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import CategoryTag from "./CategoryTag";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BsPeopleCircle } from "react-icons/bs";
-import CategoryTag from "./CategoryTag";
 
-const StyledRecommendCard = styled.div`
+const StyledRoom = styled.div`
   width: 320px;
   height: 240px;
   padding: 10px 10px;
@@ -13,13 +13,12 @@ const StyledRecommendCard = styled.div`
   align-items: center;
   flex-direction: column;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
   transition: 0.3s ease;
   row-gap: 4px;
 
-  @media only screen and (min-width: 1010px) {
-    width: 480px;
+  &:hover {
+    transform: translateY(-10px);
   }
 
   .category-tag {
@@ -75,14 +74,14 @@ const StyledRecommendCard = styled.div`
   }
 `;
 
-const RecommendCard = ({ handleEntrance, content }) => {
+const Room = ({ handleEntance, room }) => {
   return (
-    <StyledRecommendCard onClick={() => handleEntrance(content.roomUuid)}>
+    <StyledRoom onClick={() => handleEntance(room.roomUuid)}>
       <div className="category-tag">
-        <CategoryTag category={content.category} />
+        <CategoryTag category={room.category} />
       </div>
       <div className="room-title">
-        <h3>{content.roomName}</h3>
+        <h3>{room.roomName}</h3>
         <p>by 토익n수생</p>
       </div>
       <div className="room-info">
@@ -92,11 +91,11 @@ const RecommendCard = ({ handleEntrance, content }) => {
         </div>
         <div className="active-users">
           <BsPeopleCircle className="user-icon" />
-          <span>{`${content.usersNum} / 6`}</span>
+          <span>{`${room.usersNum} / 6`}</span>
         </div>
       </div>
-    </StyledRecommendCard>
+    </StyledRoom>
   );
 };
 
-export default RecommendCard;
+export default Room;
