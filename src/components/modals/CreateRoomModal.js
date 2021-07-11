@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
@@ -61,7 +61,6 @@ const StyledCreateRoomModal = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 400px;
     animation: modal-show 0.3s;
     padding: 20px;
     row-gap: 30px;
@@ -135,6 +134,21 @@ const categoryListFirst = ["국내입시", "해외입시", "영어", "제2외국
 
 const categoryListSecond = ["취업", "자격증", "공무원", "예체능", "자유"];
 
+const useOnClickOutside = (ref, handler) => {
+  useEffect(() => {
+    const listener = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      handler(event);
+    };
+    document.addEventListener("mousedown", listener);
+    return () => {
+      document.removeEventListener("mousedown", listener);
+    };
+  }, [ref, handler]);
+};
+
 const CreateRoomModal = ({
   handleCRCloseBtn,
   handleEntrance,
@@ -148,6 +162,10 @@ const CreateRoomModal = ({
   const [roomname, setRoomname] = useState("");
   const [selectedItem, setSelectedItem] = useState("");
   const [errMessage, setErrMessage] = useState("");
+
+  const modalEl = useRef();
+
+  useOnClickOutside(modalEl, () => handleCRCloseBtn());
 
   const handleSelect = (selected) => {
     setSelectedItem(selected);
@@ -192,7 +210,7 @@ const CreateRoomModal = ({
 
   return (
     <StyledCreateRoomModal open={isCRModalOpen}>
-      <div className="CR-modal-contents-wrapper">
+      <div className="CR-modal-contents-wrapper" ref={modalEl}>
         <div className="room-name-input">
           <input
             type="text"

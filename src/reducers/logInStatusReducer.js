@@ -4,6 +4,7 @@ import {
   LOG_OUT,
   LOG_IN,
   FIRST_LOG_IN,
+  SET_FIRST_LOGIN_FALSE,
 } from "../actions/index";
 
 const logInStatusReducer = (state = initialState, action) => {
@@ -19,6 +20,11 @@ const logInStatusReducer = (state = initialState, action) => {
       };
     case LOG_OUT:
       return { ...state, user: action.payload };
+    case SET_FIRST_LOGIN_FALSE:
+      return {
+        ...state,
+        user: { ...state.user, isFirstLogedIn: action.payload.isFirstLogedIn },
+      };
     default:
       return state;
   }

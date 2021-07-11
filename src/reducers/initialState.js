@@ -25,6 +25,6 @@ export const initialState = {
   ],
   chatroom: {
     roomId: "",
-    participants: []
-  }
+    participants: [],
+  },
 };

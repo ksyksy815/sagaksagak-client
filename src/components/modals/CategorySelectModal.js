@@ -1,47 +1,86 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setFirstLogInFalse } from "../../actions/index";
 import styled from "styled-components";
 import axios from "axios";
 
 const StyledCategorySelModal = styled.div`
-  align-self: center;
-  position: absolute;
-  top: 25vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 400px;
-  width: 600px;
-  border: 1px solid black;
-  border-radius: 10px;
-  background: white;
-  z-index: 999;
+  ${(props) =>
+    props.open
+      ? `display: flex;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        animation: modal-bg-show .3s;`
+      : `display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;`}
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
 
-  h1 {
-    margin-bottom: 0;
-    margin-top: 0;
-  }
-
-  h4 {
-    margin-top: 10px;
-  }
-
-  & > button {
-    border: none;
+  .CSModal-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
     border-radius: 10px;
-    background: #f5d0a9;
-    font-size: 1rem;
-    width: 90%;
-    height: 2rem;
+    background: white;
+    animation: modal-show 0.3s;
 
-    &:hover {
-      cursor: pointer;
+    h1 {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    h4 {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    & > button {
+      border: none;
+      border-radius: 10px;
+      background: #f5d0a9;
+      font-size: 1rem;
+      width: 90%;
+      height: 2rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .ok {
+      background: #de877f;
     }
   }
 
-  .ok {
-    background: #de877f;
+  @keyframes modal-show {
+    from {
+      opacity: 0;
+      margin-top: -50px;
+    }
+    to {
+      opacity: 1;
+      margin-top: 0px;
+    }
+  }
+
+  @keyframes modal-bg-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 `;
 
@@ -67,8 +106,23 @@ const StyledGridItem = styled.div`
   }
 `;
 
-const CategorySelectModal = () => {
-  const state = useSelector((state) => state.todoReducer);
+const useOnClickOutside = (ref, handler) => {
+  useEffect(() => {
+    const listener = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      handler(event);
+    };
+    document.addEventListener("mousedown", listener);
+    return () => {
+      document.removeEventListener("mousedown", listener);
+    };
+  }, [ref, handler]);
+};
+
+const CategorySelectModal = ({ open, close }) => {
+  const state = useSelector((state) => state.logInStatusReducer);
   const [selected, setSelected] = useState({
     국내입시: false,
     해외입시: false,
@@ -81,12 +135,19 @@ const CategorySelectModal = () => {
     예체능: false,
     자유: false,
   });
+  const modalEl = useRef();
+  const dispatch = useDispatch();
+
+  useOnClickOutside(modalEl, () => {
+    close();
+    dispatch(setFirstLogInFalse());
+  });
 
   const getTotal = (categories) => {
     const selCat = [];
 
-    for (let category in selected) {
-      if (selected[category]) selCat.push(category);
+    for (let category in categories) {
+      if (categories[category]) selCat.push(category);
     }
 
     return selCat;
@@ -111,7 +172,7 @@ const CategorySelectModal = () => {
 
     axios
       .patch(
-        `${process.env.REACT_APP_SERVER_DOMAIN}/user/:${state.user.userId}/category`,
+        `${process.env.REACT_APP_SERVER_DOMAIN}/user/${state.user.userId}/category`,
         {
           newcategory: total,
         },
@@ -137,84 +198,86 @@ const CategorySelectModal = () => {
   };
 
   return (
-    <StyledCategorySelModal>
-      <h1>관심사를 알려주세요</h1>
-      <h4>3개를 선택해 주세요! 관심사를 통해 알맞은 방이 추천됩니다 </h4>
-      <StyledGridContainer>
-        <StyledGridItem
-          style={{ background: selected.국내입시 ? "#D8D8D8" : "#ededed" }}
-          id="국내입시"
-          onClick={handleSelected}
-        >
-          국내입시
-        </StyledGridItem>
-        <StyledGridItem
-          id="해외입시"
-          style={{ background: selected.해외입시 ? "#D8D8D8" : "#ededed" }}
-          onClick={handleSelected}
-        >
-          해외입시
-        </StyledGridItem>
-        <StyledGridItem
-          id="영어"
-          style={{ background: selected.영어 ? "#D8D8D8" : "#ededed" }}
-          onClick={handleSelected}
-        >
-          영어
-        </StyledGridItem>
-        <StyledGridItem
-          id="제2외국어"
-          style={{ background: selected.제2외국어 ? "#D8D8D8" : "#ededed" }}
-          onClick={handleSelected}
-        >
-          제2외국어
-        </StyledGridItem>
-        <StyledGridItem
-          id="코딩"
-          style={{ background: selected.코딩 ? "#D8D8D8" : "#ededed" }}
-          onClick={handleSelected}
-        >
-          코딩
-        </StyledGridItem>
-        <StyledGridItem
-          id="취업"
-          style={{ background: selected.취업 ? "#D8D8D8" : "#ededed" }}
-          onClick={handleSelected}
-        >
-          취업
-        </StyledGridItem>
-        <StyledGridItem
-          id="자격증"
-          style={{ background: selected.자격증 ? "#D8D8D8" : "#ededed" }}
-          onClick={handleSelected}
-        >
-          자격증
-        </StyledGridItem>
-        <StyledGridItem
-          id="공무원"
-          style={{ background: selected.공무원 ? "#D8D8D8" : "#ededed" }}
-          onClick={handleSelected}
-        >
-          공무원
-        </StyledGridItem>
-        <StyledGridItem
-          id="예체능"
-          style={{ background: selected.예체능 ? "#D8D8D8" : "#ededed" }}
-          onClick={handleSelected}
-        >
-          예체능
-        </StyledGridItem>
-        <StyledGridItem
-          id="자유"
-          style={{ background: selected.자유 ? "#D8D8D8" : "#ededed" }}
-          onClick={handleSelected}
-        >
-          자유
-        </StyledGridItem>
-      </StyledGridContainer>
-      <button className={totalCnt >= 3 ? "ok" : ""} onClick={handleSelect}>
-        {totalCnt >= 3 ? "선택완료" : `${3 - totalCnt}개 더 선택`}
-      </button>
+    <StyledCategorySelModal open={open}>
+      <div className="CSModal-content-wrapper" ref={modalEl}>
+        <h1>관심사를 알려주세요</h1>
+        <h4>3개를 선택해 주세요! 관심사를 통해 알맞은 방이 추천됩니다 </h4>
+        <StyledGridContainer>
+          <StyledGridItem
+            style={{ background: selected.국내입시 ? "#D8D8D8" : "#ededed" }}
+            id="국내입시"
+            onClick={handleSelected}
+          >
+            국내입시
+          </StyledGridItem>
+          <StyledGridItem
+            id="해외입시"
+            style={{ background: selected.해외입시 ? "#D8D8D8" : "#ededed" }}
+            onClick={handleSelected}
+          >
+            해외입시
+          </StyledGridItem>
+          <StyledGridItem
+            id="영어"
+            style={{ background: selected.영어 ? "#D8D8D8" : "#ededed" }}
+            onClick={handleSelected}
+          >
+            영어
+          </StyledGridItem>
+          <StyledGridItem
+            id="제2외국어"
+            style={{ background: selected.제2외국어 ? "#D8D8D8" : "#ededed" }}
+            onClick={handleSelected}
+          >
+            제2외국어
+          </StyledGridItem>
+          <StyledGridItem
+            id="코딩"
+            style={{ background: selected.코딩 ? "#D8D8D8" : "#ededed" }}
+            onClick={handleSelected}
+          >
+            코딩
+          </StyledGridItem>
+          <StyledGridItem
+            id="취업"
+            style={{ background: selected.취업 ? "#D8D8D8" : "#ededed" }}
+            onClick={handleSelected}
+          >
+            취업
+          </StyledGridItem>
+          <StyledGridItem
+            id="자격증"
+            style={{ background: selected.자격증 ? "#D8D8D8" : "#ededed" }}
+            onClick={handleSelected}
+          >
+            자격증
+          </StyledGridItem>
+          <StyledGridItem
+            id="공무원"
+            style={{ background: selected.공무원 ? "#D8D8D8" : "#ededed" }}
+            onClick={handleSelected}
+          >
+            공무원
+          </StyledGridItem>
+          <StyledGridItem
+            id="예체능"
+            style={{ background: selected.예체능 ? "#D8D8D8" : "#ededed" }}
+            onClick={handleSelected}
+          >
+            예체능
+          </StyledGridItem>
+          <StyledGridItem
+            id="자유"
+            style={{ background: selected.자유 ? "#D8D8D8" : "#ededed" }}
+            onClick={handleSelected}
+          >
+            자유
+          </StyledGridItem>
+        </StyledGridContainer>
+        <button className={totalCnt >= 3 ? "ok" : ""} onClick={handleSelect}>
+          {totalCnt >= 3 ? "선택완료" : `${3 - totalCnt}개 더 선택`}
+        </button>
+      </div>
     </StyledCategorySelModal>
   );
 };

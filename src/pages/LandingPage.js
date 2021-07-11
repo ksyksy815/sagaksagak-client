@@ -17,13 +17,26 @@ import imgStudyingAloneHard from "../assets/imgStudyingAloneHard.svg";
 import calculator from "../assets/calculator.svg";
 import book from "../assets/book-stack.svg";
 import mouse from "../assets/mouse.svg";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 
 export default function LandingPage() {
+  const state = useSelector((state) => state.logInStatusReducer);
+  const { user } = state;
+  const [isCSModalOpen, setIsCSModalOpen] = useState(false);
   const [offsetY, setOffsetY] = useState(0);
   const sectionMid = useRef();
+  const modalRef = useRef();
 
-  const state = useSelector( state => state.logInStatusReducer );
+  const catSelModalHandle = () => {
+    if (user.isFirstLogedIn) setIsCSModalOpen(true);
+    else setIsCSModalOpen(false);
+  };
+
+  modalRef.current = catSelModalHandle;
+
+  const catSelModalClose = () => {
+    setIsCSModalOpen(false);
+  };
 
   const handleScroll = () => {
     setOffsetY(window.pageYOffset);
@@ -35,15 +48,19 @@ export default function LandingPage() {
   });
 
   useEffect(() => {
+    const setModal = () => {
+      modalRef.current();
+    };
+
+    setModal();
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <StyledLandingPage>
-      {
-        state.user.isFirstLogedIn && <CategorySelectModal />
-      }
+      <CategorySelectModal open={isCSModalOpen} close={catSelModalClose} />
       <StyledSectionTop>
         <animated.div style={divProps}>
           <h3>목표 달성을 위한 긴 여정,</h3>

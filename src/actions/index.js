@@ -3,6 +3,7 @@ export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 export const LOG_IN = "LOG_IN";
 export const FIRST_LOG_IN = "FIRST_LOG_IN";
 export const LOG_OUT = "LOG_OUT";
+export const SET_FIRST_LOGIN_FALSE = "SET_FIRST_LOGIN_FALSE";
 
 //투두 관련 액션
 export const SET_TO_DO_LIST = "SET_TO_DO_LIST";
@@ -65,6 +66,15 @@ export const logOut = () => {
   };
 };
 
+export const setFirstLogInFalse = () => {
+  return {
+    type: SET_FIRST_LOGIN_FALSE,
+    payload: {
+      isFirstLogedIn: false,
+    },
+  };
+};
+
 export const setTodoList = (todos, completeTodos) => {
   return {
     type: SET_TO_DO_LIST,
@@ -115,17 +125,17 @@ export const setRoomId = (roomId) => {
   return {
     type: ROOM_ID,
     payload: {
-      roomId
-    }
-  }
-}
+      roomId,
+    },
+  };
+};
 
 export const setParticipants = (peerId, username) => {
   return {
     type: PARTICIPANTS,
     payload: {
       peerId,
-      username
-    }
-  }
-}
+      username,
+    },
+  };
+};
