@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
-import { FaAngleUp, FaAngleDown, FaCheck } from "react-icons/fa";
 
 const StyledCreateRoomModal = styled.section`
   height: 100vh;
@@ -11,6 +10,10 @@ const StyledCreateRoomModal = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .room-name-input {
+    display: flex;
+  }
 
   .CR-modal-contents-wrapper {
     z-index: 999;
@@ -43,6 +46,10 @@ const StyledCreateRoomModal = styled.section`
   }
 `;
 
+const categoryListFirst = ["국내입시", "해외입시", "영어", "제2외국어", "코딩"];
+
+const categoryListSecond = ["취업", "자격증", "공무원", "예체능", "자유"];
+
 const CreateRoomModal = ({
   handleCRCloseBtn,
   handleEntrance,
@@ -53,8 +60,6 @@ const CreateRoomModal = ({
 }) => {
   const state = useSelector((state) => state.logInStatusReducer);
   const [roomname, setRoomname] = useState("");
-  const [isListOpen, setIsListOpen] = useState(false);
-  const [headerTitle, setHeaderTitle] = useState("카테고리를 선택해 주세요");
   const [selectedItem, setSelectedItem] = useState("");
   const [errMessage, setErrMessage] = useState("");
 
@@ -103,81 +108,17 @@ const CreateRoomModal = ({
     <StyledCreateRoomModal>
       <div className="CR-modal-contents-wrapper">
         <div className="room-name-input">
-          <span>방이름</span>
-          <input type="text" onChange={handleRoomnameInput}></input>
+          <input
+            type="text"
+            onChange={handleRoomnameInput}
+            placeholder="방 이름을 입력해 주세요"
+          ></input>
         </div>
         <div className="category-select">
-          <button className="dd-header">
-            <div className="dd-header-title">{headerTitle}</div>
-            {isListOpen ? <FaAngleUp /> : <FaAngleDown />}
-          </button>
+          <h3 className="dd-header">카테고리 선택</h3>
           <div className="dd-list">
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("국내입시")}
-            >
-              {`국내입시`}{" "}
-              {selectedItem === "국내입시" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("해외입시")}
-            >
-              {`해외입시`}{" "}
-              {selectedItem === "해외입시" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("영어")}
-            >
-              {`영어`} {selectedItem === "영어" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("제2외국어")}
-            >
-              {`제2외국어`}{" "}
-              {selectedItem === "제2외국어" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("코딩")}
-            >
-              {`코딩`} {selectedItem === "코딩" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("취업")}
-            >
-              {`취업`} {selectedItem === "취업" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("자격증")}
-            >
-              {`자격증`}{" "}
-              {selectedItem === "자격증" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("공무원")}
-            >
-              {`공무원`}{" "}
-              {selectedItem === "공무원" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("예체능")}
-            >
-              {`예체능`}{" "}
-              {selectedItem === "예체능" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("자유")}
-            >
-              {`자유`} {selectedItem === "자유" && <FaCheck fontSize={10} />}
-            </button>
+            <div className="first-line"></div>
+            <div className="second-line"></div>
           </div>
         </div>
         {roomReady ? (
