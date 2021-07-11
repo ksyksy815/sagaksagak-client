@@ -179,16 +179,15 @@ const StudyRoomList = () => {
 
   return (
     <StyledStudyLoby>
-      {isCRModalOpen && (
-        <CreateRoomModal
-          handleCRCloseBtn={handleCRCloseBtn}
-          handleEntrance={handleEntrance}
-          setRoomId={setRoomId}
-          setRoomReady={setRoomReady}
-          roomId={roomId}
-          roomReady={roomReady}
-        />
-      )}
+      <CreateRoomModal
+        handleCRCloseBtn={handleCRCloseBtn}
+        handleEntrance={handleEntrance}
+        setRoomId={setRoomId}
+        setRoomReady={setRoomReady}
+        roomId={roomId}
+        roomReady={roomReady}
+        isCRModalOpen={isCRModalOpen}
+      />
       {isRoomFull && <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} />}
       {/* <DataSlider recommend={recommend} /> */}
       <Slider recommend={recommend} handleEntrance={handleEntrance} />

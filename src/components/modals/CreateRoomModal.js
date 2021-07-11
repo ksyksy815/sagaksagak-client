@@ -2,18 +2,38 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
-import { FaAngleUp, FaAngleDown, FaCheck } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 
 const StyledCreateRoomModal = styled.section`
-  height: 100vh;
-  width: 100vw;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6); */
+  ${(props) =>
+    props.open
+      ? `display: flex;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        animation: modal-bg-show .3s;`
+      : `display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;`}
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
 
   .CR-modal-contents-wrapper {
-    z-index: 999;
     background: white;
     display: flex;
     border-radius: 10px;
@@ -23,6 +43,7 @@ const StyledCreateRoomModal = styled.section`
     padding: 10px;
     row-gap: 8px;
     width: 400px;
+    animation: modal-show 0.3s;
   }
 
   .dd-list {
@@ -41,6 +62,26 @@ const StyledCreateRoomModal = styled.section`
       background: lightgrey;
     }
   }
+
+  @keyframes modal-show {
+    from {
+      opacity: 0;
+      margin-top: -50px;
+    }
+    to {
+      opacity: 1;
+      margin-top: 0px;
+    }
+  }
+
+  @keyframes modal-bg-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const CreateRoomModal = ({
@@ -50,11 +91,10 @@ const CreateRoomModal = ({
   setRoomReady,
   roomId,
   roomReady,
+  isCRModalOpen,
 }) => {
   const state = useSelector((state) => state.logInStatusReducer);
   const [roomname, setRoomname] = useState("");
-  const [isListOpen, setIsListOpen] = useState(false);
-  const [headerTitle, setHeaderTitle] = useState("카테고리를 선택해 주세요");
   const [selectedItem, setSelectedItem] = useState("");
   const [errMessage, setErrMessage] = useState("");
 
@@ -100,17 +140,14 @@ const CreateRoomModal = ({
   };
 
   return (
-    <StyledCreateRoomModal>
+    <StyledCreateRoomModal open={isCRModalOpen}>
       <div className="CR-modal-contents-wrapper">
         <div className="room-name-input">
           <span>방이름</span>
           <input type="text" onChange={handleRoomnameInput}></input>
         </div>
         <div className="category-select">
-          <button className="dd-header">
-            <div className="dd-header-title">{headerTitle}</div>
-            {isListOpen ? <FaAngleUp /> : <FaAngleDown />}
-          </button>
+          <button className="dd-header"></button>
           <div className="dd-list">
             <button
               className="dd-list-item"
