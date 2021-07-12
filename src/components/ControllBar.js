@@ -34,13 +34,10 @@ const StyledControllBar = styled.section`
       width: 380px;
       border: solid 1px lightgray;
       box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
+      padding: 20px;
 
       &:focus {
         outline: none;
-      }
-
-      &::placeholder {
-        padding: 0 10px;
       }
     }
   }

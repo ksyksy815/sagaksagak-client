@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
-import { FaAngleUp, FaAngleDown, FaCheck } from "react-icons/fa";
+import CategoryTag from "../CategoryTag";
 
 const StyledCreateRoomModal = styled.section`
   height: 100vh;
@@ -12,6 +12,27 @@ const StyledCreateRoomModal = styled.section`
   justify-content: center;
   align-items: center;
 
+  .room-name-input {
+    display: flex;
+
+    input {
+      width: 240px;
+      height: 30px;
+      border-radius: 20px;
+      border: solid 1px lightgray;
+      box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        text-align: center;
+      }
+    }
+  }
+
   .CR-modal-contents-wrapper {
     z-index: 999;
     background: white;
@@ -20,28 +41,57 @@ const StyledCreateRoomModal = styled.section`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-    row-gap: 8px;
-    width: 400px;
+    padding: 20px;
+    row-gap: 30px;
   }
 
-  .dd-list {
+  .category-select {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+    row-gap: 20px;
+
+    .dd-list {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+      border: solid 1px rgba(0, 0, 0, 0.19);
+      border-radius: 10px;
+      padding: 30px 10px;
+
+      .first-line {
+        display: flex;
+        column-gap: 10px;
+      }
+
+      .second-line {
+        display: flex;
+        column-gap: 10px;
+      }
+    }
   }
 
-  .dd-list-item {
-    background: none;
-    border: none;
-    padding: 2px;
-    text-align: left;
-    cursor: pointer;
+  .modal-btns {
+    display: flex;
+    column-gap: 20px;
 
-    &:hover {
-      background: lightgrey;
+    button {
+      border: none;
+      border-radius: 20px;
+      background: #7f554f;
+      height: 40px;
+      width: 90px;
+      cursor: pointer;
+      color: white;
+      font-size: 0.9em;
     }
   }
 `;
+
+const categoryListFirst = ["국내입시", "해외입시", "영어", "제2외국어", "코딩"];
+
+const categoryListSecond = ["취업", "자격증", "공무원", "예체능", "자유"];
 
 const CreateRoomModal = ({
   handleCRCloseBtn,
@@ -53,8 +103,6 @@ const CreateRoomModal = ({
 }) => {
   const state = useSelector((state) => state.logInStatusReducer);
   const [roomname, setRoomname] = useState("");
-  const [isListOpen, setIsListOpen] = useState(false);
-  const [headerTitle, setHeaderTitle] = useState("카테고리를 선택해 주세요");
   const [selectedItem, setSelectedItem] = useState("");
   const [errMessage, setErrMessage] = useState("");
 
@@ -103,86 +151,44 @@ const CreateRoomModal = ({
     <StyledCreateRoomModal>
       <div className="CR-modal-contents-wrapper">
         <div className="room-name-input">
-          <span>방이름</span>
-          <input type="text" onChange={handleRoomnameInput}></input>
+          <input
+            type="text"
+            onChange={handleRoomnameInput}
+            placeholder="방 이름을 입력해 주세요"
+          ></input>
         </div>
         <div className="category-select">
-          <button className="dd-header">
-            <div className="dd-header-title">{headerTitle}</div>
-            {isListOpen ? <FaAngleUp /> : <FaAngleDown />}
-          </button>
+          <h3 className="dd-header">카테고리 선택</h3>
           <div className="dd-list">
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("국내입시")}
-            >
-              {`국내입시`}{" "}
-              {selectedItem === "국내입시" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("해외입시")}
-            >
-              {`해외입시`}{" "}
-              {selectedItem === "해외입시" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("영어")}
-            >
-              {`영어`} {selectedItem === "영어" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("제2외국어")}
-            >
-              {`제2외국어`}{" "}
-              {selectedItem === "제2외국어" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("코딩")}
-            >
-              {`코딩`} {selectedItem === "코딩" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("취업")}
-            >
-              {`취업`} {selectedItem === "취업" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("자격증")}
-            >
-              {`자격증`}{" "}
-              {selectedItem === "자격증" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("공무원")}
-            >
-              {`공무원`}{" "}
-              {selectedItem === "공무원" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("예체능")}
-            >
-              {`예체능`}{" "}
-              {selectedItem === "예체능" && <FaCheck fontSize={10} />}
-            </button>
-            <button
-              className="dd-list-item"
-              onClick={() => handleSelect("자유")}
-            >
-              {`자유`} {selectedItem === "자유" && <FaCheck fontSize={10} />}
-            </button>
+            <div className="first-line">
+              {categoryListFirst.map((category) => {
+                return (
+                  <div key={category} onClick={() => handleSelect(category)}>
+                    <CategoryTag
+                      category={category}
+                      selected={selectedItem === category}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <div className="second-line">
+              {categoryListSecond.map((category) => {
+                return (
+                  <div key={category} onClick={() => handleSelect(category)}>
+                    <CategoryTag
+                      category={category}
+                      selected={selectedItem === category}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
         {roomReady ? (
-          <div>
-            방 다 만들어졌슴다 참여하실?
+          <div className="modal-btns">
+            <span>방이 생성되었습니다</span>
             <button onClick={() => handleEntrance(roomId)}>입장하기</button>
           </div>
         ) : (
@@ -191,7 +197,7 @@ const CreateRoomModal = ({
             <button onClick={handleCRCloseBtn}>돌아가기</button>
           </div>
         )}
-        {errMessage && <p>{errMessage}</p>}
+        {errMessage && <p className="err-message">{errMessage}</p>}
       </div>
     </StyledCreateRoomModal>
   );
