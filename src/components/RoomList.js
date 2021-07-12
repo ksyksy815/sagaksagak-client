@@ -65,6 +65,7 @@ const RoomList = ({
   getRoomList,
   hasMore,
   setPageNum,
+  setQuery,
 }) => {
   const observer = useRef();
 
@@ -93,6 +94,7 @@ const RoomList = ({
             onClick={() => {
               getRoomList();
               setPageNum(0);
+              setQuery("");
             }}
           />
         </div>
