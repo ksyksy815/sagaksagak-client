@@ -1,35 +1,12 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import styled from 'styled-components'
-import {v4 as uuidV4} from 'uuid'
-import { AiOutlineCheckSquare, AiOutlineCloseSquare, AiFillCaretRight, AiFillCaretDown } from 'react-icons/ai'
-import { FaRegCircle, FaRegCheckCircle } from 'react-icons/fa'
-import { device } from '../device'
+import { v4 as uuidV4 } from 'uuid'
+import { AiFillCaretRight, AiFillCaretDown } from 'react-icons/ai'
 import { useSelector, useDispatch } from 'react-redux'
-import { createTodo, checkTodo, deleteTodo } from '../actions/index'
+import { createTodo, checkTodo, deleteTodo } from '../../actions/index'
 import { TodoWrapper } from './TodoList.style.js'
-
-const dummyData = [
-  {
-    id: 1,
-    content: "맘스터치 주문하기",
-    updatedAt: "2021.07.01",
-    checked: false
-  },
-  {
-    id: 2,
-    content: "영어 공부하기",
-    updatedAt: "2021.06.06",
-    checked: false
-  },
-  {
-    id: 3,
-    content: "드라마 보기",
-    updatedAt: "2021.07.02",
-    checked: false
-  }
-]
-
+import Todo from './Todo'
+import TodoForm from './TodoForm'
 
 export default function TodoList() {
   // Global
@@ -63,12 +40,13 @@ export default function TodoList() {
     setNewTodo(e.target.value)
   }
 
-  const saveNewTodo = (e) => {
+  const handleCreateTodo = (e) => {
     e.preventDefault()
 
     const id = uuidV4()
-    const content = e.target[0].value
-    const createdAt = `${new Date()}`
+    const content = e.target[1].value
+    const today = new Date()
+    const createdAt = `${today.getFullYear()}. ${today.getMonth()+1}. ${today.getDate()}`
 
     setTodoList(prev=> [ {
       id,
@@ -93,23 +71,46 @@ export default function TodoList() {
     }
   }
 
-  const handleTodoCheck = (e) => {
-    // 해당 id를 가진 todo 지정
-    setTodoList(list => list.map(todo => {
-      return todo.id === e.target.id ? {...todo, checked: !todo.checked} : todo 
-    }))
-    
+  const handleTodoCheck = (e, completed) => {
+    let targetId;
+    if (e.target.localName === 'path') targetId = e.target.parentElement.id;
+    else targetId = e.target.id;
+
+    let index, target
+    if (completed === false) {
+      index = todoList.findIndex(todo => todo.id === targetId);
+      target = todoList[index]
+      target.checked = !target.checked
+
+      setTodoList( list => list.filter(todo => todo.id !== targetId) )
+      setCompletedList(list => [...list, target])
+    } else {
+      console.log(completedList)
+      index = completedList.findIndex(todo => todo.id === targetId);
+      target = completedList[index]
+      target.checked = !target.checked
+
+      setCompletedList(list => list.filter(todo => todo.id !== targetId) )
+      setTodoList(list => [...list, target] )
+    }
+
     if (user.isLogedIn) {
       axios.patch(
-        `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${e.target.id}`,
-        { id: e.target.id },
+        `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${targetId}`,
+        { id: targetId },
         { withCredentials: true }
       )
       .then (() => console.log(`투두 체크 여부 서버 저장 완료`))
-      .catch(err => console.log(err))
+      .catch(err => {
+        if (err.response.status === 403) {
+          // access token 만료
+        } else {
+          console.log(err)
+        }
+      })
     
     } else {
-      dispatch(checkTodo(e.target.id))
+      dispatch(checkTodo(targetId))
     }
   }
   
@@ -144,11 +145,9 @@ export default function TodoList() {
     } else {
       dispatch(deleteTodo(targetId))
     }
-    
   }
 
   useEffect(() => {
-    // 로그인 상태일때: 서버에서 불러오기
     if ( user.isLogedIn ) {
       axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/studylog`, {
         withCredentials: true
@@ -159,15 +158,13 @@ export default function TodoList() {
       })
       .catch(err => console.log(err))
     
-    // 로그인 상태가 아닐 때: 전역 상태에서 불러오기
     } else {
-      setTodoList(todos)
-      setCompletedList(completeTodos);
+      setTodoList(todos.filter(todo => todo.checked !== true))
+      setCompletedList(todos.filter(todo => todo.checked !== false));
     }
   }, [user.isLogedIn, completeTodos, todos])
 
   useEffect(() => {
-    // 공통: 작성된 투두 or 완료된 투두가 없을 때 없다는 문구 표시하기
     if (todoList.length === 0) setNoTodoMode(true);
     else setNoTodoMode(false);
     if (completedList.length === 0) setNoCompletedMode(true);
@@ -178,72 +175,59 @@ export default function TodoList() {
     <TodoWrapper>
       <button onClick={toggleTodoForm} id="newTodoBtn">NEW</button>
       <ul id="todo-options">
-        <li id="inProgress">
+        <li className="main-lists">
           <div className="list-title" onClick={toggleInProgress}>
             { todosOpen ? <AiFillCaretDown/> : <AiFillCaretRight />}
             <span>Todos</span>
           </div>
-          {
-            todosOpen &&
-            <ul id="todo-list">
+          { todosOpen &&
+            <ul className="todo-ul">
               { writeMode && 
-                <li className="todo">
-                  <div className="todo-wrapper">
-                    <span className="todo-check"></span>
-                    <form onSubmit={saveNewTodo}>
-                      <input onChange={handleNewTodoChange} type="text" placeholder="할 일을 적어주세요!"></input>
-                      <button type="submit" id="saveBtn">Save</button>
-                    </form>
-                  </div>
-                </li>
+                <TodoForm 
+                  handleCreateTodo={handleCreateTodo} 
+                  handleNewTodoChange={handleNewTodoChange}
+                />
               }
-              { !noTodoMode ?
+              { noTodoMode ?
+                <div className="noTodoMessage">작성된 투두가 없습니다.</div>
+                :
                 todoList.map(todo => {
                   return (
-                    <li className="todo" key={todo.id}>
-                      <button onClick={handleTodoCheck} id={todo.id} className="todo-check">
-                        {
-                          todo.checked ? <FaRegCheckCircle id={todo.id}/>: <FaRegCircle id={todo.id}/>
-                        }
-                        
-                      </button>
-                      <div className="content-date">
-                        <span className="content-inProgress">{todo.content}</span>
-                        <span className="todo-date">{todo.updatedAt}</span>
-                      </div>
-                      <button onClick={handleDeleteTodo} id="deleteBtn"><AiOutlineCloseSquare id={todo.id}/></button>
-                    </li>
+                    <Todo 
+                      todo={todo} 
+                      handleTodoCheck={handleTodoCheck} 
+                      handleDeleteTodo={handleDeleteTodo}
+                      completed={false}
+                      key={todo.id}
+                    />
                   )
                 })
-                :
-                <div className="noTodoMessage">작성된 투두가 없습니다.</div>
               }
             </ul>
           }
         </li>
-        <li id="completed">
+
+        <li className="main-lists">
           <div className="list-title" onClick={toggleCompleted}>
             { completedOpen ? <AiFillCaretDown/> : <AiFillCaretRight />}
             <span>Completed</span>
           </div>
-          {
-            completedOpen &&
-            <ul id="completed-list">
-            { !noCompletedMode ? 
+          { completedOpen &&
+            <ul className="todo-ul">
+            { noCompletedMode ? 
+              <div className="noTodoMessage">완료된 투두가 없습니다.</div>
+              :
               completedList.map(todo => {
                 return (
-                  <li className="todo" key={todo.id}>
-                    <span className="todo-check"></span>
-                    <div className="content-date">
-                      <span className="content-completed">{todo.content}</span>
-                      <span className="todo-date">{todo.updatedAt}</span>
-                    </div>
-                    <button id="deleteBtn"><AiOutlineCloseSquare/></button>
-                  </li>
+                  <Todo 
+                    todo={todo} 
+                    handleTodoCheck={handleTodoCheck} 
+                    handleDeleteTodo={handleDeleteTodo}
+                    completed={true} 
+                    key={todo.id} 
+                  />
                 )
               })
-              :
-              <div className="noTodoMessage">완료된 투두가 없습니다.</div>
             }
             </ul>
           }

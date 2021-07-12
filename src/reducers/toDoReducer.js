@@ -27,7 +27,7 @@ const todoReducer = (state = initialState, action) => {
           ...action.payload.completeTodos.map((cTodo) => {
             return {
               ...cTodo,
-              isChecked: true,
+              checked: true,
             };
           }),
         ],

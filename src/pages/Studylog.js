@@ -2,10 +2,8 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import StudylogNav from '../components/StudylogNav'
-import TodoList from '../components/TodoList'
+import TodoList from '../components/Todos/TodoList'
 import StudyRecords from '../components/StudyRecords'
-import circle from '../assets/circle-bg.svg'
-import { device } from '../device'
 
 const StudylogWrapper = styled.div`
   box-sizing: border-box;
