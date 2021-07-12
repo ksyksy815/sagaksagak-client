@@ -56,7 +56,15 @@ const StyledRoomListWrapper = styled.section`
   }
 `;
 
-const RoomList = ({ roomList, handleEntrance, handleCRBtn, getRoomList }) => {
+const RoomList = ({
+  rooms,
+  handleEntrance,
+  handleCRBtn,
+  loading,
+  error,
+  getRoomList,
+  lastRoomElRef,
+}) => {
   return (
     <StyledRoomListWrapper>
       <div className="list-header">
@@ -67,12 +75,25 @@ const RoomList = ({ roomList, handleEntrance, handleCRBtn, getRoomList }) => {
         </div>
       </div>
       <div className="room-container">
-        {roomList.map((room, idx) => {
-          return (
-            <Room key={idx} room={room} handleEntance={handleEntrance}></Room>
-          );
+        {rooms.map((room, idx) => {
+          if (rooms.length === idx + 1) {
+            return (
+              <Room
+                ref={lastRoomElRef}
+                key={idx}
+                room={room}
+                handleEntance={handleEntrance}
+              ></Room>
+            );
+          } else {
+            return (
+              <Room key={idx} room={room} handleEntance={handleEntrance}></Room>
+            );
+          }
         })}
       </div>
+      <div>{loading && "Loading..."}</div>
+      <div>{error && "Error..."}</div>
     </StyledRoomListWrapper>
   );
 };

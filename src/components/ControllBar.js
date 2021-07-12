@@ -16,7 +16,7 @@ const StyledControllBar = styled.section`
     column-gap: 20px;
     padding: 20px 0 0 0;
 
-    button {
+    /* button {
       border: none;
       border-radius: 10px;
       background: #7f554f;
@@ -26,7 +26,7 @@ const StyledControllBar = styled.section`
       color: white;
       font-size: 0.9em;
       font-weight: 600;
-    }
+    } */
 
     input {
       border-radius: 20px;
@@ -43,53 +43,21 @@ const StyledControllBar = styled.section`
   }
 `;
 
-const ControllBar = ({ setRoomList }) => {
-  const [input, setInput] = useState("");
-  const [errMessage, setErrMessage] = useState("");
-  const state = useSelector((state) => state.logInStatusReducer);
-  const { user } = state;
-
-  const getSearchResult = (input) => {
-    axios
-      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/room/search`, {
-        params: { q: input },
-        headers: { userId: user.userId },
-      })
-      .then((res) => {
-        const { rooms } = res.data;
-        setRoomList(rooms);
-      })
-      .catch((err) => {
-        if (err.response) {
-          if (err.response.status === 404) {
-            setErrMessage("검색 정보가 없습니다");
-          }
-          console.log(err.response);
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("Error :", err.message);
-        }
-        console.log(err.config);
-      });
-  };
-
+const ControllBar = ({ setQuery, setPageNum, query }) => {
   const handleInput = (e) => {
-    setInput(e.target.value);
+    setQuery(e.target.value);
+    setPageNum(1);
   };
 
   return (
     <StyledControllBar>
       <div className="search-controller">
-        {errMessage && <span>{errMessage}</span>}
         <input
+          value={query}
           type="text"
           placeholder="참여를 원하는 방을 검색해 보세요"
           onChange={handleInput}
         ></input>
-        <button className="search" onClick={() => getSearchResult(input)}>
-          검색
-        </button>
       </div>
     </StyledControllBar>
   );

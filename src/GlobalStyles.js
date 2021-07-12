@@ -9,7 +9,7 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     scroll-behavior: smooth;
     font-family: 'Nanum Gothic', sans-serif;
-    /* color: #444444; */
+    color: #444444;
   }
 
   ::selection {
