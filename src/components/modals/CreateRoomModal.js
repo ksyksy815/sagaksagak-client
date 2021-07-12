@@ -1,16 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
 import CategoryTag from "../CategoryTag";
 
 const StyledCreateRoomModal = styled.section`
-  height: 100vh;
-  width: 100vw;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6); */
+  ${(props) =>
+    props.open
+      ? `display: flex;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        animation: modal-bg-show .3s;`
+      : `display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;`}
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
 
   .room-name-input {
     display: flex;
@@ -34,13 +55,13 @@ const StyledCreateRoomModal = styled.section`
   }
 
   .CR-modal-contents-wrapper {
-    z-index: 999;
     background: white;
     display: flex;
     border-radius: 10px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    animation: modal-show 0.3s;
     padding: 20px;
     row-gap: 30px;
   }
@@ -87,11 +108,46 @@ const StyledCreateRoomModal = styled.section`
       font-size: 0.9em;
     }
   }
+
+  @keyframes modal-show {
+    from {
+      opacity: 0;
+      margin-top: -50px;
+    }
+    to {
+      opacity: 1;
+      margin-top: 0px;
+    }
+  }
+
+  @keyframes modal-bg-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 const categoryListFirst = ["국내입시", "해외입시", "영어", "제2외국어", "코딩"];
 
 const categoryListSecond = ["취업", "자격증", "공무원", "예체능", "자유"];
+
+const useOnClickOutside = (ref, handler) => {
+  useEffect(() => {
+    const listener = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      handler(event);
+    };
+    document.addEventListener("mousedown", listener);
+    return () => {
+      document.removeEventListener("mousedown", listener);
+    };
+  }, [ref, handler]);
+};
 
 const CreateRoomModal = ({
   handleCRCloseBtn,
@@ -100,11 +156,16 @@ const CreateRoomModal = ({
   setRoomReady,
   roomId,
   roomReady,
+  isCRModalOpen,
 }) => {
   const state = useSelector((state) => state.logInStatusReducer);
   const [roomname, setRoomname] = useState("");
   const [selectedItem, setSelectedItem] = useState("");
   const [errMessage, setErrMessage] = useState("");
+
+  const modalEl = useRef();
+
+  useOnClickOutside(modalEl, () => handleCRCloseBtn());
 
   const handleSelect = (selected) => {
     setSelectedItem(selected);
@@ -148,8 +209,8 @@ const CreateRoomModal = ({
   };
 
   return (
-    <StyledCreateRoomModal>
-      <div className="CR-modal-contents-wrapper">
+    <StyledCreateRoomModal open={isCRModalOpen}>
+      <div className="CR-modal-contents-wrapper" ref={modalEl}>
         <div className="room-name-input">
           <input
             type="text"
