@@ -66,6 +66,7 @@ const RoomList = ({
   hasMore,
   setPageNum,
   setQuery,
+  setRooms,
 }) => {
   const observer = useRef();
 
@@ -92,6 +93,7 @@ const RoomList = ({
           <RiRefreshLine
             className="refresh-icon"
             onClick={() => {
+              setRooms([]);
               getRoomList();
               setPageNum(0);
               setQuery("");

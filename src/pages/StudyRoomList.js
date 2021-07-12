@@ -200,6 +200,7 @@ const StudyRoomList = () => {
         hasMore={hasMore}
         setPageNum={setPageNum}
         setQuery={setQuery}
+        setRooms={setRooms}
       />
     </StyledStudyLoby>
   );
