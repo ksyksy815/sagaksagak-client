@@ -8,18 +8,18 @@ export const initialState = {
     isFirstLogedIn: false,
   },
   todos: [
-    {
-      id: 0,
-      content: "",
-      createdAt: "",
-      isChecked: false,
-    },
+    // {
+    //   id: 0,
+    //   content: "",
+    //   createdAt: "",
+    //   isChecked: false,
+    // },
   ],
   completeTodos: [
     {
       id: 0,
-      content: "",
-      updatedAt: "",
+      content: "오징어 굽기",
+      updatedAt: "2021.07.21",
       isChecked: true,
     },
   ],
