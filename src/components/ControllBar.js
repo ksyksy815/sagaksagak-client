@@ -16,7 +16,7 @@ const StyledControllBar = styled.section`
     column-gap: 20px;
     padding: 20px 0 0 0;
 
-    /* button {
+    button {
       border: none;
       border-radius: 10px;
       background: #7f554f;
@@ -26,7 +26,7 @@ const StyledControllBar = styled.section`
       color: white;
       font-size: 0.9em;
       font-weight: 600;
-    } */
+    }
 
     input {
       border-radius: 20px;
@@ -44,9 +44,15 @@ const StyledControllBar = styled.section`
 `;
 
 const ControllBar = ({ setQuery, setPageNum, query }) => {
+  const [input, setInput] = useState("");
+
   const handleInput = (e) => {
-    setQuery(e.target.value);
-    setPageNum(1);
+    setInput(e.target.value);
+  };
+
+  const handleBtnClick = () => {
+    setQuery(input);
+    setPageNum(0);
   };
 
   return (
@@ -58,6 +64,7 @@ const ControllBar = ({ setQuery, setPageNum, query }) => {
           placeholder="참여를 원하는 방을 검색해 보세요"
           onChange={handleInput}
         ></input>
+        <button onClick={handleBtnClick}>검색</button>
       </div>
     </StyledControllBar>
   );

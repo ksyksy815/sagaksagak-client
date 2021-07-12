@@ -92,7 +92,7 @@ const RoomList = ({
             className="refresh-icon"
             onClick={() => {
               getRoomList();
-              setPageNum(1);
+              setPageNum(0);
             }}
           />
         </div>
