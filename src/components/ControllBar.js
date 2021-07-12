@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
-import axios from "axios";
 
 const StyledControllBar = styled.section`
   width: 95%;
@@ -51,6 +49,7 @@ const ControllBar = ({ setQuery, setPageNum, query }) => {
   };
 
   const handleBtnClick = () => {
+    if (query === input) return;
     setQuery(input);
     setPageNum(0);
   };
@@ -59,7 +58,6 @@ const ControllBar = ({ setQuery, setPageNum, query }) => {
     <StyledControllBar>
       <div className="search-controller">
         <input
-          value={query}
           type="text"
           placeholder="참여를 원하는 방을 검색해 보세요"
           onChange={handleInput}
