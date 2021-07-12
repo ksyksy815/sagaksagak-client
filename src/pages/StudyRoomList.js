@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import axios from "axios";
-import DataSlider from "../components/DataSlider";
 import styled from "styled-components";
 import ControllBar from "../components/ControllBar";
 import RoomList from "../components/RoomList";
@@ -28,62 +27,6 @@ const StyledStudyLoby = styled.div`
 const StudyRoomList = () => {
   const history = useHistory();
   const state = useSelector((state) => state.logInStatusReducer);
-  const [roomList, setRoomList] = useState([
-    {
-      roomName: "토익 만점이 1000점 이냐?",
-      roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
-    },
-    {
-      roomName: "토익 만점이 1000점 이냐?",
-      roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
-    },
-    {
-      roomName: "토익 만점이 1000점 이냐?",
-      roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
-    },
-    {
-      roomName: "토익 만점이 1000점 이냐?",
-      roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
-    },
-    {
-      roomName: "토익 만점이 1000점 이냐?",
-      roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
-    },
-    {
-      roomName: "토익 만점이 1000점 이냐?",
-      roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
-    },
-    {
-      roomName: "토익 만점이 1000점 이냐?",
-      roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
-    },
-    {
-      roomName: "토익 만점이 1000점 이냐?",
-      roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
-    },
-    {
-      roomName: "토익 만점이 1000점 이냐?",
-      roomUuid: "eiikc3ef-sasdf-aeijv11231",
-      usersNum: 5,
-      category: "영어",
-    },
-  ]);
   const [recommend, setRecommend] = useState([
     {
       roomName: "2021년 10월 지방직 9급 대비 함께 해요",
@@ -108,6 +51,28 @@ const StudyRoomList = () => {
   const [roomId, setRoomId] = useState("");
   const [roomReady, setRoomReady] = useState(false);
   const [isRoomFull, setIsRoomFull] = useState(false);
+  const [query, setQuery] = useState("");
+  const [pageNum, setPageNum] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [rooms, setRooms] = useState([]);
+  const [hasMore, setHasMore] = useState(false);
+
+  const observer = useRef();
+
+  const lastRoomElRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNum((prevPageNum) => prevPageNum + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
 
   const handleCRBtn = () => {
     setIsCRModalOpen(true);
@@ -120,35 +85,6 @@ const StudyRoomList = () => {
   const handleFRMCloseBtn = () => {
     setIsRoomFull(false);
   };
-
-  const handleAjax = (isLogedIn) => {
-    if (isLogedIn) {
-      return axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/room/list`, {
-        headers: { authorization: state.user.accessToken },
-      });
-    } else {
-      return axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/room/list`);
-    }
-  };
-
-  const getRoomList = useCallback(() => {
-    handleAjax(state.user.isLogedIn)
-      .then((res) => {
-        const { rooms, recommend } = res.data;
-        setRoomList(rooms);
-        setRecommend(recommend);
-      })
-      .catch((err) => {
-        if (err.response) {
-          console.log(err.response);
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("Error :", err.message);
-        }
-        console.log(err.config);
-      });
-  }, []);
 
   const handleEntrance = (roomId) => {
     axios
@@ -173,9 +109,88 @@ const StudyRoomList = () => {
       });
   };
 
+  const getRoomListRef = useRef();
+
+  useEffect(() => (getRoomListRef.current = getRoomList));
+
+  const getRoomList = () => {
+    let cancel;
+
+    const axiosConfig = (query, pageNum, cancel) => {
+      if (state.user.isLogedIn) {
+        if (query.length === 0)
+          return {
+            headers: {
+              authorization: `bearer ${state.user.accessToken}`,
+              userid: state.user.userId,
+            },
+            params: { page: pageNum },
+            cancelToken: new axios.CancelToken((c) => (cancel = c)),
+          };
+        else
+          return {
+            headers: {
+              authorization: `bearer ${state.user.accessToken}`,
+              userid: state.user.userId,
+            },
+            params: { q: query, page: pageNum },
+            cancelToken: new axios.CancelToken((c) => (cancel = c)),
+          };
+      } else {
+        if (query.length === 0)
+          return {
+            headers: { userid: 1 },
+            params: { page: pageNum },
+            cancelToken: new axios.CancelToken((c) => (cancel = c)),
+          };
+        else
+          return {
+            headers: { userid: 1 },
+            params: { q: query, page: pageNum },
+            cancelToken: new axios.CancelToken((c) => (cancel = c)),
+          };
+      }
+    };
+
+    return {
+      axios: () => {
+        axios
+          .get(
+            `${process.env.REACT_APP_SERVER_DOMAIN}/room/list`,
+            axiosConfig(query, pageNum, cancel)
+          )
+          .then((res) => {
+            setRooms((prevRooms) => {
+              return [...prevRooms, ...res.data.rooms];
+            });
+            if (res.data.recommend) setRecommend(res.data.recommend);
+            setHasMore(res.data.rooms.length > 0);
+            setLoading(false);
+          })
+          .catch((err) => {
+            if (axios.isCancel(err)) return;
+            setError(true);
+          });
+      },
+
+      cancel: () => cancel,
+    };
+  };
+
   useEffect(() => {
-    getRoomList();
-  }, [getRoomList]);
+    setRooms([]);
+  }, [query]);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(false);
+
+    const { axios, cancel } = getRoomListRef.current();
+
+    axios();
+
+    return () => cancel();
+  }, [query, pageNum]);
 
   return (
     <StyledStudyLoby>
@@ -189,14 +204,16 @@ const StudyRoomList = () => {
         isCRModalOpen={isCRModalOpen}
       />
       {isRoomFull && <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} />}
-      {/* <DataSlider recommend={recommend} /> */}
       <Slider recommend={recommend} handleEntrance={handleEntrance} />
-      <ControllBar setRoomList={setRoomList} />
+      <ControllBar setQuery={setQuery} setPageNum={setPageNum} query={query} />
       <RoomList
-        roomList={roomList}
+        rooms={rooms}
         handleEntrance={handleEntrance}
         handleCRBtn={handleCRBtn}
+        loading={loading}
+        error={error}
         getRoomList={getRoomList}
+        lastRoomElRef={lastRoomElRef}
       />
     </StyledStudyLoby>
   );
