@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useCallback } from "react";
 import styled from "styled-components";
 import Room from "./Room";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -63,15 +63,38 @@ const RoomList = ({
   loading,
   error,
   getRoomList,
-  lastRoomElRef,
+  hasMore,
+  setPageNum,
 }) => {
+  const observer = useRef();
+
+  const lastRoomElRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNum((prevPageNum) => prevPageNum + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
+
   return (
     <StyledRoomListWrapper>
       <div className="list-header">
         <h1>방목록</h1>
         <div className="icon-container">
           <AiOutlinePlus className="new-room-icon" onClick={handleCRBtn} />
-          <RiRefreshLine className="refresh-icon" onClick={getRoomList} />
+          <RiRefreshLine
+            className="refresh-icon"
+            onClick={() => {
+              getRoomList();
+              setPageNum(1);
+            }}
+          />
         </div>
       </div>
       <div className="room-container">
@@ -79,7 +102,7 @@ const RoomList = ({
           if (rooms.length === idx + 1) {
             return (
               <Room
-                ref={lastRoomElRef}
+                lastRoomElRef={lastRoomElRef}
                 key={idx}
                 room={room}
                 handleEntance={handleEntrance}
