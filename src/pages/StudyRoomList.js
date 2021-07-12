@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import axios from "axios";
@@ -57,22 +57,6 @@ const StudyRoomList = () => {
   const [error, setError] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [hasMore, setHasMore] = useState(false);
-
-  const observer = useRef();
-
-  const lastRoomElRef = useCallback(
-    (node) => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setPageNum((prevPageNum) => prevPageNum + 1);
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore]
-  );
 
   const handleCRBtn = () => {
     setIsCRModalOpen(true);
@@ -213,7 +197,8 @@ const StudyRoomList = () => {
         loading={loading}
         error={error}
         getRoomList={getRoomList}
-        lastRoomElRef={lastRoomElRef}
+        hasMore={hasMore}
+        setPageNum={setPageNum}
       />
     </StyledStudyLoby>
   );

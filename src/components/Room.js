@@ -74,9 +74,12 @@ const StyledRoom = styled.div`
   }
 `;
 
-const Room = ({ handleEntance, room }) => {
+const Room = ({ handleEntance, room, lastRoomElRef }) => {
   return (
-    <StyledRoom onClick={() => handleEntance(room.roomUuid)}>
+    <StyledRoom
+      ref={lastRoomElRef}
+      onClick={() => handleEntance(room.roomUuid)}
+    >
       <div className="category-tag">
         <CategoryTag category={room.category} />
       </div>
