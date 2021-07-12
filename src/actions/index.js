@@ -9,6 +9,8 @@ export const SET_TO_DO_LIST = "SET_TO_DO_LIST";
 export const NEW_TO_DO = "NEW_TO_DO";
 export const TO_DO_CHECKED = "TO_DO_CHECKED";
 export const TO_DO_UNCHECKED = "TO_DO_UNCHECKED";
+export const TO_DO_CHECK = "TO_DO_CHECK";
+export const DELETE_TO_DO = "DELETE_TO_DO";
 
 //화상채팅방 관련 액션
 export const ROOM_ID = "ROOM_ID";
@@ -75,41 +77,45 @@ export const setTodoList = (todos, completeTodos) => {
   };
 };
 
-export const newTodo = (id, content) => {
+export const createTodo = (id, content) => {
   return {
     type: NEW_TO_DO,
     payload: {
       id,
       content,
-      createdAt: "",
+      createdAt: new Date(),
       isChecked: false,
     },
   };
 };
 
-export const todoChecked = (id, todo) => {
+export const checkTodo = (id) => {
   return {
-    type: TO_DO_CHECKED,
+    type: TO_DO_CHECK,
     payload: {
-      id,
-      content: todo.content,
-      createdAt: todo.createdAt,
-      isChecked: true,
-    },
+      id
+    }
   };
 };
 
-export const todoUnchecked = (id, todo) => {
+// export const uncheckTodo = (id, todo) => {
+//   return {
+//     type: TO_DO_UNCHECKED,
+//     payload: {
+//       id,
+//       isChecked: false,
+//     },
+//   };
+// };
+
+export const deleteTodo = (id) => {
   return {
-    type: TO_DO_UNCHECKED,
+    type: DELETE_TO_DO,
     payload: {
-      id,
-      content: todo.content,
-      createdAt: todo.createdAt,
-      isChecked: false,
-    },
-  };
-};
+      id
+    }
+  }
+}
 
 export const setRoomId = (roomId) => {
   return {
