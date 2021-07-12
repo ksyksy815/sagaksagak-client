@@ -21,11 +21,11 @@ const StyledArrow = styled.div`
   }
 
   .arrow {
-    color: white;
     font-size: 2em;
     transform: translateX(
       ${(props) => (props.direction === "left" ? "-2" : "2")}px
     );
+    fill: white;
 
     &:focus {
       outline: 0;
