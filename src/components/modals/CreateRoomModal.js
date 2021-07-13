@@ -5,14 +5,6 @@ import styled from "styled-components";
 import CategoryTag from "../CategoryTag";
 
 const StyledCreateRoomModal = styled.section`
-  /* display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 99;
-  background-color: rgba(0, 0, 0, 0.6); */
   ${(props) =>
     props.open
       ? `display: flex;
@@ -152,10 +144,6 @@ const useOnClickOutside = (ref, handler) => {
 const CreateRoomModal = ({
   handleCRCloseBtn,
   handleEntrance,
-  setRoomId,
-  setRoomReady,
-  roomId,
-  roomReady,
   isCRModalOpen,
 }) => {
   const state = useSelector((state) => state.logInStatusReducer);
@@ -192,8 +180,7 @@ const CreateRoomModal = ({
         roomName: roomname,
       })
       .then((res) => {
-        setRoomId(res.data.roomId);
-        setRoomReady(true);
+        handleEntrance(res.data.roomId);
       })
       .catch((err) => {
         if (err.response) {
@@ -247,17 +234,10 @@ const CreateRoomModal = ({
             </div>
           </div>
         </div>
-        {roomReady ? (
-          <div className="modal-btns">
-            <span>방이 생성되었습니다</span>
-            <button onClick={() => handleEntrance(roomId)}>입장하기</button>
-          </div>
-        ) : (
-          <div className="modal-btns">
-            <button onClick={handleCreateRoom}>방만들기</button>
-            <button onClick={handleCRCloseBtn}>돌아가기</button>
-          </div>
-        )}
+        <div className="modal-btns">
+          <button onClick={handleCreateRoom}>방만들기</button>
+          <button onClick={handleCRCloseBtn}>돌아가기</button>
+        </div>
         {errMessage && <p className="err-message">{errMessage}</p>}
       </div>
     </StyledCreateRoomModal>

@@ -48,8 +48,6 @@ const StudyRoomList = () => {
     },
   ]);
   const [isCRModalOpen, setIsCRModalOpen] = useState(false);
-  const [roomId, setRoomId] = useState("");
-  const [roomReady, setRoomReady] = useState(false);
   const [isRoomFull, setIsRoomFull] = useState(false);
   const [query, setQuery] = useState("");
   const [pageNum, setPageNum] = useState(0);
@@ -100,7 +98,7 @@ const StudyRoomList = () => {
   const getRoomList = () => {
     let cancel;
 
-    const axiosConfig = (query, pageNum, cancel) => {
+    const axiosConfig = (query, pageNum) => {
       if (state.user.isLogedIn) {
         if (query.length === 0)
           return {
@@ -141,7 +139,7 @@ const StudyRoomList = () => {
         axios
           .get(
             `${process.env.REACT_APP_SERVER_DOMAIN}/room/list`,
-            axiosConfig(query, pageNum, cancel)
+            axiosConfig(query, pageNum)
           )
           .then((res) => {
             setRooms((prevRooms) => {
@@ -181,13 +179,9 @@ const StudyRoomList = () => {
       <CreateRoomModal
         handleCRCloseBtn={handleCRCloseBtn}
         handleEntrance={handleEntrance}
-        setRoomId={setRoomId}
-        setRoomReady={setRoomReady}
-        roomId={roomId}
-        roomReady={roomReady}
         isCRModalOpen={isCRModalOpen}
       />
-      {isRoomFull && <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} />}
+      <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} open={isRoomFull} />
       <Slider recommend={recommend} handleEntrance={handleEntrance} />
       <ControllBar setQuery={setQuery} setPageNum={setPageNum} query={query} />
       <RoomList
