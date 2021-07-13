@@ -79,7 +79,7 @@ export default function Todo( { todo, handleTodoCheck, handleDeleteTodo, complet
         <span className="todo-content"> {todo.content}</span>
         <span className="todo-date">{todo.createdAt || todo.updatedAt}</span>
       </div>
-      <button onClick={handleDeleteTodo} id="deleteBtn"><AiOutlineCloseSquare id={todo.id}/></button>
+      <button onClick={e=>handleDeleteTodo(e, completed)} id="deleteBtn"><AiOutlineCloseSquare id={todo.id}/></button>
     </StyledTodo>
   )
 }

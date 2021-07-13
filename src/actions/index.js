@@ -8,8 +8,6 @@ export const SET_FIRST_LOGIN_FALSE = "SET_FIRST_LOGIN_FALSE";
 //투두 관련 액션
 export const SET_TO_DO_LIST = "SET_TO_DO_LIST";
 export const NEW_TO_DO = "NEW_TO_DO";
-export const TO_DO_CHECKED = "TO_DO_CHECKED";
-export const TO_DO_UNCHECKED = "TO_DO_UNCHECKED";
 export const TO_DO_CHECK = "TO_DO_CHECK";
 export const DELETE_TO_DO = "DELETE_TO_DO";
 
@@ -87,13 +85,13 @@ export const setTodoList = (todos, completeTodos) => {
   };
 };
 
-export const createTodo = (id, content) => {
+export const createTodo = (id, content, createdAt) => {
   return {
     type: NEW_TO_DO,
     payload: {
       id,
       content,
-      createdAt: new Date(),
+      createdAt,
       checked: false,
     },
   };
@@ -107,16 +105,6 @@ export const checkTodo = (id) => {
     }
   };
 };
-
-// export const uncheckTodo = (id, todo) => {
-//   return {
-//     type: TO_DO_UNCHECKED,
-//     payload: {
-//       id,
-//       isChecked: false,
-//     },
-//   };
-// };
 
 export const deleteTodo = (id) => {
   return {

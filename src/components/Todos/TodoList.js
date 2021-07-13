@@ -2,17 +2,20 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { v4 as uuidV4 } from 'uuid'
 import { AiFillCaretRight, AiFillCaretDown } from 'react-icons/ai'
+import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { createTodo, checkTodo, deleteTodo } from '../../actions/index'
+import { createTodo, checkTodo, deleteTodo, logOut, setAccessToken } from '../../actions/index'
 import { TodoWrapper } from './TodoList.style.js'
 import Todo from './Todo'
 import TodoForm from './TodoForm'
 
 export default function TodoList() {
   // Global
-  const state = useSelector(state => state.logInStatusReducer)
-  const { user, todos, completeTodos } = state
+  const {user} = useSelector(state => state.logInStatusReducer)
+  const state = useSelector(state => state.todoReducer)
+  const { todos} = state
   const dispatch = useDispatch()
+  const history = useHistory()
 
   // Local
   const [writeMode, setWriteMode] = useState(false)
@@ -45,16 +48,15 @@ export default function TodoList() {
 
     const id = uuidV4()
     const content = e.target[1].value
-    const today = new Date()
-    const createdAt = `${today.getFullYear()}. ${today.getMonth()+1}. ${today.getDate()}`
-
-    setTodoList(prev=> [ {
-      id,
-      content,
-      createdAt,
+    const createdAt = `${new Date().getFullYear()}. ${new Date().getMonth()+1}. ${new Date().getDate()}`
+    
+    setTodoList(prev=> [ [{
+      id: id,
+      content: content,
+      createdAt: createdAt,
       checked: false
-    }, ...prev])
-
+    }], ...prev])
+    
     setNewTodo('')
     setWriteMode(false)
     
@@ -72,60 +74,97 @@ export default function TodoList() {
   }
 
   const handleTodoCheck = (e, completed) => {
-    let targetId;
-    if (e.target.localName === 'path') targetId = e.target.parentElement.id;
-    else targetId = e.target.id;
-
-    let index, target
-    if (completed === false) {
-      index = todoList.findIndex(todo => todo.id === targetId);
-      target = todoList[index]
-      target.checked = !target.checked
-
-      setTodoList( list => list.filter(todo => todo.id !== targetId) )
-      setCompletedList(list => [...list, target])
+    let id;
+    if (e.target.localName === 'path') {
+      id = e.target.parentElement.id
     } else {
-      console.log(completedList)
-      index = completedList.findIndex(todo => todo.id === targetId);
-      target = completedList[index]
-      target.checked = !target.checked
-
-      setCompletedList(list => list.filter(todo => todo.id !== targetId) )
-      setTodoList(list => [...list, target] )
+      id = e.target.id
     }
 
-    if (user.isLogedIn) {
-      axios.patch(
-        `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${targetId}`,
-        { id: targetId },
-        { withCredentials: true }
-      )
-      .then (() => console.log(`투두 체크 여부 서버 저장 완료`))
-      .catch(err => {
-        if (err.response.status === 403) {
-          // access token 만료
-        } else {
-          console.log(err)
-        }
-      })
-    
+    if (completed === false) {
+      // todo -> completed
+
+      if (user.isLogedIn) {
+        // 로그인
+        axios.patch(
+          `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${id}`,
+          { id: id },
+          { withCredentials: true }
+        )
+        .then (() => {
+          let index = todoList.findIndex(todo => todo.id === id);
+          let target = todoList[index]
+          target.checked = !target.checked
+          setTodoList( list => list.filter(todo => todo.id !== id) )
+          setCompletedList(list => [...list, target])
+        })
+        .catch(err => {
+          if (err.response.status === 403) {
+            // access token 만료
+          } else {
+            console.log(err)
+          }
+        })
+      } else {
+        // 안로그인
+        dispatch(checkTodo(id))
+      }
+
     } else {
-      dispatch(checkTodo(targetId))
+      // completed -> todo
+
+      if (user.isLogedIn) {
+        // 로그인
+        axios.patch(
+          `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${id}`,
+          { id: id },
+          { withCredentials: true }
+        )
+        .then (() => {
+          let index = completedList.findIndex(todo => todo.id === id);
+          let target = completedList[index]
+          target.checked = !target.checked
+          setCompletedList(list => list.filter(todo => todo.id !== id) )
+          setTodoList(list => [...list, target] )
+        })
+        .catch(err => {
+          if (err.response.status === 403) {
+            // access token 만료
+          } else {
+            console.log(err)
+          }
+        })
+
+      } else {
+        // 안로그인
+        dispatch(checkTodo(id))
+      }
     }
   }
-  
-  const handleDeleteTodo = (e) => {
+
+  const handleDeleteTodo = (e, completed) => {
+    e.preventDefault()
     let targetId;
     if (e.target.localName === "path") targetId = e.target.parentElement.id;
     else targetId = e.target.id;
 
-    setTodoList(prev=> {
-      let index = prev.findIndex(todo => todo.id === targetId);
-      let list = prev.slice()
-      list.splice(index, 1)
-
-      return list
-    })
+    if (completed === false) {
+      setTodoList(prev=> {
+        let index = prev.findIndex(todo => todo.id === targetId);
+        let list = prev.slice()
+        list.splice(index, 1)
+  
+        return list
+      })
+    } else {
+      setCompletedList(prev=> {
+        let index = prev.findIndex(todo => todo.id === targetId);
+        let list = prev.slice()
+        list.splice(index, 1)
+  
+        return list
+      })
+    }
 
     if (user.isLogedIn) {
       axios.delete(
@@ -146,28 +185,52 @@ export default function TodoList() {
       dispatch(deleteTodo(targetId))
     }
   }
-
+  
   useEffect(() => {
     if ( user.isLogedIn ) {
-      axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/studylog`, {
-        withCredentials: true
-      })
+      axios.get(
+        `${process.env.REACT_APP_SERVER_DOMAIN}/studylog`, 
+        { headers: 
+          { authorization: `bearer ${user.accessToken}` },
+            withCredentials: true
+        }
+      )
       .then (res => {
         setCompletedList(res.data.doneList)
         setTodoList(res.data.todoList.forEach( todo=> todo.checked = false))
       })
-      .catch(err => console.log(err))
-    
-    } else {
+      .catch(err => {
+        if (err.response.status === 403) {
+          axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/accesstoken`)
+          .then(res => dispatch(setAccessToken(res.data.accessToken)))
+          .catch(err => {
+            if (err.response.status === 403) {
+              dispatch(logOut())
+              history.push(`/unauthorized`)
+            } else {
+              console.log(err)
+            }
+          })
+        } else {
+          console.log(err)
+        }
+      })
+    } else if ( !user.isLogedIn ) {
+      // 전역상태인 todos가 변경되면 로컬상태인 todolist와 completedList를 업데이트함
       setTodoList(todos.filter(todo => todo.checked !== true))
       setCompletedList(todos.filter(todo => todo.checked !== false));
     }
-  }, [user.isLogedIn, completeTodos, todos])
+  }, [user.isLogedIn, todos])
 
+  //로컬 상태인 todoList와 completedList가 변동되면 불려짐
   useEffect(() => {
-    if (todoList.length === 0) setNoTodoMode(true);
+    if (todoList.length === 0) {
+      setNoTodoMode(true);
+    } 
     else setNoTodoMode(false);
-    if (completedList.length === 0) setNoCompletedMode(true);
+    if (completedList.length === 0) {
+      setNoCompletedMode(true);
+    } 
     else setNoCompletedMode(false);
   }, [todoList, completedList])
 
@@ -236,4 +299,3 @@ export default function TodoList() {
     </TodoWrapper>
   )
 }
-
