@@ -48,7 +48,9 @@ const ControllBar = ({ setQuery, setPageNum, query }) => {
     setInput(e.target.value);
   };
 
-  const handleBtnClick = () => {
+  const handleBtnClick = (e) => {
+    e.preventDefault();
+
     if (query === input) return;
     setQuery(input);
     setPageNum(0);
