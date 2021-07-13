@@ -94,7 +94,7 @@ export const createTodo = (id, content) => {
       id,
       content,
       createdAt: new Date(),
-      isChecked: false,
+      checked: false,
     },
   };
 };

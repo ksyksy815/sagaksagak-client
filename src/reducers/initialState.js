@@ -16,12 +16,12 @@ export const initialState = {
     // },
   ],
   completeTodos: [
-    {
-      id: 0,
-      content: "오징어 굽기",
-      updatedAt: "2021.07.21",
-      isChecked: true,
-    },
+    // {
+    //   id: 0,
+    //   content: "오징어 굽기",
+    //   updatedAt: "2021.07.21",
+    //   checked: true,
+    // },
   ],
   chatroom: {
     roomId: "",
