@@ -177,9 +177,12 @@ const SignUpPage = () => {
         }
       )
       .then((res) => {
-        const { userId, username, accessToken, subId } = res.data;
+        const { email, userId, username, accessToken, subId, category } =
+          res.data;
 
-        dispatch(firstLogIn(userId, username, accessToken, subId));
+        dispatch(
+          firstLogIn(email, userId, username, accessToken, category, subId)
+        );
 
         history.push("/");
       })
@@ -256,9 +259,11 @@ const SignUpPage = () => {
             }
           )
           .then((res) => {
-            const { userId, username, accessToken } = res.data;
+            const { email, userId, username, accessToken, category } = res.data;
 
-            dispatch(firstLogIn(userId, username, accessToken));
+            dispatch(
+              firstLogIn(email, userId, username, accessToken, category)
+            );
 
             history.push("/");
           })

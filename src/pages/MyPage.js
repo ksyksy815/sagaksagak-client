@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { changeUsername, setAccessToken } from "../actions/index";
 import styled from "styled-components";
+import axios from "axios";
+import CategorySelectModal from "../components/modals/CategorySelectModal";
+import { usernameCheck } from "../utilities/availCheck";
 
 const StyledMyPage = styled.div`
   display: flex;
@@ -12,145 +17,352 @@ const StyledMyPage = styled.div`
 
 const StyledContentWrapper = styled.div`
   position: relative;
-  top: 60px;
+  top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  width: 420px;
   height: 70%;
   row-gap: 3rem;
-`;
-
-const StyledSectionWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 1rem;
-
-  div {
-    margin: 0;
-    font-size: 1.1rem;
-    justify-self: center;
-
-    button {
-      height: 1.5rem;
-      background: #dddddd;
-      border: none;
-      border-radius: 5px;
-      width: 100px;
-    }
-  }
 
   label {
-    font-size: 1.8rem;
-    font-weight: 700;
-    width: 400px;
+    font-size: 1.7em;
+    font-weight: 600;
+  }
+
+  button {
+    border: none;
+    border-radius: 20px;
+    background: lightgray;
+    height: 40px;
+    width: 70px;
+    cursor: pointer;
+    color: white;
+  }
+
+  .content-email {
     display: flex;
-    justify-content: space-between;
+    column-gap: 30px;
     align-items: center;
+    width: 420px;
+
+    label {
+      width: 80px;
+    }
 
     div {
+      border-radius: 20px;
+      height: 40px;
+      width: 310px;
+      border: solid 1px lightgray;
+      box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+  }
 
-      button {
-        height: 1.5rem;
-        background: #dddddd;
-        border: none;
-        border-radius: 5px;
+  .content-username {
+    display: flex;
+    flex-direction: column;
+    column-gap: 30px;
+    align-items: center;
+    width: 100%;
+
+    label {
+      width: 80px;
+    }
+
+    .username-info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      column-gap: 30px;
+      div {
+        display: flex;
+        flex-direction: row;
+        column-gap: 20px;
+        align-items: center;
+
+        input {
+          border-radius: 20px;
+          height: 40px;
+          border: solid 1px lightgray;
+          box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
+          padding: 0 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow-x: scroll;
+          width: 220px;
+
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+
+    .error-message {
+      color: #fa8900;
+      font-size: 0.8rem;
+    }
+  }
+
+  .content-password {
+    display: flex;
+    column-gap: 30px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .content-category {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 10px;
+
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      column-gap: 30px;
+    }
+
+    .category-items {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+
+      .categories {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100px;
         width: 100px;
+        border-radius: 10px;
+        border: solid 1px black;
+      }
+
+      .no-category {
+        width: 100%;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
 
-  #email {
-    position: relative;
-    right: -15px;
-    height: 1.5em;
-    border-radius: 10px;
+  .content-signout {
     display: flex;
-    align-items: center;
-  }
-
-  #username {
-    display: flex;
+    column-gap: 30px;
     justify-content: space-between;
     align-items: center;
-
-    div {
-      position: relative;
-      right: -15px;
-      font-size: 1.1rem;
-      height: 1.5rem;
-      border: none;
-    }
-  }
-
-  #category {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 1em;
-
-    div {
-      border: solid 1px black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 100px;
-      width: 100px;
-      border-radius: 10px;
-    }
+    width: 100%;
   }
 `;
 
 const MyPage = () => {
+  const state = useSelector((state) => state.logInStatusReducer);
+  const { user } = state;
+  const [categorySelectMode, setCategorySelectMode] = useState(false);
+  const [usernameChanErr, setUsernameChanErr] = useState("");
+  const [userInput, setUserInput] = useState("");
+  const [placeHolderOutput, setPlaceHolderOutput] = useState("");
+
+  const dispatch = useDispatch();
+
+  const handleUserInput = (e) => {
+    setUserInput(e.target.value);
+  };
+
+  const handleCRModelClose = () => {
+    setCategorySelectMode(false);
+  };
+
+  const handleChangeUsername = () => {
+    if (user.username === userInput) return;
+
+    if (usernameCheck(userInput) !== "usernameAvail") return;
+
+    axios
+      .patch(
+        `${process.env.REACT_APP_SERVER_DOMAIN}/user/${user.userId}/username`,
+        {
+          newusername: userInput,
+        },
+        {
+          headers: {
+            authorization: `bearer ${user.accessToken}`,
+          },
+        }
+      )
+      .then(() => {
+        setUsernameChanErr("닉네임이 변경되었습니다");
+        dispatch(changeUsername(userInput));
+        setPlaceHolderOutput(userInput);
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 409) {
+            setUsernameChanErr("중복되는 유저이름이 있습니다");
+          } else if (err.response.status === 403) {
+            axios
+              .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
+              .then((res) => {
+                dispatch(setAccessToken(res.data.accessToken));
+
+                axios
+                  .patch(
+                    `${process.env.REACT_APP_SERVER_DOMAIN}/user/${user.userId}/username`,
+                    {
+                      newusername: userInput,
+                    },
+                    {
+                      headers: {
+                        authorization: `bearer ${user.accessToken}`,
+                      },
+                    }
+                  )
+                  .then(() => {
+                    setUsernameChanErr("닉네임이 변경되었습니다");
+                    dispatch(changeUsername(userInput));
+                    setPlaceHolderOutput(userInput);
+                  })
+                  .catch((err) => {
+                    if (err.response) {
+                      if (err.response.status === 409) {
+                        setUsernameChanErr("중복되는 유저이름이 있습니다");
+                      }
+                      console.log(err.response);
+                    } else if (err.request) {
+                      console.log(err.request);
+                    } else {
+                      console.log("Error :", err.message);
+                    }
+                    console.log(err.config);
+                  });
+              })
+              .catch((err) => {
+                if (err.response) {
+                  if (err.response.status === 403) {
+                    //로그아웃 로직(통신)
+                    //포비든 페이지로 리디렉트
+                  }
+                  console.log(err.response);
+                } else if (err.request) {
+                  console.log(err.request);
+                } else {
+                  console.log("Error :", err.message);
+                }
+                console.log(err.config);
+              });
+          }
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
+  };
+
+  const handleErrMessage = (message) => {
+    switch (message) {
+      case "1":
+        setUsernameChanErr("비밀번호는 8자리 이상이어야 합니다");
+        break;
+      case "2":
+        setUsernameChanErr("비밀번호는 영어,숫자,특수문자를 포함해야 합니다");
+        break;
+      case "3":
+        setUsernameChanErr("유저이름은 2글자 이상이어야 합니다");
+        break;
+      case "4":
+        setUsernameChanErr(
+          "유저이름은 한글,영어,숫자로 구성되며 공백이 없어야 합니다"
+        );
+        break;
+      case "5":
+        setUsernameChanErr("올바른 이메일을 입력해 주세요");
+        break;
+      case "emailAvail":
+        setUsernameChanErr("");
+        break;
+      case "usernameAvail":
+        setUsernameChanErr("");
+        break;
+      case "passwordAvail":
+        setUsernameChanErr("");
+        break;
+      default:
+        return "";
+    }
+  };
+
   return (
     <StyledMyPage>
       <StyledContentWrapper>
-        <StyledSectionWrapper>
+        <CategorySelectModal
+          open={categorySelectMode}
+          close={handleCRModelClose}
+        />
+        <div className="content-email">
           <label>이메일</label>
-          <div id="email">test@gmail.com</div>
-        </StyledSectionWrapper>
-        <StyledSectionWrapper>
-          <label>닉네임</label>
-          <div id="username">
-            <div id="username">나는 실험용</div>
-            <button>변경하기</button>
+          <div>{user.email}</div>
+        </div>
+        <div className="content-username">
+          <div className="username-info">
+            <label>닉네임</label>
+            <div>
+              <input
+                type="text"
+                placeholder={
+                  placeHolderOutput
+                    ? `${placeHolderOutput}`
+                    : `${user.username}`
+                }
+                onChange={handleUserInput}
+                onKeyUp={() => handleErrMessage(usernameCheck(userInput))}
+              ></input>
+              <button onClick={handleChangeUsername}>변경하기</button>
+            </div>
           </div>
-        </StyledSectionWrapper>
-        <StyledSectionWrapper>
-          <label>
-            비밀번호
-            <div>
-              <button>변경하기</button>
-            </div>
-          </label>
-        </StyledSectionWrapper>
-        <StyledSectionWrapper>
-          <label>
-            관심 카테고리
-            <div>
-              <button>변경하기</button>
-            </div>
-          </label>
-          <div id="category">
-            <div>영어</div>
-            <div>코딩</div>
-            <div>자격증</div>
+          {usernameChanErr && (
+            <div className="error-message">{usernameChanErr}</div>
+          )}
+        </div>
+        <div className="content-category">
+          <div className="category-header">
+            <label>관심 카테고리</label>
+            <button onClick={() => setCategorySelectMode(true)}>
+              변경하기
+            </button>
           </div>
-        </StyledSectionWrapper>
-        <StyledSectionWrapper>
-          <label>
-            회원탈퇴
-            <div>
-              <button>탈퇴</button>
-            </div>
-          </label>
-        </StyledSectionWrapper>
+          <div className="category-items">
+            {user.category.length === 0 ? (
+              <div className="no-category">선택된 관심사가 없습니다</div>
+            ) : (
+              user.category.map((category) => {
+                return <div className="categories">{category}</div>;
+              })
+            )}
+          </div>
+        </div>
+        <div className="content-password">
+          <label>비밀번호</label>
+          <button>변경하기</button>
+        </div>
+        <div className="content-signout">
+          <label>회원탈퇴</label>
+          <button>탈퇴</button>
+        </div>
       </StyledContentWrapper>
     </StyledMyPage>
   );
