@@ -74,6 +74,12 @@ const StyledRoom = styled.div`
   }
 `;
 
+const getTime = (time) => {
+  if (time < 1) return "1분미만";
+  if (time < 60) return `${parseInt(time, 10)}분`;
+  if (time >= 60) return `${parseInt(time / 60, 10)}시간`;
+};
+
 const Room = ({ handleEntance, room, lastRoomElRef }) => {
   return (
     <StyledRoom
@@ -85,12 +91,12 @@ const Room = ({ handleEntance, room, lastRoomElRef }) => {
       </div>
       <div className="room-title">
         <h3>{room.roomName}</h3>
-        <p>by 토익n수생</p>
+        <p>{`by ${room.masterName}`}</p>
       </div>
       <div className="room-info">
         <div className="active-time">
           <AiOutlineClockCircle className="time-icon" />
-          <span>3시간</span>
+          <span>{getTime(room.created)}</span>
         </div>
         <div className="active-users">
           <BsPeopleCircle className="user-icon" />

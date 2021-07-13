@@ -33,18 +33,24 @@ const StudyRoomList = () => {
       roomUuid: "eiikc3ef-sasdf-aeijv11231",
       usersNum: 3,
       category: "공무원",
+      created: 325.1215261,
+      masterName: "서울시립공무원(진)",
     },
     {
       roomName: "토익 만점이 1000점 이냐?",
       roomUuid: "eiikc3ef-sasdf-aeijv11231",
       usersNum: 5,
       category: "영어",
+      created: 0.1231,
+      masterName: "토익1000점",
     },
     {
       roomName: "11월의 영광을 위해 함께 가즈아!",
       roomUuid: "eiikc3ef-sasdf-aeijv11231",
       usersNum: 5,
       category: "국내입시",
+      created: 54.2212125,
+      masterName: "예비샤대생",
     },
   ]);
   const [isCRModalOpen, setIsCRModalOpen] = useState(false);
