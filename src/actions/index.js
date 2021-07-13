@@ -4,6 +4,8 @@ export const LOG_IN = "LOG_IN";
 export const FIRST_LOG_IN = "FIRST_LOG_IN";
 export const LOG_OUT = "LOG_OUT";
 export const SET_FIRST_LOGIN_FALSE = "SET_FIRST_LOGIN_FALSE";
+export const CHANGE_USERNAME = "CHANGE_USERNAME";
+export const CHANGE_CATEGORY = "CHANGE_CATEGORY";
 
 //투두 관련 액션
 export const SET_TO_DO_LIST = "SET_TO_DO_LIST";
@@ -26,28 +28,52 @@ export const setAccessToken = (token) => {
   };
 };
 
-export const logIn = (userId, username, accessToken, googleId = "") => {
+export const logIn = (
+  email,
+  userId,
+  username,
+  accessToken,
+  category,
+  googleId = ""
+) => {
+  if (category === null) {
+    category = [];
+  }
   return {
     type: LOG_IN,
     payload: {
+      email,
       userId,
       username,
       googleId,
       accessToken,
+      category,
       isLogedIn: true,
       isFirstLogedIn: false,
     },
   };
 };
 
-export const firstLogIn = (userId, username, accessToken, googleId = "") => {
+export const firstLogIn = (
+  email,
+  userId,
+  username,
+  accessToken,
+  category,
+  googleId = ""
+) => {
+  if (category === null) {
+    category = [];
+  }
   return {
     type: FIRST_LOG_IN,
     payload: {
+      email,
       userId,
       username,
       googleId,
       accessToken,
+      category,
       isLogedIn: true,
       isFirstLogedIn: true,
     },
@@ -58,10 +84,12 @@ export const logOut = () => {
   return {
     type: LOG_OUT,
     payload: {
+      email: "",
       userId: "",
       username: "",
       googleId: "",
       accessToken: "",
+      category: [],
       isLogedIn: false,
       isFirstLogedIn: false,
     },
@@ -73,6 +101,24 @@ export const setFirstLogInFalse = () => {
     type: SET_FIRST_LOGIN_FALSE,
     payload: {
       isFirstLogedIn: false,
+    },
+  };
+};
+
+export const changeUsername = (username) => {
+  return {
+    type: CHANGE_USERNAME,
+    payload: {
+      username,
+    },
+  };
+};
+
+export const changeCategory = (category) => {
+  return {
+    type: CHANGE_CATEGORY,
+    payload: {
+      category,
     },
   };
 };
@@ -103,8 +149,8 @@ export const checkTodo = (id) => {
   return {
     type: TO_DO_CHECK,
     payload: {
-      id
-    }
+      id,
+    },
   };
 };
 
@@ -122,10 +168,10 @@ export const deleteTodo = (id) => {
   return {
     type: DELETE_TO_DO,
     payload: {
-      id
-    }
-  }
-}
+      id,
+    },
+  };
+};
 
 export const setRoomId = (roomId) => {
   return {

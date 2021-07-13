@@ -111,9 +111,10 @@ const LogInPage = () => {
         }
       )
       .then((res) => {
-        const { userId, username, subId, accessToken } = res.data;
+        const { email, userId, username, subId, accessToken, category } =
+          res.data;
 
-        dispatch(logIn(userId, username, accessToken, subId));
+        dispatch(logIn(email, userId, username, accessToken, category, subId));
 
         history.push("/");
       })
@@ -161,8 +162,8 @@ const LogInPage = () => {
           }
         )
         .then((res) => {
-          const { accessToken, username, userId } = res.data;
-          dispatch(logIn(userId, username, accessToken));
+          const { email, accessToken, username, userId, category } = res.data;
+          dispatch(logIn(email, userId, username, accessToken, category));
           history.push("/");
         })
         .catch((err) => {
@@ -195,7 +196,6 @@ const LogInPage = () => {
         {errMessage && <p>{errMessage}</p>}
         <div>
           <button onClick={handleLogIn}>Log In</button>
-          {/* <button onClick={() => history.push("/signup")}>회원가입</button> */}
         </div>
       </form>
       <StyledGoogleLogin

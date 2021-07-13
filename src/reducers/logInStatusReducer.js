@@ -5,6 +5,8 @@ import {
   LOG_IN,
   FIRST_LOG_IN,
   SET_FIRST_LOGIN_FALSE,
+  CHANGE_USERNAME,
+  CHANGE_CATEGORY,
 } from "../actions/index";
 
 const logInStatusReducer = (state = initialState, action) => {
@@ -24,6 +26,16 @@ const logInStatusReducer = (state = initialState, action) => {
       return {
         ...state,
         user: { ...state.user, isFirstLogedIn: action.payload.isFirstLogedIn },
+      };
+    case CHANGE_USERNAME:
+      return {
+        ...state,
+        user: { ...state.user, username: action.payload.username },
+      };
+    case CHANGE_CATEGORY:
+      return {
+        ...state,
+        user: { ...state.user, category: action.payload.category },
       };
     default:
       return state;

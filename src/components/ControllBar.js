@@ -56,14 +56,14 @@ const ControllBar = ({ setQuery, setPageNum, query }) => {
 
   return (
     <StyledControllBar>
-      <div className="search-controller">
+      <form className="search-controller">
         <input
           type="text"
           placeholder="참여를 원하는 방을 검색해 보세요"
           onChange={handleInput}
         ></input>
         <button onClick={handleBtnClick}>검색</button>
-      </div>
+      </form>
     </StyledControllBar>
   );
 };
