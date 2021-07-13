@@ -1,13 +1,31 @@
-import { useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { keyframes, css } from 'styled-components'
 import { AiFillCloseCircle } from 'react-icons/ai'
+
+const slideIn = keyframes`
+  from {
+    right: -500px;
+  }
+  to {
+    right: 0;
+  }
+`
+
+const slideOut = keyframes`
+  from {
+    right: 0;
+  }
+  to {
+    right: -500px;
+  }
+`
 
 const MobileNav = styled.nav`
   position: absolute;
   top: 0;
   right: 0;
-  width: 80vw;
+  width: 500px;
   height: 100vh;
   background: green;
   z-index: 5000;
@@ -16,6 +34,8 @@ const MobileNav = styled.nav`
   justify-content: center;
   align-items: center;
   background: #EBEBEB;
+  animation: ${props => props.aniMode ? 
+    css`${slideIn} ease-in-out 0.3s` : css`${slideOut} ease-in-out 0.3s`};
 
   .mobile-menu-close {
     position: absolute;
@@ -32,15 +52,15 @@ const MobileNav = styled.nav`
     list-style: none;
     width: 100%;
     li {
-      width: 100%;
       text-align: center;
-      padding: 2rem 0;
       transition: 0.2s;
-
+      display: flex;
       a {
+        width: 100%;
         text-decoration: none;
         color: black;
         font-size: 1.2rem;
+        padding: 2rem 0;
       }
 
       &:hover {
@@ -55,38 +75,57 @@ const MobileNav = styled.nav`
   }
 `
 
-export default function MobileMainNav({toggleMenus, isLogedIn, handleLogOut}) {
-  const closeMenu = () => {
-    toggleMenus()
+export default function MobileMainNav({aniMode, setAniMode, setMenuOn, isLogedIn, handleLogOut}) {
+  const [shouldRender, setShouldRender] = useState(aniMode)
+
+  const closeMenu = useCallback(() => {
+    setAniMode(false)
+    //setMenuOn(false)
+  }, [setAniMode, setMenuOn])
+
+  const onAnimationEnd = () => {
+    if (!aniMode) {
+      setShouldRender(false)
+    }
   }
+  
+  const handleExitKeyPress = useCallback((e) => {
+    if (e.key === "Escape") closeMenu()
+  }, [closeMenu])
+
 
   useEffect(() => {
-    window.addEventListener('click', closeMenu)
-    
-    return(()=> window.removeEventListener('click', closeMenu))
-  }, [])
+    if (aniMode) setShouldRender(true)
+  }, [aniMode])
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleExitKeyPress)
+    return(()=> window.removeEventListener('keydown', handleExitKeyPress))
+  }, [handleExitKeyPress])
 
   return (
-    <MobileNav>
+    shouldRender && (
+    <MobileNav aniMode={aniMode} onAnimationEnd={onAnimationEnd}>
       <AiFillCloseCircle className="mobile-menu-close" onClick={closeMenu}/>
       <ul>
-        <li><Link to='/'>홈</Link></li>
-        <li><Link to='/studyroom'>스터디룸</Link></li>
-        <li><Link to='/studylog'>스터디로그</Link></li>
+        <li onClick={closeMenu}><Link to='/'>홈</Link></li>
+        <li onClick={closeMenu}><Link to='/studyroom'>스터디룸</Link></li>
+        <li onClick={closeMenu}><Link to='/studylog'>스터디로그</Link></li>
       </ul>
 
       {
         isLogedIn ? 
         <ul>
-          <li><Link to='/mypage'>마이페이지</Link></li>
+          <li onClick={closeMenu}><Link to='/mypage'>마이페이지</Link></li>
           <li onCLick={handleLogOut}><button>로그아웃</button></li>
         </ul>
           :
         <ul>
-          <li><Link to='/login'>로그인</Link></li>
-          <li><Link to='/signup'>회원가입</Link></li>
+          <li onClick={closeMenu}><Link to='/login'>로그인</Link></li>
+          <li onClick={closeMenu}><Link to='/signup'>회원가입</Link></li>
         </ul>
       }
     </MobileNav>
+    )
   )
 }
