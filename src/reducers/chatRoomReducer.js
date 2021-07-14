@@ -1,21 +1,37 @@
 import { initialState } from "./initialState";
-import { ROOM_ID, PARTICIPANTS } from "../actions/index";
+import { ROOM_ID, PARTICIPANTS, ADD_USER, DELETE_USER } from "../actions/index";
+import { StaticRouter } from "react-router";
 
 const chatRoomReducer = (state = initialState, action) => {
   switch (action.type) {
     case ROOM_ID:
       return { ...state, chatroom: action.payload};
     case PARTICIPANTS:
+      console.log(action.payload.users)
       return { 
         ...state, 
         chatroom: {
-          ...state.chatroom.state,
-          participants: [
-            ...state.chatroom.participants,
-            action.payload
-          ]
+          ...state.chatroom,
+          participants: action.payload.users
         }
       };
+    case ADD_USER:
+      return {
+        ...state,
+        chatroom: {
+          ...state.chatroom,
+          participants: [...state.chatroom.participants, action.payload ]
+        }
+      }
+    case DELETE_USER:
+      let users = state.chatroom.participants.filter(el => el.peerId !== action.payload.peerId)
+      return {
+        ...state,
+        chatRoom: {
+          ...state.chatroom,
+          participants: users
+        }
+      }
     default:
       return state;
   }

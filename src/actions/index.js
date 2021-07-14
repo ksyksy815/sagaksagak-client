@@ -18,6 +18,8 @@ export const DELETE_TO_DO = "DELETE_TO_DO";
 //화상채팅방 관련 액션
 export const ROOM_ID = "ROOM_ID";
 export const PARTICIPANTS = "PARTICIPANTS";
+export const ADD_USER = "ADD_USER"
+export const DELETE_USER = "DELETE_USER"
 
 export const setAccessToken = (token) => {
   return {
@@ -182,12 +184,30 @@ export const setRoomId = (roomId) => {
   };
 };
 
-export const setParticipants = (peerId, username) => {
+export const setParticipants = (users) => {
   return {
     type: PARTICIPANTS,
     payload: {
-      peerId,
-      username,
+      users
     },
   };
 };
+
+export const setUser = (peerId, username) => {
+  return {
+    type: ADD_USER,
+    payload: {
+      peerId,
+      username
+    }
+  }
+}
+
+export const setDeleteUser = (peerId) => {
+  return {
+    type: DELETE_USER,
+    payload: {
+      peerId
+    }
+  }
+}
