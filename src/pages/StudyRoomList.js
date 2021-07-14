@@ -8,7 +8,7 @@ import RoomList from "../components/RoomList";
 import CreateRoomModal from "../components/modals/CreateRoomModal";
 import FullRoomModal from "../components/modals/FullRoomModal";
 import Slider from "../components/Slider";
-import { setParticipants } from "../actions/index"
+import { setParticipants } from "../actions/index";
 
 const StyledStudyLoby = styled.div`
   position: relative;
@@ -82,8 +82,8 @@ const StudyRoomList = () => {
         userId: state.user.userId,
       })
       .then((res) => {
-        console.log(res.data)
-        dispatch(setParticipants(res.data.users))
+        console.log(res.data);
+        dispatch(setParticipants(res.data.users));
         history.push(`/room/${roomId}`);
       })
       .catch((err) => {

@@ -199,7 +199,9 @@ const MyPage = () => {
     setSignoutMode(false);
   };
 
-  const handleChangeUsername = () => {
+  const handleChangeUsername = (e) => {
+    e.preventDefault();
+
     if (user.username === userInput) return;
 
     if (usernameCheck(userInput) !== "usernameAvail") return;
@@ -214,6 +216,7 @@ const MyPage = () => {
           headers: {
             authorization: `bearer ${user.accessToken}`,
           },
+          withCredentials: true,
         }
       )
       .then(() => {
@@ -241,6 +244,7 @@ const MyPage = () => {
                       headers: {
                         authorization: `bearer ${user.accessToken}`,
                       },
+                      withCredentials: true,
                     }
                   )
                   .then(() => {
@@ -273,6 +277,7 @@ const MyPage = () => {
                           headers: {
                             authorization: `bearer ${user.accessToken}`,
                           },
+                          withCredentials: true,
                         }
                       )
                       .then(() => {
