@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setFirstLogInFalse } from "../../actions/index";
+import {
+  setFirstLogInFalse,
+  changeCategory,
+  setAccessToken,
+} from "../../actions/index";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -177,16 +181,51 @@ const CategorySelectModal = ({ open, close }) => {
           newcategory: total,
         },
         {
-          withCredentials: true,
+          headers: {
+            authorization: `bearer ${state.user.accessToken}`,
+          },
         }
       )
-      //res에 대한 로직 구현 필요함
-      .then((res) => {
-        console.log(res.data.message);
+      .then(() => {
+        dispatch(changeCategory(total));
+        close();
       })
-      //err에 대한 로직 구현 필요함
       .catch((err) => {
         if (err.response) {
+          if (err.response.status === 403) {
+            axios
+              .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
+              .then((res) => {
+                dispatch(setAccessToken(res.data.accessToken));
+
+                axios
+                  .patch(
+                    `${process.env.REACT_APP_SERVER_DOMAIN}/user/${state.user.userId}/category`,
+                    {
+                      newcategory: total,
+                    },
+                    {
+                      headers: {
+                        authorization: `bearer ${state.user.accessToken}`,
+                      },
+                    }
+                  )
+                  .then((res) => {
+                    dispatch(changeCategory(total));
+                    close();
+                  })
+                  .catch((err) => {
+                    if (err.response) {
+                      console.log(err.response);
+                    } else if (err.request) {
+                      console.log(err.request);
+                    } else {
+                      console.log("Error :", err.message);
+                    }
+                    console.log(err.config);
+                  });
+              });
+          }
           console.log(err.response);
         } else if (err.request) {
           console.log(err.request);
