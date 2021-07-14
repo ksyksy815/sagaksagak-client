@@ -48,32 +48,37 @@ export default function TodoList() {
 
     const id = uuidV4()
     const content = e.target[1].value
-    const createdAt = `${new Date().getFullYear()}. ${new Date().getMonth()+1}. ${new Date().getDate()}`
+    const createdAt = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
     
     if (user.isLogedIn) {
+      let contents = content
       axios.post(
         `${process.env.REACT_APP_SERVER_DOMAIN}/todo`, 
         { contents: content },
-        { withCredentials: true}
+        { headers: 
+          { authorization: `bearer ${user.accessToken}` },
+          withCredentials: true }
       )
-      .then(()=> {
-        setTodoList(prev=> [ [{
-          id: id,
-          content: content,
+      .then((res)=> {
+        setTodoList(prev=> [{
+          id: res.data.id,
+          content: contents,
           createdAt: createdAt,
           checked: false
-        }], ...prev])
+        }, ...prev])
       })
       .catch(err => {
         if (err.response.status === 403) {
           // access token 만료
-          axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/accesstoken`)
+          axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
           .then(res => {
             dispatch(setAccessToken(res.data.accessToken))
             axios.post(
               `${process.env.REACT_APP_SERVER_DOMAIN}/todo`, 
               { contents: content },
-              { withCredentials: true}
+              { headers: 
+                { authorization: `bearer ${user.accessToken}` },
+                withCredentials: true }
             )
             .then(()=> {
               setTodoList(prev=> [ [{
@@ -121,25 +126,31 @@ export default function TodoList() {
         axios.patch(
           `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${id}`,
           { id: id },
-          { withCredentials: true }
+          { headers: 
+            { authorization: `bearer ${user.accessToken}` },
+            withCredentials: true }
         )
         .then (() => {
-          let index = todoList.findIndex(todo => todo.id === id);
+
+          let index = todoList.findIndex(todo => todo.id === Number(id));
           let target = todoList[index]
-          target.checked = !target.checked
-          setTodoList( list => list.filter(todo => todo.id !== id) )
+          console.log('asdfasdfasdfasdfasdf', todoList)
+          target.checked = !(target.checked)
+          setTodoList( list => list.filter(todo => todo.id !== Number(id)) )
           setCompletedList(list => [...list, target])
         })
         .catch(err => {
           if (err.response.status === 403) {
             // access token 만료
-            axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/accesstoken`)
+            axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
             .then(res => {
               dispatch(setAccessToken(res.data.accessToken))
               axios.patch(
                 `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${id}`,
                 { id: id },
-                { withCredentials: true }
+                { headers: 
+                  { authorization: `bearer ${user.accessToken}` },
+                  withCredentials: true }
               )
               .then (() => {
                 let index = todoList.findIndex(todo => todo.id === id);
@@ -162,6 +173,7 @@ export default function TodoList() {
             console.log(err)
           }
         })
+
       } else {
         // 안로그인
         dispatch(checkTodo(id))
@@ -175,31 +187,35 @@ export default function TodoList() {
         axios.patch(
           `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${id}`,
           { id: id },
-          { withCredentials: true }
+          { headers: 
+            { authorization: `bearer ${user.accessToken}` },
+            withCredentials: true }
         )
         .then (() => {
-          let index = completedList.findIndex(todo => todo.id === id);
+          let index = completedList.findIndex(todo => todo.id === Number(id));
           let target = completedList[index]
           target.checked = !target.checked
-          setCompletedList(list => list.filter(todo => todo.id !== id) )
+          setCompletedList(list => list.filter(todo => todo.id !== Number(id)) )
           setTodoList(list => [...list, target] )
         })
         .catch(err => {
           if (err.response.status === 403) {
             // access token 만료
-            axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/accesstoken`)
+            axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
             .then(res => {
               dispatch(setAccessToken(res.data.accessToken))
               axios.patch(
                 `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${id}`,
                 { id: id },
-                { withCredentials: true }
+                { headers: 
+                  { authorization: `bearer ${user.accessToken}` },
+                  withCredentials: true }
               )
               .then (() => {
-                let index = completedList.findIndex(todo => todo.id === id);
+                let index = completedList.findIndex(todo => todo.id === Number(id));
                 let target = completedList[index]
                 target.checked = !target.checked
-                setCompletedList(list => list.filter(todo => todo.id !== id) )
+                setCompletedList(list => list.filter(todo => todo.id !== Number(id)) )
                 setTodoList(list => [...list, target] )
               })
               .catch(err => console.log(err))
@@ -234,20 +250,22 @@ export default function TodoList() {
     if (user.isLogedIn) {
       axios.delete(
         `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${id}`,
-        { id: id },
-        { withCredentials: true }
+        { headers: 
+          { authorization: `bearer ${user.accessToken}` },
+          id: id,
+          withCredentials: true }
       )
       .then(() => {
         if (completed === false) {
           setTodoList(prev=> {
-            let index = prev.findIndex(todo => todo.id === id);
+            let index = prev.findIndex(todo => todo.id === Number(id));
             let list = prev.slice()
             list.splice(index, 1)
             return list
           })
         } else {
           setCompletedList(prev=> {
-            let index = prev.findIndex(todo => todo.id === id);
+            let index = prev.findIndex(todo => todo.id === Number(id));
             let list = prev.slice()
             list.splice(index, 1)
             return list
@@ -257,25 +275,27 @@ export default function TodoList() {
       .catch(err => {
         if (err.response.status === 403) {
           // access token 만료
-          axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/accesstoken`)
+          axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
             .then(res => {
               dispatch(setAccessToken(res.data.accessToken))
               axios.delete(
                 `${process.env.REACT_APP_SERVER_DOMAIN}/todo/${id}`,
                 { id: id },
-                { withCredentials: true }
+                { headers: 
+                  { authorization: `bearer ${user.accessToken}` },
+                  withCredentials: true }
               )
               .then(() => {
                 if (completed === false) {
                   setTodoList(prev=> {
-                    let index = prev.findIndex(todo => todo.id === id);
+                    let index = prev.findIndex(todo => todo.id === Number(id));
                     let list = prev.slice()
                     list.splice(index, 1)
                     return list
                   })
                 } else {
                   setCompletedList(prev=> {
-                    let index = prev.findIndex(todo => todo.id === id);
+                    let index = prev.findIndex(todo => todo.id === Number(id));
                     let list = prev.slice()
                     list.splice(index, 1)
                     return list
@@ -306,11 +326,11 @@ export default function TodoList() {
       )
       .then (res => {
         setCompletedList(res.data.doneList)
-        setTodoList(res.data.todoList.forEach( todo=> todo.checked = false))
+        setTodoList(res.data.todoList)
       })
       .catch(err => {
         if (err.response.status === 403) {
-          axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/accesstoken`)
+          axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
           .then(res => {
             dispatch(setAccessToken(res.data.accessToken))
           })
@@ -393,7 +413,7 @@ export default function TodoList() {
               completedList.map(todo => {
                 return (
                   <Todo 
-                    todo={todo} 
+                    todo={todo}
                     handleTodoCheck={handleTodoCheck} 
                     handleDeleteTodo={handleDeleteTodo}
                     completed={true} 

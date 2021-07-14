@@ -67,6 +67,7 @@ const StyledTodo = styled.li`
 `
 
 export default function Todo( { todo, handleTodoCheck, handleDeleteTodo, completed } ) {
+  
   return (
     <StyledTodo key={todo.id} completed={completed}>
       <button onClick={e=> handleTodoCheck(e, completed)} id={todo.id} className="todo-check">
