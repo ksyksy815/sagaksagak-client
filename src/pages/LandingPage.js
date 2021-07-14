@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import {
   StyledLandingPage,
@@ -17,22 +17,63 @@ import imgStudyingAloneHard from "../assets/imgStudyingAloneHard.svg";
 import calculator from "../assets/calculator.svg";
 import book from "../assets/book-stack.svg";
 import mouse from "../assets/mouse.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { logIn } from "../actions/index";
 
 export default function LandingPage() {
   const state = useSelector((state) => state.logInStatusReducer);
   const { user } = state;
   const [isCSModalOpen, setIsCSModalOpen] = useState(false);
   const [offsetY, setOffsetY] = useState(0);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const sectionMid = useRef();
   const modalRef = useRef();
+  const refreshLogInRef = useRef();
+
+  const handleRefreshLogIn = () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
+        headers: {
+          relogin: true,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const { accessToken, username, userId, email, category, subId } =
+          res.data;
+
+        if (subId)
+          dispatch(
+            logIn(email, userId, username, accessToken, category, subId)
+          );
+        dispatch(logIn(email, userId, username, accessToken, category));
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 403) history.push("/unauthorized");
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
+  };
 
   const catSelModalHandle = () => {
     if (user.isFirstLogedIn) setIsCSModalOpen(true);
     else setIsCSModalOpen(false);
   };
 
-  modalRef.current = catSelModalHandle;
+  useEffect(() => {
+    modalRef.current = catSelModalHandle;
+    refreshLogInRef.current = handleRefreshLogIn;
+  });
 
   const catSelModalClose = () => {
     setIsCSModalOpen(false);
@@ -52,6 +93,11 @@ export default function LandingPage() {
       modalRef.current();
     };
 
+    const logInRefresh = () => {
+      refreshLogInRef.current();
+    };
+
+    logInRefresh();
     setModal();
 
     window.addEventListener("scroll", handleScroll);

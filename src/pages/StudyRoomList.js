@@ -8,7 +8,7 @@ import RoomList from "../components/RoomList";
 import CreateRoomModal from "../components/modals/CreateRoomModal";
 import FullRoomModal from "../components/modals/FullRoomModal";
 import Slider from "../components/Slider";
-import { setParticipants } from "../actions/index";
+import { setParticipants, logIn } from "../actions/index";
 
 const StyledStudyLoby = styled.div`
   position: relative;
@@ -102,8 +102,43 @@ const StudyRoomList = () => {
   };
 
   const getRoomListRef = useRef();
+  const refreshLogInRef = useRef();
 
-  useEffect(() => (getRoomListRef.current = getRoomList));
+  useEffect(() => {
+    getRoomListRef.current = getRoomList;
+    refreshLogInRef.current = handleRefreshLogIn;
+  });
+
+  const handleRefreshLogIn = () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
+        headers: {
+          relogin: true,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const { accessToken, username, userId, email, category, subId } =
+          res.data;
+
+        if (subId)
+          dispatch(
+            logIn(email, userId, username, accessToken, category, subId)
+          );
+        dispatch(logIn(email, userId, username, accessToken, category));
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 403) history.push("/unauthorized");
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
+  };
 
   const getRoomList = () => {
     let cancel;
@@ -168,6 +203,14 @@ const StudyRoomList = () => {
       cancel: () => cancel,
     };
   };
+
+  useEffect(() => {
+    const logInRefresh = () => {
+      refreshLogInRef.current();
+    };
+
+    logInRefresh();
+  }, []);
 
   useEffect(() => {
     setRooms([]);

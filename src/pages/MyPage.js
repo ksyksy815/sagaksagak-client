@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { changeUsername, logOut, setAccessToken } from "../actions/index";
+import {
+  changeUsername,
+  logOut,
+  setAccessToken,
+  logIn,
+} from "../actions/index";
 import styled from "styled-components";
 import axios from "axios";
 import CategorySelectModal from "../components/modals/CategorySelectModal";
@@ -183,6 +188,20 @@ const MyPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const refreshLogInRef = useRef();
+
+  useEffect(() => {
+    refreshLogInRef.current = handleRefreshLogIn;
+  });
+
+  useEffect(() => {
+    const logInRefresh = () => {
+      refreshLogInRef.current();
+    };
+
+    logInRefresh();
+  }, []);
+
   const handleUserInput = (e) => {
     setUserInput(e.target.value);
   };
@@ -197,6 +216,37 @@ const MyPage = () => {
 
   const handleSOModalClose = () => {
     setSignoutMode(false);
+  };
+
+  const handleRefreshLogIn = () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
+        headers: {
+          relogin: true,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const { accessToken, username, userId, email, category, subId } =
+          res.data;
+
+        if (subId)
+          dispatch(
+            logIn(email, userId, username, accessToken, category, subId)
+          );
+        dispatch(logIn(email, userId, username, accessToken, category));
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 403) history.push("/unauthorized");
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
   };
 
   const handleChangeUsername = (e) => {
