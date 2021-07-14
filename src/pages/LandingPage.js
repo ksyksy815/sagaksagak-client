@@ -42,7 +42,6 @@ export default function LandingPage() {
       .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
         headers: {
           relogin: true,
-          landing: true,
         },
         withCredentials: true,
       })
