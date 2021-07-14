@@ -3,7 +3,7 @@ import { io } from 'socket.io-client'
 import { useHistory } from 'react-router-dom'
 import Peer from 'peerjs'
 import { useSelector, useDispatch } from 'react-redux'
-import { setParticipants } from '../actions/index'
+import { setParticipants, setUser, setDeleteUser } from '../actions/index'
 import styled from 'styled-components'
 import ChatRoomNav from '../components/ChatRoomNav'
 import ClosedRoomRedirctModal from '../components/modals/ClosedRoomRedirctModal'
@@ -40,9 +40,11 @@ export default function VideoChatRoom() {
   const [cameraOn, setCameraOn] = useState(true)
   const [roomClosed, setRoomClosed] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [users, setUsers] = useState(1)
   const roomId = window.location.pathname.slice(6) //chatroom.roomId
   const username = user.isLogedIn? user.username : `GUEST${Math.round(Math.random()*100000)}`
   const userId = user.userId
+
   let myStream = null
   let myPeerId = ''
 
@@ -65,12 +67,11 @@ export default function VideoChatRoom() {
       })
     }
   }
-
+  
   useEffect(() => {
     const socket = io(process.env.REACT_APP_IO)
     const peer = new Peer()
 
-    
     // 클라의 영상 스트림 비디오에 넣기
     navigator.mediaDevices.getUserMedia({video: true})
     .then(stream => {
@@ -78,7 +79,7 @@ export default function VideoChatRoom() {
       addVideoStream(myVideo.current, stream)
       videoGrid.current.append(myVideo.current)
       setIsLoading(false)
-      
+
       // 피어 생성하기
       
       peer.on('open', peerId => {
@@ -87,7 +88,7 @@ export default function VideoChatRoom() {
         socket.emit('join-room', roomId, peerId, userId, username)
 
         //전역변수 chatroom.participants에 본인 더하기
-        dispatch(setParticipants( peerId, username ))
+        dispatch(setUser( peerId, username ))
       })
 
       // 새로운 피어가 연결을 원할 때
@@ -99,6 +100,8 @@ export default function VideoChatRoom() {
         mediaConnection.on('stream', newStream => {
           addVideoStream(newVideo, newStream)
           videoGrid.current.append(newVideo)
+          setUsers(videoGrid.current.childElementCount)
+          console.log('sec', users)
         })
 
         mediaConnection.on('close', () => {
@@ -107,6 +110,8 @@ export default function VideoChatRoom() {
       })
 
       socket.on('user-connected', (peerId, username) => {
+        dispatch(setUser(peerId, username))
+        setUsers(prev => prev + 1)
         const mediaConnection = peer.call(peerId, stream)
         const newVideo = document.createElement('video')
         newVideo.setAttribute('id', `${peerId}`)
@@ -114,6 +119,8 @@ export default function VideoChatRoom() {
         mediaConnection.on('stream', newStream => {
           addVideoStream(newVideo, newStream)
           videoGrid.current.append(newVideo)
+          setUsers(videoGrid.current.childElementCount)
+          console.log('sec', users)
         })
         
         //작동함
@@ -124,7 +131,6 @@ export default function VideoChatRoom() {
     socket.on('user-camera-off', (peerId, username) => {
       const video = document.getElementById(`${peerId}`)
       console.log(`유저 카메라 꺼짐: ${video}`)
-      
     })
 
     socket.on('user-camera-on', (peerId, username) => {
@@ -133,6 +139,8 @@ export default function VideoChatRoom() {
     })
 
     socket.on('user-disconnected', (peerId, username) => {
+      dispatch(setDeleteUser(peerId))
+      setUsers(prev => prev - 1)
       const video = document.getElementById(`${peerId}`)
       console.log(video)
       if (video !== null) {
@@ -162,7 +170,6 @@ export default function VideoChatRoom() {
         <div ref={videoGrid} id="video-grid">
           <video ref={myVideo}></video>
         </div>
-        
       </ChatRoom>
       {
         roomClosed && <ClosedRoomRedirctModal />

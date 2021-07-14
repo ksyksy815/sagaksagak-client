@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import axios from "axios";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import RoomList from "../components/RoomList";
 import CreateRoomModal from "../components/modals/CreateRoomModal";
 import FullRoomModal from "../components/modals/FullRoomModal";
 import Slider from "../components/Slider";
+import { setParticipants } from "../actions/index"
 
 const StyledStudyLoby = styled.div`
   position: relative;
@@ -26,6 +27,7 @@ const StyledStudyLoby = styled.div`
 
 const StudyRoomList = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const state = useSelector((state) => state.logInStatusReducer);
   const [recommend, setRecommend] = useState([
     {
@@ -79,7 +81,9 @@ const StudyRoomList = () => {
       .post(`${process.env.REACT_APP_SERVER_DOMAIN}/room/${roomId}`, {
         userId: state.user.userId,
       })
-      .then(() => {
+      .then((res) => {
+        console.log(res.data)
+        dispatch(setParticipants(res.data.users))
         history.push(`/room/${roomId}`);
       })
       .catch((err) => {
