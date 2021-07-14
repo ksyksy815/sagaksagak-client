@@ -20,6 +20,7 @@ import mouse from "../assets/mouse.svg";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { logIn, logOut } from "../actions/index";
+import getCookie from "../utilities/getCookie";
 
 export default function LandingPage() {
   const state = useSelector((state) => state.logInStatusReducer);
@@ -35,10 +36,7 @@ export default function LandingPage() {
   const refreshLogInRef = useRef();
 
   const handleRefreshLogIn = () => {
-    const cookie = document.cookie;
-    const token = cookie.split(" ")[1].split("=")[1];
-
-    if (!token) return;
+    if (!getCookie("refreshToken")) return;
 
     axios
       .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
