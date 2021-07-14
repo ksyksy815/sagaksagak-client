@@ -109,6 +109,26 @@ const StyledFooter = styled.footer`
   }
 `
 
+const CopyMessage = styled.p`
+  position: absolute;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: #FECF2D;
+  padding: 0.2rem 0.5rem;
+  color: #444444;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 999px;
+  bottom: -22px;
+  right: 20px;
+  z-index: 9990;
+
+  @media ${device.mobile} {
+    right: -20px;
+  }
+`
+
 const StyledDevInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -119,12 +139,26 @@ const StyledDevInfo = styled.div`
     display: flex;
     column-gap: 1rem;
     color: #c9c9c9;
+    transition: 0.2s;
+    position: relative;
     svg {
       fill: #c9c9c9;
     }
     a {
       display: flex;
       column-gap: 1rem;
+    }
+    &:hover{
+      color: #fff;
+      transform: translateY(-2px);
+    }
+  }
+
+  .copy-email {
+    &:hover{
+      .copy-m {
+        display: flex;
+      }
     }
   }
 `
@@ -156,7 +190,10 @@ export default function Footer() {
           <span>WOOSUNG KIM</span>
           <StyledDevInfo>
             <div><MdPerson/>김우성</div>
-            <div onClick={handleClickCopy}><MdEmail/>rladntjd320@gmail.com</div>
+            <div className="copy-email" onClick={handleClickCopy}>
+              <MdEmail/>rladntjd320@gmail.com
+              <CopyMessage className="copy-m">Click to copy!</CopyMessage>
+            </div>
             <div><a href='https://github.com/IJMilk-WS'><AiFillGithub/>IJMilk-WS</a></div>
           </StyledDevInfo>
         </li>
@@ -164,7 +201,10 @@ export default function Footer() {
           <span>SEOYEON KIM</span>
           <StyledDevInfo>
             <div><MdPerson/>김서연</div>
-            <div onClick={handleClickCopy}><MdEmail/>seoyeonkim815@gmail.com</div>
+            <div className="copy-email" onClick={handleClickCopy}>
+              <MdEmail/>seoyeonkim815@gmail.com
+              <CopyMessage className="copy-m">Click to copy!</CopyMessage>
+            </div>
             <div><a href='https://github.com/ksyksy815'><AiFillGithub/>ksyksy815</a></div>
           </StyledDevInfo>
         </li>
@@ -172,7 +212,10 @@ export default function Footer() {
           <span>HYUNWOO JEONG</span>
           <StyledDevInfo>
             <div><MdPerson/>정현우</div>
-            <div onClick={handleClickCopy}><MdEmail/>wijeong@gmail.com</div>
+            <div className="copy-email" onClick={handleClickCopy}>
+              <MdEmail/>wijeong@gmail.com
+              <CopyMessage className="copy-m">Click to copy!</CopyMessage>
+            </div>
             <div><a href='https://github.com/david-Jeong95'><AiFillGithub/>david-Jeong95</a></div>
           </StyledDevInfo>
         </li>
@@ -180,7 +223,10 @@ export default function Footer() {
           <span>SOONEUN HWANG</span>
           <StyledDevInfo>
             <div onClick={handleClickCopy}><MdPerson/>황순은</div>
-            <div><MdEmail/>catalyst8849@gmail.com</div>
+            <div className="copy-email" onClick={handleClickCopy}>
+              <MdEmail/>catalyst8849@gmail.com
+              <CopyMessage className="copy-m">Click to copy!</CopyMessage>
+            </div>
             <div><a href='https://github.com/Hwangsooneun'><AiFillGithub/>Hwangsooneun</a></div>
           </StyledDevInfo>
         </li>
