@@ -153,10 +153,10 @@ export default function TodoList() {
                   withCredentials: true }
               )
               .then (() => {
-                let index = todoList.findIndex(todo => todo.id === id);
+                let index = todoList.findIndex(todo => todo.id === Number(id));
                 let target = todoList[index]
                 target.checked = !target.checked
-                setTodoList( list => list.filter(todo => todo.id !== id) )
+                setTodoList( list => list.filter(todo => todo.id !== Number(id)) )
                 setCompletedList(list => [...list, target])
               })
               .catch(err => console.log(err))
