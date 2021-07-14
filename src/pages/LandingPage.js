@@ -19,7 +19,7 @@ import book from "../assets/book-stack.svg";
 import mouse from "../assets/mouse.svg";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { logIn } from "../actions/index";
+import { logIn, logOut } from "../actions/index";
 
 export default function LandingPage() {
   const state = useSelector((state) => state.logInStatusReducer);
@@ -35,10 +35,16 @@ export default function LandingPage() {
   const refreshLogInRef = useRef();
 
   const handleRefreshLogIn = () => {
+    const cookie = document.cookie;
+    const token = cookie.split(" ")[1].split("=")[1];
+
+    if (!token) return;
+
     axios
       .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
         headers: {
           relogin: true,
+          landing: true,
         },
         withCredentials: true,
       })
@@ -54,7 +60,27 @@ export default function LandingPage() {
       })
       .catch((err) => {
         if (err.response) {
-          if (err.response.status === 403) history.push("/unauthorized");
+          if (err.response.status === 403) {
+            axios
+              .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`, {
+                headers: { authorization: `bearer ${user.accessToken}` },
+                withCredentials: true,
+              })
+              .then(() => {
+                dispatch(logOut());
+              })
+              .catch((err) => {
+                if (err.response) {
+                  console.log(err.response);
+                } else if (err.request) {
+                  console.log(err.request);
+                } else {
+                  console.log("Error :", err.message);
+                }
+                console.log(err.config);
+              });
+            history.push("/unauthorized");
+          }
           console.log(err.response);
         } else if (err.request) {
           console.log(err.request);

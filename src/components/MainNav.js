@@ -144,10 +144,13 @@ export default function MainNav({ isLogedIn }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleLogOut = () => {
+  const handleLogOut = (e) => {
+    e.preventDefault();
+
     axios
       .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`, {
         headers: { authorization: `bearer ${user.accessToken}` },
+        withCredentials: true,
       })
       .then(() => {
         dispatch(logOut());
@@ -195,8 +198,8 @@ export default function MainNav({ isLogedIn }) {
             <li>
               <Link to="/mypage">마이페이지</Link>
             </li>
-            <li onCLick={handleLogOut}>
-              <button>로그아웃</button>
+            <li>
+              <button onClick={handleLogOut}>로그아웃</button>
             </li>
           </ul>
         ) : (
