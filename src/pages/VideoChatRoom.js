@@ -47,6 +47,7 @@ export default function VideoChatRoom() {
 
   let myStream = null
   let myPeerId = ''
+  let allStream = useRef();
 
   const videoGrid = useRef()
   const myVideo = useRef()
@@ -55,16 +56,11 @@ export default function VideoChatRoom() {
   const handleCamera = () => {
     setCameraOn(prev => !prev)
     if ( cameraOn ) {
-      myStream.getTracks().forEach(track => {
-        track.stop()
-      })
-
-    } else if ( !cameraOn ) {
-      navigator.mediaDevices.getUserMedia({video: true})
-      .then (stream => {
-        addVideoStream(myVideo.current, stream)
-        videoGrid.current.append(myVideo.current)
-      })
+      let video = allStream.current.getTracks()
+      video[0].enabled = false;
+    } else {
+      let video = allStream.current.getTracks()
+      video[0].enabled = true;
     }
   }
   
@@ -79,6 +75,7 @@ export default function VideoChatRoom() {
       addVideoStream(myVideo.current, stream)
       videoGrid.current.append(myVideo.current)
       setIsLoading(false)
+      allStream.current = stream
 
       // 피어 생성하기
       
