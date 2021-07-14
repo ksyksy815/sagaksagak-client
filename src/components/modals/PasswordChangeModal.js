@@ -214,7 +214,9 @@ const PasswordChangeModal = ({ open, close }) => {
     setUserInput({ ...userInput, [key]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     if (!userInput.curPW || !userInput.chanPW || !userInput.chanPW) return;
     if (userInput.chanPW !== userInput.checkPW) return;
     if (passwordCheck(userInput.chanPW) !== "passwordAvail") return;
@@ -228,6 +230,7 @@ const PasswordChangeModal = ({ open, close }) => {
         },
         {
           headers: { authorization: `bearer ${user.accessToken}` },
+          withCredentials: true,
         }
       )
       .then(() => {
@@ -236,6 +239,7 @@ const PasswordChangeModal = ({ open, close }) => {
         axios
           .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`, {
             headers: { authorization: `bearer ${user.accessToken}` },
+            withCredentials: true,
           })
           .then(() => {
             dispatch(logOut());
@@ -276,6 +280,7 @@ const PasswordChangeModal = ({ open, close }) => {
                       headers: {
                         authorization: `bearer ${user.accessToken}`,
                       },
+                      withCredentials: true,
                     }
                   )
                   .then(() => {
@@ -288,6 +293,7 @@ const PasswordChangeModal = ({ open, close }) => {
                           headers: {
                             authorization: `bearer ${user.accessToken}`,
                           },
+                          withCredentials: true,
                         }
                       )
                       .then(() => {
@@ -326,6 +332,7 @@ const PasswordChangeModal = ({ open, close }) => {
                           headers: {
                             authorization: `bearer ${user.accessToken}`,
                           },
+                          withCredentials: true,
                         }
                       )
                       .then(() => {

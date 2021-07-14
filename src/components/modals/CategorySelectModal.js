@@ -184,6 +184,7 @@ const CategorySelectModal = ({ open, close }) => {
           headers: {
             authorization: `bearer ${state.user.accessToken}`,
           },
+          withCredentials: true,
         }
       )
       .then(() => {
@@ -208,6 +209,7 @@ const CategorySelectModal = ({ open, close }) => {
                       headers: {
                         authorization: `bearer ${state.user.accessToken}`,
                       },
+                      withCredentials: true,
                     }
                   )
                   .then((res) => {

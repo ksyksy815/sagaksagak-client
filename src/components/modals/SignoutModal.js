@@ -154,6 +154,7 @@ const SignoutModal = ({ open, close }) => {
     axios
       .delete(`${process.env.REACT_APP_SERVER_DOMAIN}/user/${user.userId}`, {
         headers: { password: userInput },
+        withCredentials: true,
       })
       .then(() => {
         setSignoutSuccess(true);
