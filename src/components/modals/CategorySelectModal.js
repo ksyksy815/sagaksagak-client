@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setFirstLogInFalse, changeCategory } from "../../actions/index";
+import {
+  setFirstLogInFalse,
+  changeCategory,
+  setAccessToken,
+} from "../../actions/index";
 import styled from "styled-components";
 import axios from "axios";
 
