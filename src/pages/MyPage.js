@@ -13,6 +13,7 @@ import CategorySelectModal from "../components/modals/CategorySelectModal";
 import { usernameCheck } from "../utilities/availCheck";
 import PasswordChangeModal from "../components/modals/PasswordChangeModal";
 import SignoutModal from "../components/modals/SignoutModal";
+import getCookie from "../utilities/getCookie";
 
 const StyledMyPage = styled.div`
   display: flex;
@@ -219,6 +220,8 @@ const MyPage = () => {
   };
 
   const handleRefreshLogIn = () => {
+    if (!getCookie("refreshToken")) return;
+
     axios
       .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
         headers: {

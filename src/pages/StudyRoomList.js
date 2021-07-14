@@ -9,6 +9,7 @@ import CreateRoomModal from "../components/modals/CreateRoomModal";
 import FullRoomModal from "../components/modals/FullRoomModal";
 import Slider from "../components/Slider";
 import { setParticipants, logIn } from "../actions/index";
+import getCookie from "../utilities/getCookie";
 
 const StyledStudyLoby = styled.div`
   position: relative;
@@ -110,6 +111,8 @@ const StudyRoomList = () => {
   });
 
   const handleRefreshLogIn = () => {
+    if (!getCookie("refreshToken")) return;
+
     axios
       .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
         headers: {

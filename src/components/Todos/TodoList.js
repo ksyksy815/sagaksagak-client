@@ -15,6 +15,7 @@ import {
 import { TodoWrapper } from "./TodoList.style.js";
 import Todo from "./Todo";
 import TodoForm from "./TodoForm";
+import getCookie from "../../utilities/getCookie";
 
 export default function TodoList() {
   // Global
@@ -417,6 +418,8 @@ export default function TodoList() {
   const refreshLogInRef = useRef();
 
   const handleRefreshLogIn = () => {
+    if (!getCookie("refreshToken")) return;
+
     axios
       .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
         headers: {
