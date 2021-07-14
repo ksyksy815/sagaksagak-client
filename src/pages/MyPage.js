@@ -6,6 +6,7 @@ import axios from "axios";
 import CategorySelectModal from "../components/modals/CategorySelectModal";
 import { usernameCheck } from "../utilities/availCheck";
 import PasswordChangeModal from "../components/modals/PasswordChangeModal";
+import SignoutModal from "../components/modals/SignoutModal";
 
 const StyledMyPage = styled.div`
   display: flex;
@@ -173,6 +174,7 @@ const MyPage = () => {
   const { user } = state;
   const [categorySelectMode, setCategorySelectMode] = useState(false);
   const [passwordChangeMode, setPasswordChangeMode] = useState(false);
+  const [signoutMode, setSignoutMode] = useState(false);
   const [usernameChanErr, setUsernameChanErr] = useState("");
   const [userInput, setUserInput] = useState("");
   const [placeHolderOutput, setPlaceHolderOutput] = useState("");
@@ -189,6 +191,10 @@ const MyPage = () => {
 
   const handlePCModalClose = () => {
     setPasswordChangeMode(false);
+  };
+
+  const handleSOModalClose = () => {
+    setSignoutMode(false);
   };
 
   const handleChangeUsername = () => {
@@ -315,14 +321,21 @@ const MyPage = () => {
   return (
     <StyledMyPage>
       <StyledContentWrapper>
-        <CategorySelectModal
-          open={categorySelectMode}
-          close={handleCSModalClose}
-        />
-        <PasswordChangeModal
-          open={passwordChangeMode}
-          close={handlePCModalClose}
-        />
+        {categorySelectMode && (
+          <CategorySelectModal
+            open={categorySelectMode}
+            close={handleCSModalClose}
+          />
+        )}
+        {passwordChangeMode && (
+          <PasswordChangeModal
+            open={passwordChangeMode}
+            close={handlePCModalClose}
+          />
+        )}
+        {signoutMode && (
+          <SignoutModal open={signoutMode} close={handleSOModalClose} />
+        )}
         <div className="content-email">
           <label>이메일</label>
           <div>{user.email}</div>
@@ -371,7 +384,7 @@ const MyPage = () => {
         </div>
         <div className="content-signout">
           <label>회원탈퇴</label>
-          <button>탈퇴</button>
+          <button onClick={() => setSignoutMode(true)}>탈퇴</button>
         </div>
       </StyledContentWrapper>
     </StyledMyPage>
