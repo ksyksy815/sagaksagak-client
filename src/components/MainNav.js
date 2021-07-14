@@ -155,19 +155,13 @@ export default function MainNav({ isLogedIn }) {
       })
       .catch((err) => {
         if (err.response) {
-          if (err.response.status === 409) {
-            setErrMessage({
-              ...errMessage,
-              other: "이미 가입한 회원입니다 로그인을 진행해 주세요",
-            });
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("Error :", err.message);
-          }
-          console.log(err.config);
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
         }
+        console.log(err.config);
       });
   };
 

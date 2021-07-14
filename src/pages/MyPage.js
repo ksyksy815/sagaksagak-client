@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeUsername, setAccessToken } from "../actions/index";
+import { useHistory } from "react-router";
+import { changeUsername, logOut, setAccessToken } from "../actions/index";
 import styled from "styled-components";
 import axios from "axios";
 import CategorySelectModal from "../components/modals/CategorySelectModal";
@@ -180,6 +181,7 @@ const MyPage = () => {
   const [placeHolderOutput, setPlaceHolderOutput] = useState("");
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleUserInput = (e) => {
     setUserInput(e.target.value);
@@ -263,8 +265,30 @@ const MyPage = () => {
               .catch((err) => {
                 if (err.response) {
                   if (err.response.status === 403) {
-                    //로그아웃 로직(통신)
-                    //포비든 페이지로 리디렉트
+                    dispatch(logOut);
+                    axios
+                      .get(
+                        `${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`,
+                        {
+                          headers: {
+                            authorization: `bearer ${user.accessToken}`,
+                          },
+                        }
+                      )
+                      .then(() => {
+                        dispatch(logOut());
+                      })
+                      .catch((err) => {
+                        if (err.response) {
+                          console.log(err.response);
+                        } else if (err.request) {
+                          console.log(err.request);
+                        } else {
+                          console.log("Error :", err.message);
+                        }
+                        console.log(err.config);
+                      });
+                    history.push("/unauthorized");
                   }
                   console.log(err.response);
                 } else if (err.request) {
