@@ -168,7 +168,7 @@ export default function MainNav( {isLogedIn} ) {
             <li>
               <Link to="/mypage">마이페이지</Link>
             </li>
-            <li onCLick={handleLogOut}>
+            <li onClick={handleLogOut}>
               <button>로그아웃</button>
             </li>
           </ul>
