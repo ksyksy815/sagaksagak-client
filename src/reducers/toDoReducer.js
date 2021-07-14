@@ -2,8 +2,6 @@ import { initialState } from "./initialState";
 import {
   SET_TO_DO_LIST,
   NEW_TO_DO,
-  TO_DO_CHECKED,
-  TO_DO_UNCHECKED,
   TO_DO_CHECK,
   DELETE_TO_DO
 } from "../actions/index";
@@ -40,7 +38,7 @@ const todoReducer = (state = initialState, action) => {
     case TO_DO_CHECK:
       let index = state.todos.findIndex((todo) => todo.id === action.payload.id);
       let list = state.todos.slice()
-      list[index].checked = !list[index].checked
+      list[index].checked = !(list[index].checked)
       
       return {
         ...state,
@@ -55,24 +53,6 @@ const todoReducer = (state = initialState, action) => {
         ...state,
         todos: copy
       };
-    case TO_DO_CHECKED: {
-      let idx = state.todos.findIndex((todo) => todo.id === action.payload.id);
-      let front = state.todos.slice(0, idx);
-      let back = state.todos.slice(idx + 1);
-      return {
-        ...state,
-        todos: [...front, action.payload, ...back],
-      };
-    }
-    case TO_DO_UNCHECKED: {
-      let idx = state.todos.findIndex((todo) => todo.id === action.payload.id);
-      let front = state.todos.slice(0, idx);
-      let back = state.todos.slice(idx + 1);
-      return {
-        ...state,
-        todos: [...front, action.payload, ...back],
-      };
-    }
     default:
       return state;
   }

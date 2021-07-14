@@ -13,6 +13,7 @@ export const TodoWrapper = styled.div`
   .noTodoMessage {
     padding: 1rem;
     text-align: center;
+    background: #ebebeb;
   }
 
   #newTodoBtn {
