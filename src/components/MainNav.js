@@ -36,8 +36,14 @@ const StyledMainNav = styled.nav`
   
   .menu-btn {
     display: none;
-    fill: #fff;
+    justify-content: center;
+    align-items: center;
     font-size: 2rem;
+    background: transparent;
+    border: none;
+    svg{
+      fill: #fff;
+    }
     &:hover {
       cursor: pointer;
     }
@@ -65,13 +71,11 @@ const StyledMainNav = styled.nav`
           background: transparent;
           border: none;
           font-size: 1rem;
-          
           &:hover {
             transform: translateY(-3px);
             cursor: pointer;
             color: #444444;
           }
-  
         }
 
         a, button {
@@ -132,20 +136,21 @@ const StyledMainNav = styled.nav`
 
 export default function MainNav( {isLogedIn} ) {
   const [menuOn, setMenuOn] = useState(false)
+  const [aniMode, setAniMode] = useState(false)
 
   const handleLogOut = () => {
     //로그아웃 로직 구현
   };
 
   const toggleMenus = () => {
-    setMenuOn(prev=>!prev)
+    setMenuOn(!menuOn)
+    setAniMode(true)
   }
-
 
   return (
     <StyledMainNav>
       <h2><Link to='/'>사각사각</Link></h2>
-      <AiOutlineMenu className="menu-btn" onClick={toggleMenus}/>
+      <button className="menu-btn"><AiOutlineMenu onClick={toggleMenus}/></button>
       <div className="nav-menus">
         <ul>
           <li>
@@ -180,7 +185,7 @@ export default function MainNav( {isLogedIn} ) {
       </div>
       {
         menuOn &&
-        <MobileMainNav toggleMenus={toggleMenus} isLogedIn={isLogedIn} handleLogOut={handleLogOut} />
+        <MobileMainNav aniMode={aniMode} setAniMode={setAniMode} setMenuOn={setMenuOn} isLogedIn={isLogedIn} handleLogOut={handleLogOut} />
       }
     </StyledMainNav>
   );
