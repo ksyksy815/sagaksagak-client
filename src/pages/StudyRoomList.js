@@ -8,7 +8,7 @@ import RoomList from "../components/RoomList";
 import CreateRoomModal from "../components/modals/CreateRoomModal";
 import FullRoomModal from "../components/modals/FullRoomModal";
 import Slider from "../components/Slider";
-import { setParticipants, logIn } from "../actions/index";
+import { setParticipants, logIn, logOut } from "../actions/index";
 import getCookie from "../utilities/getCookie";
 
 const StyledStudyLoby = styled.div`
@@ -30,6 +30,7 @@ const StudyRoomList = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.logInStatusReducer);
+  const { user } = state;
   const [recommend, setRecommend] = useState([
     {
       roomName: "2021년 10월 지방직 9급 대비 함께 해요",
@@ -132,7 +133,27 @@ const StudyRoomList = () => {
       })
       .catch((err) => {
         if (err.response) {
-          if (err.response.status === 403) history.push("/unauthorized");
+          if (err.response.status === 403) {
+            axios
+              .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`, {
+                headers: { authorization: `bearer ${user.accessToken}` },
+                withCredentials: true,
+              })
+              .then(() => {
+                dispatch(logOut());
+              })
+              .catch((err) => {
+                if (err.response) {
+                  console.log(err.response);
+                } else if (err.request) {
+                  console.log(err.request);
+                } else {
+                  console.log("Error :", err.message);
+                }
+                console.log(err.config);
+              });
+            history.push("/unauthorized");
+          }
           console.log(err.response);
         } else if (err.request) {
           console.log(err.request);
