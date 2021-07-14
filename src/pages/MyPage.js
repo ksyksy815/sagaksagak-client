@@ -5,6 +5,7 @@ import styled from "styled-components";
 import axios from "axios";
 import CategorySelectModal from "../components/modals/CategorySelectModal";
 import { usernameCheck } from "../utilities/availCheck";
+import PasswordChangeModal from "../components/modals/PasswordChangeModal";
 
 const StyledMyPage = styled.div`
   display: flex;
@@ -171,6 +172,7 @@ const MyPage = () => {
   const state = useSelector((state) => state.logInStatusReducer);
   const { user } = state;
   const [categorySelectMode, setCategorySelectMode] = useState(false);
+  const [passwordChangeMode, setPasswordChangeMode] = useState(false);
   const [usernameChanErr, setUsernameChanErr] = useState("");
   const [userInput, setUserInput] = useState("");
   const [placeHolderOutput, setPlaceHolderOutput] = useState("");
@@ -181,8 +183,12 @@ const MyPage = () => {
     setUserInput(e.target.value);
   };
 
-  const handleCRModelClose = () => {
+  const handleCSModalClose = () => {
     setCategorySelectMode(false);
+  };
+
+  const handlePCModalClose = () => {
+    setPasswordChangeMode(false);
   };
 
   const handleChangeUsername = () => {
@@ -311,7 +317,11 @@ const MyPage = () => {
       <StyledContentWrapper>
         <CategorySelectModal
           open={categorySelectMode}
-          close={handleCRModelClose}
+          close={handleCSModalClose}
+        />
+        <PasswordChangeModal
+          open={passwordChangeMode}
+          close={handlePCModalClose}
         />
         <div className="content-email">
           <label>이메일</label>
@@ -357,7 +367,7 @@ const MyPage = () => {
         </div>
         <div className="content-password">
           <label>비밀번호</label>
-          <button>변경하기</button>
+          <button onClick={() => setPasswordChangeMode(true)}>변경하기</button>
         </div>
         <div className="content-signout">
           <label>회원탈퇴</label>
