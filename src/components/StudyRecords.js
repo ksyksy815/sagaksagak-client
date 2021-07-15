@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { setAccessToken } from "../actions/index";
+import { setAccessToken, logIn } from "../actions/index";
 import styled from "styled-components";
 import {
   AiFillPieChart,
