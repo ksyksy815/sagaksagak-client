@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { device } from '../device'
 
 const ChatroomNav = styled.nav`
   box-sizing: border-box;
@@ -10,7 +11,7 @@ const ChatroomNav = styled.nav`
   display: ${props => props.clientY <= 60 ? `flex` : `none`};
   justify-content: space-between;
   align-items: center;
-  background: #205b5ab4;
+  background: #1e1e1e;
   position: absolute;
   top: 0;
   z-index: 5;
@@ -25,6 +26,12 @@ const ChatroomNav = styled.nav`
     display: flex;
     column-gap: 1rem;
   }
+
+  @media ${device.mobile} {
+    h2 {
+      font-size:1.2rem;
+    }
+  }
 `
 
 const ChatroomBtn = styled.button`
@@ -33,7 +40,7 @@ const ChatroomBtn = styled.button`
   border: none;
   display: flex;
   align-items: center;
-  
+  transition: 0.2s;
   &:hover {
     cursor: pointer;
   }
@@ -44,6 +51,7 @@ const CameraBtn = styled(ChatroomBtn)`
   justify-content: ${props => props.cameraOn ? `flex-end` : `flex-start`};
   background-color: ${props => props.cameraOn ? `#66B0F0` : `grey`};
   transition: 0.1s;
+  padding: 0 0.2rem;
 
   span {
     width: 22px;
@@ -55,26 +63,25 @@ const CameraBtn = styled(ChatroomBtn)`
 
 const NavBtn = styled(ChatroomBtn)`
   width: 80px;
-  background: #A2C8BF;
-  color: #205B5A;
+  background: #ebebeb;
+  color: #1e1e1e;
   padding: 0 1rem;
   font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
+  &:hover {
+    transform: translateY(-2px);
+    background-color: #fff;
+  }
 `
 
-export default function ChatRoomNav( { cameraOn, handleCamera } ) {
+export default function ChatRoomNav( { cameraOn, handleCamera, toggleTodo } ) {
   const history = useHistory()
-  const [clientY, setClientY] = useState()
-  
+  const [clientY, setClientY] = useState()  
 
   const handleMousemove = (e) => {
     setClientY(e.clientY)
-  }
-
-  const handleClickTodos = () => {
-    //구현 필요
   }
 
   const handleClickCamera = () => {
@@ -95,7 +102,7 @@ export default function ChatRoomNav( { cameraOn, handleCamera } ) {
         <h2><Link to='/'>사각사각</Link></h2>
         <div className="chatroom-btnBox">
           <CameraBtn cameraOn={cameraOn} onClick={handleClickCamera}><span></span></CameraBtn>
-          <NavBtn onClick={handleClickTodos}>To-Dos</NavBtn>
+          <NavBtn onClick={toggleTodo}>To-Dos</NavBtn>
           <NavBtn onClick={handleExit}>나가기</NavBtn>
         </div>
       </ChatroomNav>
