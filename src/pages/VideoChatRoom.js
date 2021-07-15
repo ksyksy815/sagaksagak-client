@@ -29,7 +29,7 @@ const ChatRoom = styled.div`
           case 1:
             return `100%`
           case 2:
-            return `50%`
+            return `46%`
           case 3:
             return `33%`
           case 4:
