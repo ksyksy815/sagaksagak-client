@@ -6,7 +6,7 @@ import { device } from '../device'
 export const StyledLandingPage = styled.div`
   width: 100vw;
   height: auto;
-
+  background-color: #f5f5f5;
   background-image: url(${circle}), url(${circle}), url(${circle}), url(${circle}), url(${circle});
   background-repeat: no-repeat;
   background-size:  50%, 30%, 80%, 40%, 80%;
@@ -179,30 +179,30 @@ export const StyledSectionMid = styled.section`
     }
 
     .one-text {
-      width: 450px;
+      width: 500px;
       height: auto;
       position: absolute;
-      right: 15%;
-      top: 20%;
-      padding: 2rem;
-      background-color: #a2c8bfc4;
-      border-radius: 15px;
+      left: 50%;
+      top: 10%;
+      padding: 3rem;
+      background-color: rgba(252,252,252,0.9);
       box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       justify-content: center;
-      row-gap: 1rem;
+      row-gap: 2rem;
 
       h1 {
         font-family: 'Nanum Pen Script', cursive;
-        color: #205b5a;
-        font-size: 2rem;
+        color: #444444;
+        font-size: 3rem;
       }
 
       p {
-        color: #fff;
+        color: #9e9e9e;
         font-size: 1.2rem;
+        line-height: 1.6;
       }
     }
 
@@ -227,29 +227,28 @@ export const StyledSectionMid = styled.section`
         border-radius: 0;
         box-shadow: none;
         row-gap: 1rem;
+        h1 {
+          font-size: 2rem;
+        }
       }
     }
 
     @media ${device.mobile} {
       .one-text {
         padding: 2rem 1rem;
-        h1 {
-          font-size: 1.5rem;
-        }
       }
     }
   }
 
   .two {
     .two-text {
-      width: 450px;
+      width: 550px;
       height: auto;
       position: absolute;
       left: 15%;
       top: 0%;
-      padding: 2rem;
-      background-color: #a2c8bfc4;
-      border-radius: 15px;
+      padding: 3rem;
+      background-color: rgba(252,252,252,0.9);
       box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
       display: flex;
       flex-direction: column;
@@ -259,13 +258,13 @@ export const StyledSectionMid = styled.section`
     
       h1 {
         font-family: 'Nanum Pen Script', cursive;
-        color: #205B5A;
-        font-size: 2rem;
+        color: #444444;
+        font-size: 3rem;
 
       }
 
       p {
-        color: #fff;
+        color: #9e9e9e;
         font-size: 1.2rem;
         line-height: 1.6;
       }
@@ -287,6 +286,9 @@ export const StyledSectionMid = styled.section`
         height: 40vh;
         border-radius: 0;
         box-shadow: none;
+        h1 {
+          font-size: 2rem;
+        }
       }
       .two-img {
         height: 60vh;
@@ -303,29 +305,28 @@ export const StyledSectionMid = styled.section`
   .three {
     height: 130px;
     .three-text {
-      width: 450px;
+      width: 500px;
       height: auto;
       position: absolute;
       right: 15%;
       top: 5%;
-      padding: 2rem;
-      background-color: #a2c8bfc4;
-      border-radius: 15px;
+      padding: 3rem;
+      background-color: rgba(252,252,252,0.9);
       box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      row-gap: 1rem;
+      row-gap: 2rem;
       
       h1 {
         font-family: 'Nanum Pen Script', cursive;
-        color: #205B5A;
-        font-size: 2rem;
+        color: #444444;
+        font-size: 3rem;
       }
 
       p {
-        color: #fff;
+        color: #9e9e9e;
         font-size: 1.2rem;
         line-height: 1.6;
       }
@@ -362,6 +363,9 @@ export const StyledSectionMid = styled.section`
         box-shadow: none;
         border-radius: 0;
         height: 40vh;
+        h1 {
+          font-size: 2rem;
+        }
       }
     }
 
