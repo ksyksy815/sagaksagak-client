@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import StudylogNav from '../components/StudylogNav'
 import TodoList from '../components/Todos/TodoList'
-import StudyRecords from '../components/StudyRecords'
+import StudyRecords from '../components/StudyRecords/StudyRecords'
 
 const StudylogWrapper = styled.div`
   box-sizing: border-box;
