@@ -14,6 +14,18 @@ import { usernameCheck } from "../utilities/availCheck";
 import PasswordChangeModal from "../components/modals/PasswordChangeModal";
 import SignoutModal from "../components/modals/SignoutModal";
 import getCookie from "../utilities/getCookie";
+import { IoIosSchool } from "react-icons/io";
+import {
+  FaSchool,
+  FaLanguage,
+  FaLaptopCode,
+  FaRegBuilding,
+  FaRegIdBadge,
+  FaBrush,
+  FaPlayCircle,
+} from "react-icons/fa";
+import { BiWorld } from "react-icons/bi";
+import { GiPoliceBadge } from "react-icons/gi";
 
 const StyledMyPage = styled.div`
   display: flex;
@@ -144,17 +156,20 @@ const StyledContentWrapper = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 20px;
 
       .categories {
+        position: relative;
+        top: 20px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        row-gap: 10px;
         align-items: center;
         text-align: center;
         height: 100px;
         width: 100px;
         border-radius: 10px;
-        border: solid 1px black;
+        border: solid 1px lightgray;
       }
 
       .no-category {
@@ -175,6 +190,31 @@ const StyledContentWrapper = styled.div`
     width: 100%;
   }
 `;
+
+const renderIconByCategory = (category) => {
+  switch (category) {
+    case "국내입시":
+      return <IoIosSchool fontSize={30} />;
+    case "해외입시":
+      return <FaSchool fontSize={30} />;
+    case "영어":
+      return <FaLanguage fontSize={30} />;
+    case "제2외국어":
+      return <BiWorld fontSize={30} />;
+    case "코딩":
+      return <FaLaptopCode fontSize={30} />;
+    case "취업":
+      return <FaRegBuilding fontSize={30} />;
+    case "자격증":
+      return <FaRegIdBadge fontSize={30} />;
+    case "공무원":
+      return <GiPoliceBadge fontSize={30} />;
+    case "예체능":
+      return <FaBrush fontSize={30} />;
+    case "자유":
+      return <FaPlayCircle fontSize={30} />;
+  }
+};
 
 const MyPage = () => {
   const state = useSelector((state) => state.logInStatusReducer);
@@ -475,7 +515,12 @@ const MyPage = () => {
               <div className="no-category">선택된 관심사가 없습니다</div>
             ) : (
               user.category.map((category) => {
-                return <div className="categories">{category}</div>;
+                return (
+                  <div className="categories">
+                    {renderIconByCategory(category)}
+                    {category}
+                  </div>
+                );
               })
             )}
           </div>
