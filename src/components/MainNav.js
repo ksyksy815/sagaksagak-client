@@ -42,13 +42,15 @@ const StyledMainNav = styled.nav`
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    background: transparent;
+    background: #7F554F;
     border: none;
-    svg {
-      fill: #fff;
-    }
     &:hover {
       cursor: pointer;
+    }
+
+    svg {
+      fill: #fff;
+      pointer-events: none;
     }
   }
 
@@ -114,7 +116,7 @@ const StyledMainNav = styled.nav`
     }
 
     .menu-btn {
-      display: block;
+      display: flex;
     }
     .nav-menus {
       display: none;
@@ -178,8 +180,8 @@ export default function MainNav({ isLogedIn }) {
       <h2>
         <Link to="/">사각사각</Link>
       </h2>
-      <button className="menu-btn">
-        <AiOutlineMenu onClick={toggleMenus} />
+      <button className="menu-btn" onClick={toggleMenus}>
+        <AiOutlineMenu />
       </button>
       <div className="nav-menus">
         <ul>
