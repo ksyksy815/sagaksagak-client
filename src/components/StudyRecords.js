@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setAccessToken } from '../actions/index'
 import styled from 'styled-components'
 import { AiFillPieChart, AiOutlineBarChart, AiOutlineUnorderedList, AiFillCaretRight } from 'react-icons/ai'
-import { PieChart, Pie, LabelList, Cell, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, PolarGrid } from 'recharts'
+import { PieChart, Pie, Cell, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, ResponsiveContainer } from 'recharts'
 import { device } from '../device'
 
 const RecordsWrapper = styled.div`
@@ -45,11 +45,19 @@ const RecordsWrapper = styled.div`
     }
 
     .pie-box {
-      width: 100%;
+      width: 500px;
+      height: 500px;
       padding: 2rem 0;
       display: flex;
       justify-content: center;
       align-items: center;
+
+      @media ${device.tablet} {
+        width: 500px;
+      }
+      @media ${device.mobile} {
+        width: 300px;
+      }
     }
   }
 
@@ -294,10 +302,20 @@ export default function StudyRecords() {
   const [totalHours, setTotalHours] = useState(1)
   const [hoursByCategory, setHoursByCategory] = useState(dummyHoursByCategory)
   const [hoursByDay, setHoursByDay] = useState(dummyHoursByDay)
+  const [innerWidth, setInnerWidth] = useState(0)
 
   //chart
   const COLORS = ['#A9C2DB', '#ECCC81', '#EBAB87', '#D4859A', '#B685D4']
-  
+
+  const changeInnerWidthState = () => {
+    setInnerWidth(window.innerWidth)
+  }
+
+  useEffect(()=> {
+    window.addEventListener('resize', changeInnerWidthState)
+    return window.removeEventListener('resize', changeInnerWidthState)
+  }, [])
+
   useEffect(() => {
     if ( user.isLogedIn ) {
       if ( !hasFetchedData.current ) {
@@ -359,7 +377,7 @@ export default function StudyRecords() {
         })
       }
     }
-  }, [user.isLogedIn, dispatch, user.accessToken, user.userId])
+  }, [user.isLogedIn, dispatch, user.accessToken, user.userId, hoursByCategory])
   
   return (
     <RecordsWrapper>
@@ -371,22 +389,27 @@ export default function StudyRecords() {
             <div className="pie-box">
               {
                 hoursByCategory.length !== 0 ?
-                <PieChart id="pie-chart" width={480} height={400}>
-                  <Pie data={hoursByCategory} 
-                    dataKey="hours" 
-                    nameKey="category" 
-                    cx="50%" cy="50%" 
-                    outerRadius={150} 
-                    fill="#8884d8"
-                    label>
-                      <LabelList dataKey="category" position="inside"  />
-                      {hoursByCategory.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index%COLORS.length]}/>
-                      ))}
-                  </Pie>
-                  <Legend />
-                  <Tooltip contentStyle={pieContentStyle}/>
-                </PieChart>
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart id="pie-chart" >
+                    <Pie data={hoursByCategory} 
+                      dataKey="hours" 
+                      nameKey="category" 
+                      cx="50%" cy="50%" 
+                      outerRadius={150} 
+                      fill="#8884d8"
+                      label>
+                        {hoursByCategory.map((entry, index) => 
+                          <Cell key={`cell-${index}`} fill={COLORS[index%COLORS.length]}/>
+                        )}
+                    </Pie>
+                    <Legend 
+                      layout="horizontal"
+                      verticalAlign="bottom" 
+                      align="center" 
+                    />
+                    <Tooltip contentStyle={pieContentStyle}/>
+                  </PieChart>
+                </ResponsiveContainer>
                 :
                 <div className="no-record">참여 기록이 없습니다.</div>
               }
@@ -394,17 +417,19 @@ export default function StudyRecords() {
           </section >
           <section className="records-mid">
             <h2><AiOutlineBarChart/> 요일별 공부시간</h2>
-            <BarChart width={700} height={400} data={hoursByDay}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="day" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="hours" fill="#8884d8" >
-                {hoursByDay.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index%COLORS.length]}/>
-                ))}
-              </Bar>
-            </BarChart>
+            <ResponsiveContainer width={innerWidth > 770 ? "70%" : "100%"} height={innerWidth > 770 ? "70%" : "50%"}>
+              <BarChart width={700} height={400} data={hoursByDay}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="day" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="hours" fill="#8884d8" >
+                  {hoursByDay.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index%COLORS.length]}/>
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </section>
           <section className="records-bottom">
             <h2><AiOutlineUnorderedList/>참여기록</h2>
