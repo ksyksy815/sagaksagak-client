@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeUsername, setAccessToken } from "../actions/index";
+import { useHistory } from "react-router";
+import {
+  changeUsername,
+  logOut,
+  setAccessToken,
+  logIn,
+} from "../actions/index";
 import styled from "styled-components";
 import axios from "axios";
 import CategorySelectModal from "../components/modals/CategorySelectModal";
 import { usernameCheck } from "../utilities/availCheck";
 import PasswordChangeModal from "../components/modals/PasswordChangeModal";
+import SignoutModal from "../components/modals/SignoutModal";
+import getCookie from "../utilities/getCookie";
 
 const StyledMyPage = styled.div`
   display: flex;
@@ -173,11 +181,27 @@ const MyPage = () => {
   const { user } = state;
   const [categorySelectMode, setCategorySelectMode] = useState(false);
   const [passwordChangeMode, setPasswordChangeMode] = useState(false);
+  const [signoutMode, setSignoutMode] = useState(false);
   const [usernameChanErr, setUsernameChanErr] = useState("");
   const [userInput, setUserInput] = useState("");
   const [placeHolderOutput, setPlaceHolderOutput] = useState("");
 
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const refreshLogInRef = useRef();
+
+  useEffect(() => {
+    refreshLogInRef.current = handleRefreshLogIn;
+  });
+
+  useEffect(() => {
+    const logInRefresh = () => {
+      refreshLogInRef.current();
+    };
+
+    logInRefresh();
+  }, []);
 
   const handleUserInput = (e) => {
     setUserInput(e.target.value);
@@ -191,7 +215,66 @@ const MyPage = () => {
     setPasswordChangeMode(false);
   };
 
-  const handleChangeUsername = () => {
+  const handleSOModalClose = () => {
+    setSignoutMode(false);
+  };
+
+  const handleRefreshLogIn = () => {
+    if (!getCookie("refreshToken")) return;
+
+    axios
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
+        headers: {
+          relogin: true,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const { accessToken, username, userId, email, category, subId } =
+          res.data;
+
+        if (subId)
+          dispatch(
+            logIn(email, userId, username, accessToken, category, subId)
+          );
+        dispatch(logIn(email, userId, username, accessToken, category));
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 403) {
+            axios
+              .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`, {
+                headers: { authorization: `bearer ${user.accessToken}` },
+                withCredentials: true,
+              })
+              .then(() => {
+                dispatch(logOut());
+              })
+              .catch((err) => {
+                if (err.response) {
+                  console.log(err.response);
+                } else if (err.request) {
+                  console.log(err.request);
+                } else {
+                  console.log("Error :", err.message);
+                }
+                console.log(err.config);
+              });
+            history.push("/unauthorized");
+          }
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
+  };
+
+  const handleChangeUsername = (e) => {
+    e.preventDefault();
+
     if (user.username === userInput) return;
 
     if (usernameCheck(userInput) !== "usernameAvail") return;
@@ -206,6 +289,7 @@ const MyPage = () => {
           headers: {
             authorization: `bearer ${user.accessToken}`,
           },
+          withCredentials: true,
         }
       )
       .then(() => {
@@ -233,6 +317,7 @@ const MyPage = () => {
                       headers: {
                         authorization: `bearer ${user.accessToken}`,
                       },
+                      withCredentials: true,
                     }
                   )
                   .then(() => {
@@ -257,8 +342,31 @@ const MyPage = () => {
               .catch((err) => {
                 if (err.response) {
                   if (err.response.status === 403) {
-                    //로그아웃 로직(통신)
-                    //포비든 페이지로 리디렉트
+                    dispatch(logOut);
+                    axios
+                      .get(
+                        `${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`,
+                        {
+                          headers: {
+                            authorization: `bearer ${user.accessToken}`,
+                          },
+                          withCredentials: true,
+                        }
+                      )
+                      .then(() => {
+                        dispatch(logOut());
+                      })
+                      .catch((err) => {
+                        if (err.response) {
+                          console.log(err.response);
+                        } else if (err.request) {
+                          console.log(err.request);
+                        } else {
+                          console.log("Error :", err.message);
+                        }
+                        console.log(err.config);
+                      });
+                    history.push("/unauthorized");
                   }
                   console.log(err.response);
                 } else if (err.request) {
@@ -315,14 +423,21 @@ const MyPage = () => {
   return (
     <StyledMyPage>
       <StyledContentWrapper>
-        <CategorySelectModal
-          open={categorySelectMode}
-          close={handleCSModalClose}
-        />
-        <PasswordChangeModal
-          open={passwordChangeMode}
-          close={handlePCModalClose}
-        />
+        {categorySelectMode && (
+          <CategorySelectModal
+            open={categorySelectMode}
+            close={handleCSModalClose}
+          />
+        )}
+        {passwordChangeMode && (
+          <PasswordChangeModal
+            open={passwordChangeMode}
+            close={handlePCModalClose}
+          />
+        )}
+        {signoutMode && (
+          <SignoutModal open={signoutMode} close={handleSOModalClose} />
+        )}
         <div className="content-email">
           <label>이메일</label>
           <div>{user.email}</div>
@@ -371,7 +486,7 @@ const MyPage = () => {
         </div>
         <div className="content-signout">
           <label>회원탈퇴</label>
-          <button>탈퇴</button>
+          <button onClick={() => setSignoutMode(true)}>탈퇴</button>
         </div>
       </StyledContentWrapper>
     </StyledMyPage>

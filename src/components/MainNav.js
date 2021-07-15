@@ -1,17 +1,20 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import { device } from '../device'
-import { AiOutlineMenu } from 'react-icons/ai'
-import MobileMainNav from '../components/MobileMainNav'
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import styled from "styled-components";
+import { device } from "../device";
+import { AiOutlineMenu } from "react-icons/ai";
+import MobileMainNav from "../components/MobileMainNav";
+import { logOut } from "../actions/index";
+import axios from "axios";
 
 const StyledMainNav = styled.nav`
-  *{
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   width: 100vw;
   height: 45px;
   display: flex;
@@ -30,22 +33,24 @@ const StyledMainNav = styled.nav`
     align-items: center;
     a {
       text-decoration: none;
-      color: #7F554F;
+      color: #7f554f;
     }
   }
-  
+
   .menu-btn {
     display: none;
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    background: transparent;
+    background: #7F554F;
     border: none;
-    svg{
-      fill: #fff;
-    }
     &:hover {
       cursor: pointer;
+    }
+
+    svg {
+      fill: #fff;
+      pointer-events: none;
     }
   }
 
@@ -62,8 +67,7 @@ const StyledMainNav = styled.nav`
       list-style: none;
       text-decoration: none;
       column-gap: 3rem;
-      
-  
+
       li {
         transition: 0.2s;
 
@@ -78,19 +82,19 @@ const StyledMainNav = styled.nav`
           }
         }
 
-        a, button {
+        a,
+        button {
           color: #444444;
           font-weight: bold;
           text-decoration: none;
           padding: 1rem 0;
         }
-        
+
         &:hover {
           transform: translateY(-3px);
           & a {
             cursor: pointer;
-            color: #7F554F;
-            
+            color: #7f554f;
           }
         }
       }
@@ -98,11 +102,11 @@ const StyledMainNav = styled.nav`
   }
 
   @media ${device.laptop} {
-      max-width: 1200px;
+    max-width: 1200px;
   }
 
   @media ${device.tablet} {
-    background-color: #7F554F;
+    background-color: #7f554f;
 
     h2 {
       a {
@@ -112,7 +116,7 @@ const StyledMainNav = styled.nav`
     }
 
     .menu-btn {
-      display: block;
+      display: flex;
     }
     .nav-menus {
       display: none;
@@ -131,26 +135,54 @@ const StyledMainNav = styled.nav`
       font-size: 1.5rem;
     }
   }
+`;
 
-`
+export default function MainNav({ isLogedIn }) {
+  const state = useSelector((state) => state.logInStatusReducer);
+  const { user } = state;
+  const [menuOn, setMenuOn] = useState(false);
+  const [aniMode, setAniMode] = useState(false);
 
-export default function MainNav( {isLogedIn} ) {
-  const [menuOn, setMenuOn] = useState(false)
-  const [aniMode, setAniMode] = useState(false)
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const handleLogOut = () => {
-    //로그아웃 로직 구현
+  const handleLogOut = (e) => {
+    e.preventDefault();
+
+    axios
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`, {
+        headers: { authorization: `bearer ${user.accessToken}` },
+        withCredentials: true,
+      })
+      .then(() => {
+        dispatch(logOut());
+        history.push("/");
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
   };
 
   const toggleMenus = () => {
-    setMenuOn(!menuOn)
-    setAniMode(true)
-  }
+    setMenuOn(!menuOn);
+    setAniMode(true);
+  };
 
   return (
     <StyledMainNav>
-      <h2><Link to='/'>사각사각</Link></h2>
-      <button className="menu-btn"><AiOutlineMenu onClick={toggleMenus}/></button>
+      <h2>
+        <Link to="/">사각사각</Link>
+      </h2>
+      <button className="menu-btn" onClick={toggleMenus}>
+        <AiOutlineMenu />
+      </button>
       <div className="nav-menus">
         <ul>
           <li>
@@ -168,8 +200,8 @@ export default function MainNav( {isLogedIn} ) {
             <li>
               <Link to="/mypage">마이페이지</Link>
             </li>
-            <li onCLick={handleLogOut}>
-              <button>로그아웃</button>
+            <li>
+              <button onClick={handleLogOut}>로그아웃</button>
             </li>
           </ul>
         ) : (
@@ -183,10 +215,15 @@ export default function MainNav( {isLogedIn} ) {
           </ul>
         )}
       </div>
-      {
-        menuOn &&
-        <MobileMainNav aniMode={aniMode} setAniMode={setAniMode} setMenuOn={setMenuOn} isLogedIn={isLogedIn} handleLogOut={handleLogOut} />
-      }
+      {menuOn && (
+        <MobileMainNav
+          aniMode={aniMode}
+          setAniMode={setAniMode}
+          setMenuOn={setMenuOn}
+          isLogedIn={isLogedIn}
+          handleLogOut={handleLogOut}
+        />
+      )}
     </StyledMainNav>
   );
 }

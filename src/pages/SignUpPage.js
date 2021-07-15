@@ -139,7 +139,9 @@ const SignUpPage = () => {
     const { username } = userInput;
 
     axios
-      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/signup/${username}`)
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/signup/${username}`, {
+        withCredentials: true,
+      })
       .then(() => {
         setErrMessage({
           ...errMessage,
@@ -193,14 +195,14 @@ const SignUpPage = () => {
               ...errMessage,
               other: "이미 가입한 회원입니다 로그인을 진행해 주세요",
             });
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("Error :", err.message);
           }
-          console.log(err.config);
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
         }
+        console.log(err.config);
       });
   };
 
