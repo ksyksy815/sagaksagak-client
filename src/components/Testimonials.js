@@ -138,6 +138,7 @@ const MainCard = styled(UserCard)`
     p {
       padding-top: 1rem;
       margin-top: 2rem;
+      font-size: 0.8rem;
     }
 
     .userInfo {
