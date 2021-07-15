@@ -1,11 +1,31 @@
-import { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
-import { useSelector, useDispatch } from 'react-redux'
-import { setAccessToken } from '../actions/index'
-import styled from 'styled-components'
-import { AiFillPieChart, AiOutlineBarChart, AiOutlineUnorderedList, AiFillCaretRight } from 'react-icons/ai'
-import { PieChart, Pie, Cell, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar, ResponsiveContainer } from 'recharts'
-import { device } from '../device'
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { useHistory } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { setAccessToken } from "../actions/index";
+import styled from "styled-components";
+import {
+  AiFillPieChart,
+  AiOutlineBarChart,
+  AiOutlineUnorderedList,
+  AiFillCaretRight,
+} from "react-icons/ai";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  Bar,
+  ResponsiveContainer,
+} from "recharts";
+import { device } from "../device";
+import { logOut } from "../actions/index";
+import getCookie from "../utilities/getCookie";
 
 const RecordsWrapper = styled.div`
   box-sizing: border-box;
@@ -14,7 +34,7 @@ const RecordsWrapper = styled.div`
   width: 100%;
   min-height: 100%;
   padding: 1rem;
-  background-color: #E9E4DE;
+  background-color: #e9e4de;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -24,7 +44,7 @@ const RecordsWrapper = styled.div`
   .no-records {
     padding: 2rem;
   }
-  
+
   .records-top {
     width: 100%;
     min-height: 70vh;
@@ -111,7 +131,7 @@ const RecordsWrapper = styled.div`
       gap: 1rem;
     }
   }
-`
+`;
 
 const Record = styled.li`
   flex: 1 1 30%;
@@ -132,7 +152,7 @@ const Record = styled.li`
 
   .record-category {
     padding: 0.3rem 0.5rem;
-    background-color: #ECCC81;
+    background-color: #eccc81;
     border-radius: 10px;
   }
   .record-roomName {
@@ -165,7 +185,7 @@ const Record = styled.li`
       padding: 0;
     }
   }
-`
+`;
 
 const MemberOnlyContents = styled.div`
   width: 100%;
@@ -173,291 +193,395 @@ const MemberOnlyContents = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const dummyRecords = [
   {
     roomName: "한쿡어공부",
     category: "제2외국어",
     workHours: 3,
-    date: "2021-07-12"
+    date: "2021-07-12",
   },
   {
     roomName: "중국어공부",
     category: "제2외국어",
     workHours: 3,
-    date: "2021-07-12"
+    date: "2021-07-12",
   },
   {
     roomName: "베트남어공부",
     category: "제2외국어",
     workHours: 3,
-    date: "2021-07-12"
+    date: "2021-07-12",
   },
   {
     roomName: "포르투갈어공부",
     category: "제2외국어",
     workHours: 3,
-    date: "2021-07-12"
+    date: "2021-07-12",
   },
   {
     roomName: "아랍어공부",
     category: "제2외국어",
     workHours: 3,
-    date: "2021-07-12"
+    date: "2021-07-12",
   },
   {
     roomName: "일본어공부",
     category: "제2외국어",
     workHours: 3,
-    date: "2021-07-12"
+    date: "2021-07-12",
   },
-]
+];
 
 const dummyHoursByCategory = [
   {
     category: "국내입시",
-    hours: 0
+    hours: 0,
   },
   {
     category: "해외입시",
-    hours: 0
+    hours: 0,
   },
   {
     category: "영어",
-    hours: 7
+    hours: 7,
   },
   {
     category: "제2외국어",
-    hours: 3
+    hours: 3,
   },
   {
     category: "코딩",
-    hours: 5
+    hours: 5,
   },
   {
     category: "취업",
-    hours: 7
+    hours: 7,
   },
   {
     category: "자격증",
-    hours: 1
+    hours: 1,
   },
   {
     category: "공무원",
-    hours: 0
+    hours: 0,
   },
   {
     category: "예체능",
-    hours: 0
+    hours: 0,
   },
   {
     category: "자유",
-    hours: 0
-  }
+    hours: 0,
+  },
 ];
 
 const dummyHoursByDay = [
   {
     day: "월요일",
-    hours: 2
+    hours: 2,
   },
   {
     day: "화요일",
-    hours: 8
+    hours: 8,
   },
   {
     day: "수요일",
-    hours: 3
+    hours: 3,
   },
   {
     day: "목요일",
-    hours: 5
+    hours: 5,
   },
   {
     day: "금요일",
-    hours: 1
+    hours: 1,
   },
   {
     day: "토요일",
-    hours: 1
+    hours: 1,
   },
   {
     day: "일요일",
-    hours: 2
+    hours: 2,
   },
-]
+];
 
 const pieContentStyle = {
-  borderRadius: '15px',
+  borderRadius: "15px",
   padding: `0.2rem 0.5rem`,
   border: `none`,
-}
+};
 
 export default function StudyRecords() {
-  const hasFetchedData = useRef(false)
-  const dispatch = useDispatch()
-  const { user } = useSelector(state => state.logInStatusReducer)
-  const [records, setRecords] = useState(dummyRecords)
-  const [totalHours, setTotalHours] = useState(1)
-  const [hoursByCategory, setHoursByCategory] = useState(dummyHoursByCategory)
-  const [hoursByDay, setHoursByDay] = useState(dummyHoursByDay)
-  const [innerWidth, setInnerWidth] = useState(0)
+  const hasFetchedData = useRef(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { user } = useSelector((state) => state.logInStatusReducer);
+  const [records, setRecords] = useState(dummyRecords);
+  const [totalHours, setTotalHours] = useState(1);
+  const [hoursByCategory, setHoursByCategory] = useState(dummyHoursByCategory);
+  const [hoursByDay, setHoursByDay] = useState(dummyHoursByDay);
+  const [innerWidth, setInnerWidth] = useState(0);
 
-  //chart
-  const COLORS = ['#A9C2DB', '#ECCC81', '#EBAB87', '#D4859A', '#B685D4']
+  const refreshLogInRef = useRef();
 
-  const changeInnerWidthState = () => {
-    setInnerWidth(window.innerWidth)
-  }
+  const handleRefreshLogIn = () => {
+    if (!getCookie("refreshToken")) return;
 
-  useEffect(()=> {
-    window.addEventListener('resize', changeInnerWidthState)
-    return window.removeEventListener('resize', changeInnerWidthState)
-  }, [])
+    axios
+      .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`, {
+        headers: {
+          relogin: true,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const { accessToken, username, userId, email, category, subId } =
+          res.data;
+
+        if (subId)
+          dispatch(
+            logIn(email, userId, username, accessToken, category, subId)
+          );
+        dispatch(logIn(email, userId, username, accessToken, category));
+      })
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 403) {
+            axios
+              .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`, {
+                headers: { authorization: `bearer ${user.accessToken}` },
+                withCredentials: true,
+              })
+              .then(() => {
+                dispatch(logOut());
+              })
+              .catch((err) => {
+                if (err.response) {
+                  console.log(err.response);
+                } else if (err.request) {
+                  console.log(err.request);
+                } else {
+                  console.log("Error :", err.message);
+                }
+                console.log(err.config);
+              });
+            history.push("/unauthorized");
+          }
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("Error :", err.message);
+        }
+        console.log(err.config);
+      });
+  };
 
   useEffect(() => {
-    if ( user.isLogedIn ) {
-      if ( !hasFetchedData.current ) {
-        axios.get(
-          `${process.env.REACT_APP_SERVER_DOMAIN}/studylog/user/${user.userId}`,
-          { headers: 
-            { authorization: `bearer ${user.accessToken}` },
-            withCredentials: true 
-          }
-        )
-        .then(res => {
-          setRecords(res.data.records)
-          setHoursByCategory(res.data.totalHours)
-          setTotalHours(() => {
-            let hours = Object.values(hoursByCategory)
-            return hours.reduce((acc,cur) => acc+cur)
-          })
+    refreshLogInRef.current = handleRefreshLogIn;
+  });
 
-          //hoursByDay를 여기서 구해줘야함
-          //서버에서 받은 setRecords에서 요일 기반으로 데이터를 다듬은 후 setHoursByDay해야함
-        })
-        .catch(err=> {
-          if (err.response.status === 403) {
-            // access token 만료
-            axios.get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
-            .then(res => {
-              dispatch(setAccessToken(res.data.accessToken))
-              axios.get(
-                `${process.env.REACT_APP_SERVER_DOMAIN}/studylog/user/${user.userId}`,
-                { headers: 
-                  { authorization: `bearer ${user.accessToken}` },
-                  withCredentials: true 
-                }
-              )
-              .then(res => {
-                axios.get(
-                  `${process.env.REACT_APP_SERVER_DOMAIN}/studylog/user/${user.userId}`,
-                  { headers: 
-                    { authorization: `bearer ${user.accessToken}` },
-                    withCredentials: true 
-                  }
-                )
-                .then(res => {
-                  setRecords(res.data.records)
-                  setHoursByCategory(res.data.totalHours)
-                  setTotalHours(() => {
-                    let hours = Object.values(hoursByCategory)
-                    return hours.reduce((acc,cur) => acc+cur)
-                  })
-        
-                  //hoursByDay를 여기서 구해줘야함
-                })
-                .catch(err => console.log(err))
-              })
-            })
-          } else {
-            console.log(err)
-          }
-        })
+  useEffect(() => {
+    const logInRefresh = () => {
+      refreshLogInRef.current();
+    };
+
+    logInRefresh();
+  }, []);
+
+  //chart
+  const COLORS = ["#A9C2DB", "#ECCC81", "#EBAB87", "#D4859A", "#B685D4"];
+
+  const changeInnerWidthState = () => {
+    setInnerWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", changeInnerWidthState);
+    return window.removeEventListener("resize", changeInnerWidthState);
+  }, []);
+
+  useEffect(() => {
+    if (user.isLogedIn) {
+      if (!hasFetchedData.current) {
+        axios
+          .get(
+            `${process.env.REACT_APP_SERVER_DOMAIN}/studylog/user/${user.userId}`,
+            {
+              headers: { authorization: `bearer ${user.accessToken}` },
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            setRecords(res.data.records);
+            setHoursByCategory(res.data.totalHours);
+            setTotalHours(() => {
+              let hours = Object.values(hoursByCategory);
+              return hours.reduce((acc, cur) => acc + cur);
+            });
+
+            //hoursByDay를 여기서 구해줘야함
+            //서버에서 받은 setRecords에서 요일 기반으로 데이터를 다듬은 후 setHoursByDay해야함
+          })
+          .catch((err) => {
+            if (err.response.status === 403) {
+              // access token 만료
+              axios
+                .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
+                .then((res) => {
+                  dispatch(setAccessToken(res.data.accessToken));
+                  axios
+                    .get(
+                      `${process.env.REACT_APP_SERVER_DOMAIN}/studylog/user/${user.userId}`,
+                      {
+                        headers: {
+                          authorization: `bearer ${user.accessToken}`,
+                        },
+                        withCredentials: true,
+                      }
+                    )
+                    .then((res) => {
+                      axios
+                        .get(
+                          `${process.env.REACT_APP_SERVER_DOMAIN}/studylog/user/${user.userId}`,
+                          {
+                            headers: {
+                              authorization: `bearer ${user.accessToken}`,
+                            },
+                            withCredentials: true,
+                          }
+                        )
+                        .then((res) => {
+                          setRecords(res.data.records);
+                          setHoursByCategory(res.data.totalHours);
+                          setTotalHours(() => {
+                            let hours = Object.values(hoursByCategory);
+                            return hours.reduce((acc, cur) => acc + cur);
+                          });
+
+                          //hoursByDay를 여기서 구해줘야함
+                        })
+                        .catch((err) => console.log(err));
+                    });
+                });
+            } else {
+              console.log(err);
+            }
+          });
       }
     }
-  }, [user.isLogedIn, dispatch, user.accessToken, user.userId, hoursByCategory])
-  
+  }, [
+    user.isLogedIn,
+    dispatch,
+    user.accessToken,
+    user.userId,
+    hoursByCategory,
+  ]);
+
   return (
     <RecordsWrapper>
-      {
-        user.isLogedIn ? 
+      {user.isLogedIn ? (
         <>
           <section className="records-top">
-            <h1> <AiFillPieChart/> 나의 총 공부시간: {totalHours}시간</h1>
+            <h1>
+              {" "}
+              <AiFillPieChart /> 나의 총 공부시간: {totalHours}시간
+            </h1>
             <div className="pie-box">
-              {
-                hoursByCategory.length !== 0 ?
+              {hoursByCategory.length !== 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
-                  <PieChart id="pie-chart" >
-                    <Pie data={hoursByCategory} 
-                      dataKey="hours" 
-                      nameKey="category" 
-                      cx="50%" cy="50%" 
-                      outerRadius={150} 
+                  <PieChart id="pie-chart">
+                    <Pie
+                      data={hoursByCategory}
+                      dataKey="hours"
+                      nameKey="category"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={150}
                       fill="#8884d8"
-                      label>
-                        {hoursByCategory.map((entry, index) => 
-                          <Cell key={`cell-${index}`} fill={COLORS[index%COLORS.length]}/>
-                        )}
+                      label
+                    >
+                      {hoursByCategory.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
                     </Pie>
-                    <Legend 
+                    <Legend
                       layout="horizontal"
-                      verticalAlign="bottom" 
-                      align="center" 
+                      verticalAlign="bottom"
+                      align="center"
                     />
-                    <Tooltip contentStyle={pieContentStyle}/>
+                    <Tooltip contentStyle={pieContentStyle} />
                   </PieChart>
                 </ResponsiveContainer>
-                :
+              ) : (
                 <div className="no-record">참여 기록이 없습니다.</div>
-              }
+              )}
             </div>
-          </section >
+          </section>
           <section className="records-mid">
-            <h2><AiOutlineBarChart/> 요일별 공부시간</h2>
-            <ResponsiveContainer width={innerWidth > 770 ? "70%" : "100%"} height={innerWidth > 770 ? "70%" : "50%"}>
+            <h2>
+              <AiOutlineBarChart /> 요일별 공부시간
+            </h2>
+            <ResponsiveContainer
+              width={innerWidth > 770 ? "70%" : "100%"}
+              height={innerWidth > 770 ? "70%" : "50%"}
+            >
               <BarChart width={700} height={400} data={hoursByDay}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="day" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="hours" fill="#8884d8" >
+                <Bar dataKey="hours" fill="#8884d8">
                   {hoursByDay.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index%COLORS.length]}/>
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </section>
           <section className="records-bottom">
-            <h2><AiOutlineUnorderedList/>참여기록</h2>
+            <h2>
+              <AiOutlineUnorderedList />
+              참여기록
+            </h2>
             <ul>
-            { records.length !== 0 ?
-              records.map(record => {
-                return (
-                  <Record key={record.roomName}>
-                    <div className="record-category">{record.category}</div>
-                    <div className="record-roomName">{record.roomName}</div>
-                    <div className="record-info">
-                      <span><AiFillCaretRight/> {`날짜: ${record.date}`}</span>
-                      <span><AiFillCaretRight/> {`참여시간: ${record.workHours}`}</span>
-                    </div>
-                  </Record>
-                )
-              })
-              :
-              <div className="no-record">참여한 방이 없습니다.</div>
-            }
+              {records.length !== 0 ? (
+                records.map((record) => {
+                  return (
+                    <Record key={record.roomName}>
+                      <div className="record-category">{record.category}</div>
+                      <div className="record-roomName">{record.roomName}</div>
+                      <div className="record-info">
+                        <span>
+                          <AiFillCaretRight /> {`날짜: ${record.date}`}
+                        </span>
+                        <span>
+                          <AiFillCaretRight /> {`참여시간: ${record.workHours}`}
+                        </span>
+                      </div>
+                    </Record>
+                  );
+                })
+              ) : (
+                <div className="no-record">참여한 방이 없습니다.</div>
+              )}
             </ul>
           </section>
         </>
-        :
+      ) : (
         <MemberOnlyContents>
           로그인 전용 서비스 입니다. 로그인해주세요!
         </MemberOnlyContents>
-      }
+      )}
     </RecordsWrapper>
-  )
+  );
 }
