@@ -94,9 +94,9 @@ const RoomList = ({
             className="refresh-icon"
             onClick={() => {
               setRooms([]);
-              getRoomList();
               setPageNum(0);
               setQuery("");
+              getRoomList().axios();
             }}
           />
         </div>
