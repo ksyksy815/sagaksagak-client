@@ -24,7 +24,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { device } from "../device";
-import { logOut } from "../actions/index";
+import { logOut, logIn } from "../actions/index";
 import getCookie from "../utilities/getCookie";
 
 const RecordsWrapper = styled.div`
