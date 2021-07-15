@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { logIn, logOut } from "../actions/index";
 import getCookie from "../utilities/getCookie";
+import GoToTopButton from "../components/GoToTopButton.js";
 
 export default function LandingPage() {
   const state = useSelector((state) => state.logInStatusReducer);
@@ -234,6 +235,7 @@ export default function LandingPage() {
       </StyledSectionMid>
       <Testimonials />
       <Footer />
+      <GoToTopButton />
     </StyledLandingPage>
   );
 }

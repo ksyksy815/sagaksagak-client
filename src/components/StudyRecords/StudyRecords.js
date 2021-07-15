@@ -3,12 +3,28 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { setAccessToken, logIn } from "../../actions/index";
-import { RecordsWrapper, Record, MemberOnlyContents } from "./StudyRecords.style"
-import { AiFillPieChart, AiOutlineUnorderedList, AiFillCaretRight,} from "react-icons/ai";
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer} from "recharts";
-import { dummyRecords } from './StudyRecordsDummies'
+import {
+  RecordsWrapper,
+  Record,
+  MemberOnlyContents,
+} from "./StudyRecords.style";
+import {
+  AiFillPieChart,
+  AiOutlineUnorderedList,
+  AiFillCaretRight,
+} from "react-icons/ai";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import { dummyRecords } from "./StudyRecordsDummies";
 import { logOut } from "../../actions/index";
 import getCookie from "../../utilities/getCookie";
+import GoToTopButton from "../GoToTopButton";
 
 const pieContentStyle = {
   borderRadius: "15px",
@@ -106,12 +122,12 @@ export default function StudyRecords() {
             }
           )
           .then((res) => {
-            let processed = res.data.records.map(record => {
-              let str = String(record.updatedAt)
-              let result = str.slice(0, 10)
-              record.updatedAt = result
-              return record
-            })
+            let processed = res.data.records.map((record) => {
+              let str = String(record.updatedAt);
+              let result = str.slice(0, 10);
+              record.updatedAt = result;
+              return record;
+            });
             setRecords(processed);
             setHoursByCategory(res.data.totalHours);
           })
@@ -144,12 +160,12 @@ export default function StudyRecords() {
                           }
                         )
                         .then((res) => {
-                          let processed = res.data.records.map(record => {
-                            let str = String(record.updatedAt)
-                            let result = str.slice(0, 10)
-                            record.updatedAt = result
-                            return record
-                          })
+                          let processed = res.data.records.map((record) => {
+                            let str = String(record.updatedAt);
+                            let result = str.slice(0, 10);
+                            record.updatedAt = result;
+                            return record;
+                          });
                           setRecords(processed);
                           setHoursByCategory(res.data.totalHours);
                         })
@@ -160,20 +176,26 @@ export default function StudyRecords() {
               console.log(err);
             }
           });
-          hasFetchedData.current = true;
+        hasFetchedData.current = true;
       }
     }
-  }, [user.isLogedIn, dispatch, user.accessToken, user.userId, hoursByCategory]);
+  }, [
+    user.isLogedIn,
+    dispatch,
+    user.accessToken,
+    user.userId,
+    hoursByCategory,
+  ]);
 
   useEffect(() => {
     setTotalHours(() => {
-      let sum = 0
-      hoursByCategory.forEach(el => {
-        sum += el.hours
-      })
-      return sum
-    })
-  }, [hoursByCategory])
+      let sum = 0;
+      hoursByCategory.forEach((el) => {
+        sum += el.hours;
+      });
+      return sum;
+    });
+  }, [hoursByCategory]);
 
   return (
     <RecordsWrapper>
@@ -231,7 +253,8 @@ export default function StudyRecords() {
                       <div className="record-roomName">{record.roomName}</div>
                       <div className="record-info">
                         <span>
-                          <AiFillCaretRight /> {`날짜: ${record.updatedAt || record.date}`}
+                          <AiFillCaretRight />{" "}
+                          {`날짜: ${record.updatedAt || record.date}`}
                         </span>
                         <span>
                           <AiFillCaretRight /> {`참여시간: ${record.workHours}`}
@@ -251,6 +274,7 @@ export default function StudyRecords() {
           로그인 전용 서비스 입니다. 로그인해주세요!
         </MemberOnlyContents>
       )}
+      <GoToTopButton />
     </RecordsWrapper>
   );
 }
