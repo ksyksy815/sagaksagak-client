@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import circle from '../assets/circle-bg.svg'
 import { device } from '../device'
 
