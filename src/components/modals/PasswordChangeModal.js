@@ -27,6 +27,18 @@ const StyledPCModal = styled.div`
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.6);
 
+  .PC-Modal-success {
+    background: white;
+    display: flex;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: modal-show 0.3s;
+    padding: 40px 20px;
+    row-gap: 30px;
+  }
+
   .PC-Modal-content-wrapper {
     background: white;
     display: flex;
@@ -176,7 +188,10 @@ const useOnClickOutside = (ref, handler) => {
 const PasswordChangeModal = ({ open, close }) => {
   const state = useSelector((state) => state.logInStatusReducer);
   const { user } = state;
+
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const [userInput, setUserInput] = useState({
     curPW: "",
     chanPW: "",
@@ -199,7 +214,9 @@ const PasswordChangeModal = ({ open, close }) => {
     setUserInput({ ...userInput, [key]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     if (!userInput.curPW || !userInput.chanPW || !userInput.chanPW) return;
     if (userInput.chanPW !== userInput.checkPW) return;
     if (passwordCheck(userInput.chanPW) !== "passwordAvail") return;
@@ -213,13 +230,31 @@ const PasswordChangeModal = ({ open, close }) => {
         },
         {
           headers: { authorization: `bearer ${user.accessToken}` },
+          withCredentials: true,
         }
       )
       .then(() => {
         setErrMessage({ ...errMessage, err: "" });
         setchangeSuccess(true);
-        //로그아웃 로직
-        //setTimeout 이용하여 잠시후 랜딩페이지로 history.push
+        axios
+          .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`, {
+            headers: { authorization: `bearer ${user.accessToken}` },
+            withCredentials: true,
+          })
+          .then(() => {
+            dispatch(logOut());
+          })
+          .catch((err) => {
+            if (err.response) {
+              console.log(err.response);
+            } else if (err.request) {
+              console.log(err.request);
+            } else {
+              console.log("Error :", err.message);
+            }
+            console.log(err.config);
+          });
+        setTimeout(() => history.push("/login"), 5000);
       })
       .catch((err) => {
         if (err.response) {
@@ -245,13 +280,36 @@ const PasswordChangeModal = ({ open, close }) => {
                       headers: {
                         authorization: `bearer ${user.accessToken}`,
                       },
+                      withCredentials: true,
                     }
                   )
                   .then(() => {
                     setErrMessage({ ...errMessage, err: "" });
                     setchangeSuccess(true);
-                    //로그아웃 로직
-                    //setTimeout 이용하여 잠시후 랜딩페이지로 history.push
+                    axios
+                      .get(
+                        `${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`,
+                        {
+                          headers: {
+                            authorization: `bearer ${user.accessToken}`,
+                          },
+                          withCredentials: true,
+                        }
+                      )
+                      .then(() => {
+                        dispatch(logOut());
+                      })
+                      .catch((err) => {
+                        if (err.response) {
+                          console.log(err.response);
+                        } else if (err.request) {
+                          console.log(err.request);
+                        } else {
+                          console.log("Error :", err.message);
+                        }
+                        console.log(err.config);
+                      });
+                    setTimeout(() => history.push("/login"), 5000);
                   })
                   .catch((err) => {
                     if (err.response) {
@@ -267,8 +325,30 @@ const PasswordChangeModal = ({ open, close }) => {
               .catch((err) => {
                 if (err.response) {
                   if (err.response.status === 403) {
-                    //로그아웃 로직(통신)
-                    //포비든 페이지로 리디렉트
+                    axios
+                      .get(
+                        `${process.env.REACT_APP_SERVER_DOMAIN}/user/logout`,
+                        {
+                          headers: {
+                            authorization: `bearer ${user.accessToken}`,
+                          },
+                          withCredentials: true,
+                        }
+                      )
+                      .then(() => {
+                        dispatch(logOut());
+                      })
+                      .catch((err) => {
+                        if (err.response) {
+                          console.log(err.response);
+                        } else if (err.request) {
+                          console.log(err.request);
+                        } else {
+                          console.log("Error :", err.message);
+                        }
+                        console.log(err.config);
+                      });
+                    history.push("/unauthorized");
                   }
                   console.log(err.response);
                 } else if (err.request) {
@@ -347,42 +427,52 @@ const PasswordChangeModal = ({ open, close }) => {
 
   return (
     <StyledPCModal open={open}>
-      <form className="PC-Modal-content-wrapper" ref={modalEl}>
-        <div className="cur-PW">
-          <span>현재 비밀번호</span>
-          <input type="password" onChange={handleUserInput("curPW")}></input>
+      {changeSuccess ? (
+        <div className="PC-Modal-success">
+          <h3>비밀번호 변경에 성공하였습니다</h3>
+          <h5>잠시후 로그인페이지로 이동합니다</h5>
+          <h5>다시 로그인 해주세요</h5>
         </div>
-        <div className="chan-PW">
-          <div>
-            <span>새로운 비밀번호</span>
-            <input
-              type="password"
-              onChange={handleUserInput("chanPW")}
-              onKeyUp={() => handleErrMessage(passwordCheck(userInput.chanPW))}
-            ></input>
+      ) : (
+        <form className="PC-Modal-content-wrapper" ref={modalEl}>
+          <div className="cur-PW">
+            <span>현재 비밀번호</span>
+            <input type="password" onChange={handleUserInput("curPW")}></input>
           </div>
-          {errMessage.passwordErr && <p>{errMessage.passwordErr}</p>}
-        </div>
-        <div className="check-PW">
-          <div>
-            <span>비밀번호 확인</span>
-            <input
-              type="password"
-              onChange={handleUserInput("checkPW")}
-            ></input>
+          <div className="chan-PW">
+            <div>
+              <span>새로운 비밀번호</span>
+              <input
+                type="password"
+                onChange={handleUserInput("chanPW")}
+                onKeyUp={() =>
+                  handleErrMessage(passwordCheck(userInput.chanPW))
+                }
+              ></input>
+            </div>
+            {errMessage.passwordErr && <p>{errMessage.passwordErr}</p>}
           </div>
-          {userInput.chanPW &&
-            userInput.checkPW &&
-            userInput.chanPW !== userInput.checkPW && (
-              <p>입력한 비밀번호와 다릅니다</p>
-            )}
-        </div>
-        {errMessage.err && <p>{errMessage.err}</p>}
-        <div className="btn-container">
-          <button onClick={handleSubmit}>변경하기</button>
-          <button onClick={close}>닫기</button>
-        </div>
-      </form>
+          <div className="check-PW">
+            <div>
+              <span>비밀번호 확인</span>
+              <input
+                type="password"
+                onChange={handleUserInput("checkPW")}
+              ></input>
+            </div>
+            {userInput.chanPW &&
+              userInput.checkPW &&
+              userInput.chanPW !== userInput.checkPW && (
+                <p>입력한 비밀번호와 다릅니다</p>
+              )}
+          </div>
+          {errMessage.err && <p>{errMessage.err}</p>}
+          <div className="btn-container">
+            <button onClick={handleSubmit}>변경하기</button>
+            <button onClick={close}>닫기</button>
+          </div>
+        </form>
+      )}
     </StyledPCModal>
   );
 };
