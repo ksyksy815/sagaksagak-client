@@ -106,7 +106,13 @@ export default function StudyRecords() {
             }
           )
           .then((res) => {
-            setRecords(res.data.records);
+            let processed = res.data.records.map(record => {
+              let str = String(record.updatedAt)
+              let result = str.slice(0, 10)
+              record.updatedAt = result
+              return record
+            })
+            setRecords(processed);
             setHoursByCategory(res.data.totalHours);
           })
           .catch((err) => {
@@ -138,7 +144,13 @@ export default function StudyRecords() {
                           }
                         )
                         .then((res) => {
-                          setRecords(res.data.records);
+                          let processed = res.data.records.map(record => {
+                            let str = String(record.updatedAt)
+                            let result = str.slice(0, 10)
+                            record.updatedAt = result
+                            return record
+                          })
+                          setRecords(processed);
                           setHoursByCategory(res.data.totalHours);
                         })
                         .catch((err) => console.log(err));
@@ -219,7 +231,7 @@ export default function StudyRecords() {
                       <div className="record-roomName">{record.roomName}</div>
                       <div className="record-info">
                         <span>
-                          <AiFillCaretRight /> {`날짜: ${record.date}`}
+                          <AiFillCaretRight /> {`날짜: ${record.updatedAt || record.date}`}
                         </span>
                         <span>
                           <AiFillCaretRight /> {`참여시간: ${record.workHours}`}
