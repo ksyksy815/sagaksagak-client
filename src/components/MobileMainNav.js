@@ -62,12 +62,26 @@ const MobileNav = styled.nav`
         font-size: 1.2rem;
         padding: 2rem 0;
       }
+      button {
+        width: 100%;
+        text-decoration: none;
+        color: black;
+        font-size: 1.2rem;
+        padding: 2rem 0;
+        border: none;
+        &:hover {
+          cursor: pointer;
+        }
+      }
 
       &:hover {
         cursor: pointer;
         background: #f5f5f5;
         transform: translateY(-3px);
         & a {
+          font-weight: bold;
+        }
+        & button {
           font-weight: bold;
         }
       }
@@ -80,8 +94,7 @@ export default function MobileMainNav({aniMode, setAniMode, setMenuOn, isLogedIn
 
   const closeMenu = useCallback(() => {
     setAniMode(false)
-    //setMenuOn(false)
-  }, [setAniMode, setMenuOn])
+  }, [setAniMode])
 
   const onAnimationEnd = () => {
     if (!aniMode) {

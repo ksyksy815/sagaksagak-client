@@ -3,7 +3,7 @@ import { io } from 'socket.io-client'
 import { useHistory } from 'react-router-dom'
 import Peer from 'peerjs'
 import { useSelector, useDispatch } from 'react-redux'
-import { setParticipants, setUser, setDeleteUser } from '../actions/index'
+import { setUser, setDeleteUser } from '../actions/index'
 import styled from 'styled-components'
 import ChatRoomNav from '../components/ChatRoomNav'
 import ClosedRoomRedirctModal from '../components/modals/ClosedRoomRedirctModal'
@@ -19,13 +19,35 @@ const ChatRoom = styled.div`
     height: 100%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
 
-    //임시 CSS
     video {
-      height: auto;
+      width: ${props => {
+        switch (props.numberOfUsers) {
+          case 1:
+            return `100%`
+          case 2:
+            return `50%`
+          case 3:
+            return `33%`
+          case 4:
+            return `33%`
+          case 5:
+            return `33%`
+          case 6:
+            return `33%`
+          default:
+            return `100%`
+        }
+      }};
       object-fit: cover;
-      box-sizing: border-box;
+    }
+
+    div {
+      height: auto;
+      background: yellow;
     }
   }
 `
@@ -39,7 +61,7 @@ export default function VideoChatRoom() {
   // Local
   const [cameraOn, setCameraOn] = useState(true)
   const [roomClosed, setRoomClosed] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [users, setUsers] = useState(1)
   const roomId = window.location.pathname.slice(6) //chatroom.roomId
   const username = user.isLogedIn? user.username : `GUEST${Math.round(Math.random()*100000)}`
@@ -162,7 +184,7 @@ export default function VideoChatRoom() {
   return (
     <>
       <ChatRoomNav cameraOn={cameraOn} handleCamera={handleCamera}/>
-      <ChatRoom>
+      <ChatRoom numberOfUsers={users}>
         { isLoading && <span>Loading...</span> }
         <div ref={videoGrid} id="video-grid">
           <video ref={myVideo}></video>
