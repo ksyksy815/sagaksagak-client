@@ -142,6 +142,7 @@ const StyledPCModal = styled.div`
       color: #fa8900;
       font-size: 0.8rem;
       padding: 5px;
+      align-self: center;
     }
 
     span {
@@ -219,6 +220,15 @@ const PasswordChangeModal = ({ open, close }) => {
 
     if (!userInput.curPW || !userInput.chanPW || !userInput.chanPW) return;
     if (userInput.chanPW !== userInput.checkPW) return;
+    if (userInput.curPW === userInput.chanPW) {
+      setErrMessage((prev) => {
+        return {
+          ...prev,
+          err: "사용중인 비밀번호와 변경 비밀번호가 동일합니다",
+        };
+      });
+      return;
+    }
     if (passwordCheck(userInput.chanPW) !== "passwordAvail") return;
 
     axios
