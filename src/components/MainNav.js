@@ -47,7 +47,9 @@ const StyledMainNav = styled.nav`
     &:hover {
       cursor: pointer;
     }
-
+    &:focus {
+      outline: none;
+    }
     svg {
       fill: #fff;
       pointer-events: none;
