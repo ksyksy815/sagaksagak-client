@@ -7,6 +7,18 @@ import {
 } from "../../actions/index";
 import styled from "styled-components";
 import axios from "axios";
+import { IoIosSchool } from "react-icons/io";
+import {
+  FaSchool,
+  FaLanguage,
+  FaLaptopCode,
+  FaRegBuilding,
+  FaRegIdBadge,
+  FaBrush,
+  FaPlayCircle,
+} from "react-icons/fa";
+import { BiWorld } from "react-icons/bi";
+import { GiPoliceBadge } from "react-icons/gi";
 
 const StyledCategorySelModal = styled.div`
   ${(props) =>
@@ -64,6 +76,7 @@ const StyledCategorySelModal = styled.div`
 
     .ok {
       background: #de877f;
+      transition: 0.2s ease;
     }
   }
 
@@ -89,24 +102,63 @@ const StyledCategorySelModal = styled.div`
 `;
 
 const StyledGridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 100px);
-  grid-template-rows: repeat(2, 1fr);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   row-gap: 10px;
   column-gap: 10px;
   margin-bottom: 35px;
+  width: 540px;
+
+  @media only screen and (max-width: 600px) {
+    width: 400px;
+  }
 `;
 
 const StyledGridItem = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   height: 100px;
+  width: 100px;
   border-radius: 10px;
+  transition: 0.2s ease;
+  row-gap: 10px;
 
   &:hover {
     cursor: pointer;
+  }
+
+  .icon {
+    font-size: 30px;
+  }
+
+  .select-wrapper {
+    position: absolute;
+    z-index: 99;
+    width: 100px;
+    height: 100px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    padding: 0 80px;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 300px;
+    height: 30px;
+    column-gap: 30px;
+
+    .icon {
+      font-size: 20px;
+    }
+
+    .select-wrapper {
+      width: 300px;
+      height: 30px;
+      transform: translateX(-80px);
+    }
   }
 `;
 
@@ -246,73 +298,113 @@ const CategorySelectModal = ({ open, close }) => {
         <StyledGridContainer>
           <StyledGridItem
             style={{ background: selected.국내입시 ? "#D8D8D8" : "#ededed" }}
-            id="국내입시"
-            onClick={handleSelected}
           >
+            <IoIosSchool className="icon" />
             국내입시
+            <div
+              className="select-wrapper"
+              id="국내입시"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
           <StyledGridItem
-            id="해외입시"
             style={{ background: selected.해외입시 ? "#D8D8D8" : "#ededed" }}
-            onClick={handleSelected}
           >
+            <FaSchool className="icon" />
             해외입시
+            <div
+              className="select-wrapper"
+              id="해외입시"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
           <StyledGridItem
-            id="영어"
             style={{ background: selected.영어 ? "#D8D8D8" : "#ededed" }}
-            onClick={handleSelected}
           >
+            <FaLanguage className="icon" />
             영어
+            <div
+              className="select-wrapper"
+              id="영어"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
           <StyledGridItem
-            id="제2외국어"
             style={{ background: selected.제2외국어 ? "#D8D8D8" : "#ededed" }}
-            onClick={handleSelected}
           >
+            <BiWorld className="icon" />
             제2외국어
+            <div
+              className="select-wrapper"
+              id="제2외국어"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
           <StyledGridItem
-            id="코딩"
             style={{ background: selected.코딩 ? "#D8D8D8" : "#ededed" }}
-            onClick={handleSelected}
           >
+            <FaLaptopCode className="icon" />
             코딩
+            <div
+              className="select-wrapper"
+              id="코딩"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
           <StyledGridItem
-            id="취업"
             style={{ background: selected.취업 ? "#D8D8D8" : "#ededed" }}
-            onClick={handleSelected}
           >
+            <FaRegBuilding className="icon" />
             취업
+            <div
+              className="select-wrapper"
+              id="취업"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
           <StyledGridItem
-            id="자격증"
             style={{ background: selected.자격증 ? "#D8D8D8" : "#ededed" }}
-            onClick={handleSelected}
           >
+            <FaRegIdBadge className="icon" />
             자격증
+            <div
+              className="select-wrapper"
+              id="자격증"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
           <StyledGridItem
-            id="공무원"
             style={{ background: selected.공무원 ? "#D8D8D8" : "#ededed" }}
-            onClick={handleSelected}
           >
+            <GiPoliceBadge className="icon" />
             공무원
+            <div
+              className="select-wrapper"
+              id="공무원"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
           <StyledGridItem
-            id="예체능"
             style={{ background: selected.예체능 ? "#D8D8D8" : "#ededed" }}
-            onClick={handleSelected}
           >
+            <FaBrush className="icon" />
             예체능
+            <div
+              className="select-wrapper"
+              id="예체능"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
           <StyledGridItem
-            id="자유"
             style={{ background: selected.자유 ? "#D8D8D8" : "#ededed" }}
-            onClick={handleSelected}
           >
+            <FaPlayCircle className="icon" />
             자유
+            <div
+              className="select-wrapper"
+              id="자유"
+              onClick={handleSelected}
+            ></div>
           </StyledGridItem>
         </StyledGridContainer>
         <button className={totalCnt >= 3 ? "ok" : ""} onClick={handleSelect}>
