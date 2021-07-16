@@ -99,6 +99,11 @@ const MainCard = styled(UserCard)`
     }
 
     div {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
       .testi-job {
         color: #e5e5e5;
       }
@@ -127,7 +132,7 @@ const MainCard = styled(UserCard)`
       .userImg {
         width: 80px;
       }
-  
+      
       span {
         font-size: 0.8rem;
       }
