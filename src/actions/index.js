@@ -181,12 +181,13 @@ export const setParticipants = (users) => {
   };
 };
 
-export const setUser = (peerId, username) => {
+export const setUser = (peerId, username, streamId) => {
   return {
     type: ADD_USER,
     payload: {
       peerId,
-      username
+      username,
+      streamId
     }
   }
 }

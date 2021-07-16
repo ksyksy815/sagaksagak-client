@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
 import Peer from 'peerjs'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser, setDeleteUser, PARTICIPANTS, setParticipants } from '../actions/index'
+import { setUser, setDeleteUser } from '../actions/index'
 import styled from 'styled-components'
 import ChatRoomNav from '../components/ChatRoomNav'
 import ClosedRoomRedirctModal from '../components/modals/ClosedRoomRedirctModal'
@@ -113,6 +113,7 @@ export default function VideoChatRoom() {
     // 클라의 영상 스트림 비디오에 넣기
     navigator.mediaDevices.getUserMedia({video: true})
     .then(stream => {
+      let streamId = stream.id
       myStream = stream
       addVideoStream(myVideo.current, stream)
       videoGrid.current.append(myVideo.current)
@@ -124,10 +125,10 @@ export default function VideoChatRoom() {
       peer.on('open', peerId => {
         //소켓을 통해 서버로 방ID, 유저ID 보내주기
         myPeerId = peerId
-        socket.emit('join-room', roomId, peerId, userId, username)
-
+        socket.emit('join-room', roomId, peerId, userId, username, streamId)
+        
         //전역변수 chatroom.participants에 본인 더하기
-        dispatch(setUser( peerId, username ))
+        dispatch(setUser( peerId, username, streamId ))
       })
 
       // 새로운 피어가 연결을 원할 때
@@ -147,8 +148,8 @@ export default function VideoChatRoom() {
         })
       })
 
-      socket.on('user-connected', (peerId, username) => {
-        dispatch(setUser(peerId, username))
+      socket.on('user-connected', (peerId, username, streamId) => {
+        dispatch(setUser(peerId, username, streamId))
         setUsers(prev => prev + 1)
         const mediaConnection = peer.call(peerId, stream)
         const newVideo = document.createElement('video')
@@ -175,15 +176,19 @@ export default function VideoChatRoom() {
       console.log(`유저 카메라 켜짐: ${video}`)
     })
 
-    socket.on('user-disconnected', (peerId, username) => {
+    socket.on('user-disconnected', (peerId, username, streamId) => {
       dispatch(setDeleteUser(peerId))
       setUsers(prev => prev - 1)
-      const video = document.getElementById(`${peerId}`)
-      if (video !== null) {
-        video.remove()
-      } else {
-        setRoomClosed(true)
+      const video = document.querySelectorAll('video');
+      let removeVideo;
+      for (let i = 0; i < video.length; i++) {
+        if (video[i].srcObject.id === streamId) {
+          removeVideo = video[i]
+        }
       }
+      
+      removeVideo.remove()
+      
       console.log(`유저 나갔다. 나간놈 이름: ${username}`)
     })
 
