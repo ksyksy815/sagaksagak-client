@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import styled, { keyframes, css } from 'styled-components'
 import { AiFillCloseCircle } from 'react-icons/ai'
+import { device } from '../device'
 
 const slideIn = keyframes`
   from {
@@ -42,7 +43,6 @@ const MobileNav = styled.nav`
     top: 1rem;
     right: 1rem;
     font-size: 2rem;
-
     &:hover {
       cursor: pointer;
     }
@@ -86,6 +86,10 @@ const MobileNav = styled.nav`
         }
       }
     }
+  }
+
+  @media ${device.mobile} {
+    width: 100vw;
   }
 `
 
