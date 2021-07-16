@@ -212,15 +212,8 @@ export default function ChatroomTodo( { toggleTodo }) {
           }
         )
         .then(() => {
-          //체크하였을 시, 리스트는 그대로 유지하되 해당하는 놈의 체크 표시만 더하면됨
-          let index = todoList.findIndex((todo) => todo.id === Number(id));
-          let target = todoList[index];
-          target.checked = !target.checked;
           setTodoList((list) => {
-            list.forEach(todo => {
-              if (todo.id === target.id) todo = target
-            })
-            return list
+            return list.map(todo => todo.id === id ? {...todo, checked: !todo.checked} : todo)
           })
         })
         .catch((err) => {
@@ -242,14 +235,8 @@ export default function ChatroomTodo( { toggleTodo }) {
                     }
                   )
                   .then(() => {
-                    let index = todoList.findIndex((todo) => todo.id === Number(id));
-                    let target = todoList[index];
-                    target.checked = !target.checked;
                     setTodoList((list) => {
-                      list.forEach(todo => {
-                        if (todo.id === target.id) todo = target
-                      })
-                      return list
+                      return list.map(todo => todo.id === id ? {...todo, checked: !todo.checked} : todo)
                     })
                   })
                   .catch((err) => console.log(err));
