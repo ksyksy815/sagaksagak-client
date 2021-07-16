@@ -5,6 +5,9 @@ import { AiOutlineCloseSquare } from 'react-icons/ai'
 
 const StyledTodo = styled.li`
   flex: 1 1 auto;
+  width: 100%;
+  min-height: 80px;
+  max-height: 80px;
   position: relative;
   display: flex;
   justify-content: flex-start;
