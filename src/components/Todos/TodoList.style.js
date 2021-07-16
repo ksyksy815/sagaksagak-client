@@ -53,7 +53,6 @@ export const TodoWrapper = styled.div`
     padding: 1rem 1rem;
     row-gap: 1rem;
     height: 100%;
-    overflow-y: scroll;
 
     .list-title {
       display: flex;
@@ -80,6 +79,7 @@ export const TodoWrapper = styled.div`
 
     .main-lists {
       width: 100%;
+      height:100%;
       display: flex;
       flex-direction: column;
       row-gap: 1rem;
@@ -95,7 +95,6 @@ export const TodoWrapper = styled.div`
 
     @media ${device.tablet} {
       height: auto;
-
     }
 
     @media ${device.mobile} {
