@@ -1,6 +1,5 @@
 import { initialState } from "./initialState";
 import { ROOM_ID, PARTICIPANTS, ADD_USER, DELETE_USER } from "../actions/index";
-import { StaticRouter } from "react-router";
 
 const chatRoomReducer = (state = initialState, action) => {
   switch (action.type) {

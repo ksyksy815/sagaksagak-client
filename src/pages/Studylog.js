@@ -11,10 +11,15 @@ const StudylogWrapper = styled.div`
   height: auto;
   min-height: 100vh;
   padding-top: 45px; /*나브바 높이 뺀 것 */
+  padding-bottom: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  @media (max-width: 650px) {
+    padding-bottom: 0;
+  }
 `
 
 export default function Studylog() {

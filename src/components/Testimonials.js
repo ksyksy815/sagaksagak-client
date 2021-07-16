@@ -99,6 +99,11 @@ const MainCard = styled(UserCard)`
     }
 
     div {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
       .testi-job {
         color: #e5e5e5;
       }
@@ -127,7 +132,7 @@ const MainCard = styled(UserCard)`
       .userImg {
         width: 80px;
       }
-  
+      
       span {
         font-size: 0.8rem;
       }
@@ -222,7 +227,7 @@ const MobileTestimonials = styled.div`
 const userInfo = [
   {
     job: '입시생',
-    title: `김원준(19)`,
+    title: `김원희(19)`,
     text: '코로나 시국에 도서관 독서실이 많이 열지 않은 상황에서 정말 같이 공부할 수 있는 느낌을 받아서 좋았습니다. 집중도 더 잘되는 것 같아요!!'
   },
   {
@@ -237,7 +242,7 @@ const userInfo = [
   },
   {
     job: '직장인',
-    title: '구본재(29)',
+    title: '구은재(29)',
     text: '제2외국어를 공부하고 싶었는데 따로 강의듣는거 외에도 이렇게 같이 공부하는 사람들과 같은 공간에서 정보도 공유하고 같이 공부하는 시간을 가질수 있다니,,, 앞으로 자주 이용할 것 같아요 '
   },
   {

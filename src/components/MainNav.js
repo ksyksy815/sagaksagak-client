@@ -47,7 +47,9 @@ const StyledMainNav = styled.nav`
     &:hover {
       cursor: pointer;
     }
-
+    &:focus {
+      outline: none;
+    }
     svg {
       fill: #fff;
       pointer-events: none;
@@ -75,10 +77,11 @@ const StyledMainNav = styled.nav`
           background: transparent;
           border: none;
           font-size: 1rem;
+          transition: 0.2s;
           &:hover {
             transform: translateY(-3px);
             cursor: pointer;
-            color: #444444;
+            color: #7f554f;
           }
         }
 

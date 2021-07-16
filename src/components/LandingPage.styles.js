@@ -17,7 +17,7 @@ export const StyledLandingPage = styled.div`
   justify-content: flex-start;
   position: relative;
 
-  @media ${device.tablet} {
+  @media (max-width: 1045px) {
     background-image:   url(${circle}), url(${circle}), url(${circle}), url(${circle});
     background-repeat: no-repeat;
     background-size:  60%, 80%, 50%, 80%;
@@ -92,7 +92,7 @@ export const StyledSectionTop = styled.section`
     left: 50%;
   }
 
-  @media ${device.tablet} {
+  @media (max-width: 1045px) {
     height: auto;
     min-height: 100vh;
     flex-direction: column-reverse;
@@ -213,7 +213,7 @@ export const StyledSectionMid = styled.section`
       }
     }
 
-    @media ${device.tablet} {
+    @media (max-width: 1045px) {
       height: 100vh;
       flex-direction: column;
       img {
@@ -276,7 +276,7 @@ export const StyledSectionMid = styled.section`
       right: 30%;
     }
 
-    @media ${device.tablet} {
+    @media (max-width: 1045px) {
       flex-direction: column-reverse;
       .two-text, .two-img {
         position: static;
@@ -347,7 +347,7 @@ export const StyledSectionMid = styled.section`
       margin-top: 1rem;
     }
 
-    @media ${device.tablet} {
+    @media (max-width: 1045px) {
       height: 100vh;
       flex-direction: column;
       justify-content: center;
@@ -410,7 +410,7 @@ export const StyledSectionBottom = styled.section`
     }
   }
 
-  @media ${device.tablet} {
+  @media (max-width: 1045px) {
     height: 130vh;
   }
 `
@@ -421,7 +421,7 @@ export const ButtonBox = styled.span`
   align-items: center;
   column-gap: 1rem;
 
-  @media ${device.tablet} {
+  @media (max-width: 1045px) {
     width: 100%;
     justify-content: flex-end;
   }

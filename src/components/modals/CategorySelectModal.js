@@ -19,6 +19,7 @@ import {
 } from "react-icons/fa";
 import { BiWorld } from "react-icons/bi";
 import { GiPoliceBadge } from "react-icons/gi";
+import { device } from '../../device'
 
 const StyledCategorySelModal = styled.div`
   ${(props) =>
@@ -42,23 +43,26 @@ const StyledCategorySelModal = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
 
   .CSModal-content-wrapper {
+    width: 600px;
+    height: auto;
+    margin-top: 45px; //navbar 길이 만큼
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    row-gap: 0.5rem;
     padding: 30px;
     border-radius: 10px;
     background: white;
     animation: modal-show 0.3s;
 
-    h1 {
-      margin-bottom: 0;
-      margin-top: 0;
-    }
-
     h4 {
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
+      font-weight: normal;
+
+      @media (max-width: 500px) {
+        font-size: 0.9rem;
+      }
     }
 
     & > button {
@@ -77,6 +81,20 @@ const StyledCategorySelModal = styled.div`
     .ok {
       background: #de877f;
       transition: 0.2s ease;
+    }
+
+    @media (max-width: 600px) {
+      margin: 0;
+      width: 95vw;
+      height: 60vh;
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media ${device.mobile} {
+      height: auto;
+      margin-top: 80px;
     }
   }
 
@@ -104,14 +122,15 @@ const StyledCategorySelModal = styled.div`
 const StyledGridContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  row-gap: 10px;
+  row-gap: 0.5rem;
   column-gap: 10px;
   margin-bottom: 35px;
-  width: 540px;
+  width: 100%;
 
   @media only screen and (max-width: 600px) {
-    width: 400px;
+    width: 100%;
   }
 `;
 
@@ -129,6 +148,7 @@ const StyledGridItem = styled.div`
 
   &:hover {
     cursor: pointer;
+    transform: translateY(-2px);
   }
 
   .icon {
@@ -142,7 +162,20 @@ const StyledGridItem = styled.div`
     height: 100px;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media (max-width: 600px) {
+    width: 80px;
+    height: 80px;
+    .select-wrapper {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  @media ${device.mobile} {
+    flex: 1 1 48%;
+  }
+
+  /* @media only screen and (max-width: 600px) {
     padding: 0 80px;
     flex-direction: row;
     justify-content: flex-start;
@@ -159,7 +192,7 @@ const StyledGridItem = styled.div`
       height: 30px;
       transform: translateX(-80px);
     }
-  }
+  } */
 `;
 
 const useOnClickOutside = (ref, handler) => {

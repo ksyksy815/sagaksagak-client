@@ -39,8 +39,8 @@ export default function StudyRecords() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { user } = useSelector((state) => state.logInStatusReducer);
-  const [records, setRecords] = useState(dummyRecords);
-  const [totalHours, setTotalHours] = useState(0);
+  const [records, setRecords] = useState([]);
+  const [totalHours, setTotalHours] = useState('');
   const [hoursByCategory, setHoursByCategory] = useState([]); //배열
 
   const refreshLogInRef = useRef();
@@ -189,11 +189,16 @@ export default function StudyRecords() {
 
   useEffect(() => {
     setTotalHours(() => {
-      let sum = 0;
+      let minutes = 0;
       hoursByCategory.forEach((el) => {
-        sum += el.hours;
+        minutes += el.hours;
       });
-      return sum;
+      if (minutes < 60) return `${minutes}분`;
+      else {
+        let hours = Math.round(minutes/60)
+        minutes = minutes%60
+        return `${hours}시간 ${minutes}분`
+      }
     });
   }, [hoursByCategory]);
 
@@ -202,9 +207,7 @@ export default function StudyRecords() {
       {user.isLogedIn ? (
         <>
           <section className="records-top">
-            <h1>
-              <AiFillPieChart /> 나의 총 공부시간: {totalHours}시간
-            </h1>
+            <h1><AiFillPieChart /> 나의 총 공부시간: {totalHours}</h1>
             <div className="pie-box">
               {hoursByCategory.length !== 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
