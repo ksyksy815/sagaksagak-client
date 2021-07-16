@@ -1,4 +1,3 @@
-import { useState, useRef } from 'react'
 import styled from 'styled-components'
 import { MdPerson, MdEmail } from 'react-icons/md'
 import { AiFillGithub } from 'react-icons/ai'

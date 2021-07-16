@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
-import { useHistory } from 'react-router-dom'
 import Peer from 'peerjs'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUser, setDeleteUser } from '../actions/index'
 import styled from 'styled-components'
 import ChatRoomNav from '../components/ChatRoomNav'
 import ClosedRoomRedirctModal from '../components/modals/ClosedRoomRedirctModal'
+import ChatroomTodo from '../components/ChatroomTodo'
 
 const ChatRoom = styled.div`
   width: 100vw;
@@ -16,20 +16,21 @@ const ChatRoom = styled.div`
   #video-grid {
     box-sizing: border-box;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    overflow: hidden;
 
     video {
       width: ${props => {
         switch (props.numberOfUsers) {
           case 1:
-            return `100%`
+            return `100vh`
           case 2:
-            return `50%`
+            return `46%`
           case 3:
             return `33%`
           case 4:
@@ -42,12 +43,25 @@ const ChatRoom = styled.div`
             return `100%`
         }
       }};
+      height: ${props => {
+        switch (props.numberOfUsers) {
+          case 1:
+            return `auto`
+          case 2:
+            return `45vh`
+          case 3:
+            return `45vh`
+          case 4:
+            return `45vh`
+          case 5:
+            return `45vh`
+          case 6:
+            return `45vh`
+          default:
+            return `100%`
+        }
+      }};
       object-fit: cover;
-    }
-
-    div {
-      height: auto;
-      background: yellow;
     }
   }
 `
@@ -56,7 +70,7 @@ export default function VideoChatRoom() {
   // Global
   const state = useSelector(state => state.logInStatusReducer) 
   const dispatch = useDispatch() 
-  const { user, chatroom } = state //roomId(str), participants(array)
+  const { user} = state //roomId(str), participants(array)
 
   // Local
   const [cameraOn, setCameraOn] = useState(true)
@@ -73,7 +87,9 @@ export default function VideoChatRoom() {
 
   const videoGrid = useRef()
   const myVideo = useRef()
-  const history = useHistory()
+
+  // TODO
+  const [todoOpen, setTodoOpen] = useState(false)
   
   const handleCamera = () => {
     setCameraOn(prev => !prev)
@@ -84,6 +100,10 @@ export default function VideoChatRoom() {
       let video = allStream.current.getTracks()
       video[0].enabled = true;
     }
+  }
+
+  const toggleTodo = () => {
+    setTodoOpen(!todoOpen)
   }
   
   useEffect(() => {
@@ -183,16 +203,15 @@ export default function VideoChatRoom() {
 
   return (
     <>
-      <ChatRoomNav cameraOn={cameraOn} handleCamera={handleCamera}/>
+      <ChatRoomNav cameraOn={cameraOn} handleCamera={handleCamera} toggleTodo={toggleTodo}/>
       <ChatRoom numberOfUsers={users}>
         { isLoading && <span>Loading...</span> }
         <div ref={videoGrid} id="video-grid">
           <video ref={myVideo}></video>
         </div>
       </ChatRoom>
-      {
-        roomClosed && <ClosedRoomRedirctModal />
-      }
+      { roomClosed && <ClosedRoomRedirctModal /> }
+      { todoOpen && <ChatroomTodo toggleTodo={toggleTodo}/> }
     </>
   )
 }

@@ -183,12 +183,7 @@ export default function LandingPage() {
             className="one-text"
             style={{ transform: `translateY(${offsetY * 0.2}px)` }}
           >
-            <h1>문제 제기: 불편한점</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Reprehenderit beatae fuga sapiente iste explicabo non, commodi
-              veniam aliquid ad quos!
-            </p>
+            <h1>"언텍트 시대, <br/> 혼자 공부하기 너무 힘들어요!"</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Reprehenderit beatae fuga sapiente iste explicabo non, commodi
@@ -201,7 +196,7 @@ export default function LandingPage() {
           style={{ transform: `translateY(${offsetY * 0.2}px)` }}
         >
           <div className="two-text">
-            <h1>우리 서비스가 그 불편함을 해소할 수 있다</h1>
+            <h1>집에서도 카페처럼, 도서관처럼!</h1>
             <p>
               사각사각은 이러한 서비스이다. 그러하다 저러하다 스터디룸 페이지에
               가면 여러 방들을 볼 수 있고 선택해서 들어갈 수 있다 자신이

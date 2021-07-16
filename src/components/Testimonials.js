@@ -47,7 +47,7 @@ const UserCard = styled.div`
     justify-content: center;
     align-items: center;
     line-height: 1.6;
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-top: 3rem;
     padding: 0 1rem;
   }
@@ -138,6 +138,7 @@ const MainCard = styled(UserCard)`
     p {
       padding-top: 1rem;
       margin-top: 2rem;
+      font-size: 0.8rem;
     }
 
     .userInfo {

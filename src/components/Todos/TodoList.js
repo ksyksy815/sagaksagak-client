@@ -55,7 +55,7 @@ export default function TodoList() {
     e.preventDefault();
 
     const id = uuidV4();
-    const content = e.target[1].value;
+    const content = newTodo;
     const createdAt = `${new Date().getFullYear()}-${
       new Date().getMonth() + 1
     }-${new Date().getDate()}`;
@@ -100,14 +100,12 @@ export default function TodoList() {
                   )
                   .then(() => {
                     setTodoList((prev) => [
-                      [
-                        {
-                          id: id,
-                          content: content,
-                          createdAt: createdAt,
-                          checked: false,
-                        },
-                      ],
+                      {
+                        id: res.data.id,
+                        content: contents,
+                        createdAt: createdAt,
+                        checked: false,
+                      },
                       ...prev,
                     ]);
                   })
@@ -157,7 +155,6 @@ export default function TodoList() {
           .then(() => {
             let index = todoList.findIndex((todo) => todo.id === Number(id));
             let target = todoList[index];
-            console.log("asdfasdfasdfasdfasdf", todoList);
             target.checked = !target.checked;
             setTodoList((list) =>
               list.filter((todo) => todo.id !== Number(id))
