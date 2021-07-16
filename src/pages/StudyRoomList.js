@@ -10,6 +10,7 @@ import FullRoomModal from "../components/modals/FullRoomModal";
 import Slider from "../components/Slider";
 import { setParticipants, logIn, logOut } from "../actions/index";
 import getCookie from "../utilities/getCookie";
+import GoToTopButton from "../components/GoToTopButton";
 
 const StyledStudyLoby = styled.div`
   position: relative;
@@ -273,6 +274,7 @@ const StudyRoomList = () => {
         setQuery={setQuery}
         setRooms={setRooms}
       />
+      <GoToTopButton />
     </StyledStudyLoby>
   );
 };
