@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
 import Peer from 'peerjs'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUser, setDeleteUser } from '../actions/index'
+import { setUser, setDeleteUser, PARTICIPANTS, setParticipants } from '../actions/index'
 import styled from 'styled-components'
 import ChatRoomNav from '../components/ChatRoomNav'
 import ClosedRoomRedirctModal from '../components/modals/ClosedRoomRedirctModal'
@@ -70,7 +70,7 @@ export default function VideoChatRoom() {
   // Global
   const state = useSelector(state => state.logInStatusReducer) 
   const dispatch = useDispatch() 
-  const { user} = state //roomId(str), participants(array)
+  const { user, participants} = state //roomId(str), participants(array)
 
   // Local
   const [cameraOn, setCameraOn] = useState(true)
@@ -140,7 +140,6 @@ export default function VideoChatRoom() {
           addVideoStream(newVideo, newStream)
           videoGrid.current.append(newVideo)
           setUsers(videoGrid.current.childElementCount)
-          console.log('sec', users)
         })
 
         mediaConnection.on('close', () => {
@@ -159,7 +158,6 @@ export default function VideoChatRoom() {
           addVideoStream(newVideo, newStream)
           videoGrid.current.append(newVideo)
           setUsers(videoGrid.current.childElementCount)
-          console.log('sec', users)
         })
         
         //작동함
@@ -181,7 +179,6 @@ export default function VideoChatRoom() {
       dispatch(setDeleteUser(peerId))
       setUsers(prev => prev - 1)
       const video = document.getElementById(`${peerId}`)
-      console.log(video)
       if (video !== null) {
         video.remove()
       } else {

@@ -6,7 +6,6 @@ const chatRoomReducer = (state = initialState, action) => {
     case ROOM_ID:
       return { ...state, chatroom: action.payload};
     case PARTICIPANTS:
-      console.log(action.payload.users)
       return { 
         ...state, 
         chatroom: {
