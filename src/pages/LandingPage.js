@@ -136,9 +136,10 @@ export default function LandingPage() {
           <h3>목표 달성을 위한 긴 여정,</h3>
           <h1>사각사각과 함께 하세요!</h1>
           <p>
-            Aliquid id voluptatem minus quae ipsam fugit sint nostrum ut
-            accusantium magnam laudantium molestias culpa libero error,
-            possimus, dolorem saepe veniam non.
+            <h4>도서관 분위기를 내거나 가고 싶은데 귀찮으시다고요?</h4>
+            <h4>공부계획을 적고 공부시간을 한 눈에 보고 싶으시다고요?</h4>
+            <h3>사각사각이 이 모든 고민을 해결해드리겠습니다.</h3>
+            <h3>나만의 스터디 플랫폼이 필요하시다면 사각사각이 함께하겠습니다.</h3>
           </p>
           <ButtonBox>
             <LandingPageBtn backgroundColor={`#F5D0A9`} color={`#F58820`}>
@@ -184,12 +185,12 @@ export default function LandingPage() {
             className="one-text"
             style={{ transform: `translateY(${offsetY * 0.2}px)` }}
           >
-            <h1>"언텍트 시대, <br/> 혼자 공부하기 너무 힘들어요!"</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Reprehenderit beatae fuga sapiente iste explicabo non, commodi
-              veniam aliquid ad quos!
-            </p>
+            <h1>"언텍트 시대, <br /> 혼자 공부하기 너무 힘들어요!"</h1>
+            <p><h4>사람들마다 다양한 공부 체질이 존재합니다.</h4></p>
+            <p><h4>혼자 공부할 때 더 능률이 오르는 체질, 또는 같이 공부할 때 더
+              능률이 오르는 체질이 존재합니다.</h4></p>
+            <p><h4>저희 사각사각은 이러한 같이 공부하고 싶은 사람들을 위해, 언택트 시대임에도 불구하고
+              같은 목적을 가지고 공부하는 동료들과 같은 방에서 공부할 수 있도록 하게 해주는 플랫폼입니다.</h4></p>
           </div>
         </div>
         <div
@@ -198,11 +199,11 @@ export default function LandingPage() {
         >
           <div className="two-text">
             <h1>집에서도 카페처럼, 도서관처럼!</h1>
-            <p>
-              사각사각은 이러한 서비스이다. 그러하다 저러하다 스터디룸 페이지에
-              가면 여러 방들을 볼 수 있고 선택해서 들어갈 수 있다 자신이
-              공부하고자하는 카테고리로 검색도 가능하다
-            </p>
+            <p><h4>사각사각은 카메라를 켜서 서로 공부할수 있는 모습을 보며 카페처럼 도서관처럼
+              공부할수있는 서비스이다.</h4></p>
+            <p><h4>사용자는 카메라를 껐다가 켰다가 할 수 있어 부담없이 자유롭게 공부하는 분위기를 즐길 수 있다.</h4></p>
+            <p><h4>사용자는 스터디룸이라는 곳에 가면 여러 방들을 선택해서 입장할 수 있고 사용자 본인이 원하는 방을 만들수 있다.</h4></p>
+            <p><h4>사용자는 선택한 관심사와 검색한 내용을 바탕으로 사용자에게 더 관심있을 방들이 추천되어진다.</h4></p>
           </div>
           <div className="two-img">화상 채팅 사용 비주얼 요기에</div>
         </div>
@@ -213,10 +214,11 @@ export default function LandingPage() {
           <div className="three-img">화상 채팅 사용 비주얼 요기에</div>
           <div className="three-text">
             <h1>그러하다 이런 것도 할 수 있다</h1>
-            <p>
-              스터디 로그: 공부하면서 간단한 투두(To-do) 리스트도 작성, 스터디룸
-              참여 기록 열람 화상채팅방 안에서도 투두리스트에 접근할 수 있음.
-            </p>
+            <p><h4>저희 서비스는 단지 같이 공부할 수 있는 방 뿐만이 아니라
+              사용자가 미리 공부할 내용을 만들어 스터디로그라고 하는 미니 다이어리 서비스도 제공드립니다.</h4></p>
+            <p><h4>사용자는 스터디로그에서 공부한 내용을 적고 완료되어 체크하면 완료된 목록으로 자동으로 넘어갑니다.</h4></p>
+            <p><h4>사용자는 또한 원하는 관심사별로 공부기록도 한눈에 차트로 알아볼 수 있습니다.</h4></p>
+            <p><h4>아 참!! 사용자는 공부방에서도 갑자기 급하게 해야할 공부 목록이 생각났다면 공부방에서도 공부할 내용을 저장할 수 있습니다</h4></p>
             <div className="three-btnBox">
               <LandingPageBtn backgroundColor={`#F5C3B8`} color={`#DE877F`}>
                 <Link to="/studyroom">스터디룸 참여하기</Link>
