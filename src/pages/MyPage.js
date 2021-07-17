@@ -155,6 +155,8 @@ const StyledContentWrapper = styled.div`
     .error-message {
       color: #fa8900;
       font-size: 0.8rem;
+      align-self: center;
+      padding: 5px 0 0 0;
     }
   }
 
