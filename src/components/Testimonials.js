@@ -86,7 +86,7 @@ const UserCard = styled.div`
 
 const MainCard = styled(UserCard)`
   width: 300px;
-  height: 50vh;
+  height: 55vh;
   background-color: #CCB19D;
 
   p {
@@ -178,6 +178,8 @@ const UserCardBox = styled.div`
   .arrows {
     font-size: 3rem;
     fill: #7F554F;
+    position: relative;
+    z-index: 500;
     &:hover {
       cursor: pointer;
       fill: #B7D5CE;

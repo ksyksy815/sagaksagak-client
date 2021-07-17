@@ -47,7 +47,7 @@ export const StyledSectionTop = styled.section`
   box-sizing: border-box;
   scroll-snap-align: start;
   overflow: hidden;
-  padding: 0 20%;
+  padding: 2rem 20%;
   position: relative;
 
   div {
@@ -60,7 +60,6 @@ export const StyledSectionTop = styled.section`
     position: absolute;
     left: 15%;
     bottom: 15%;
-    row-gap: 1rem;
     
     h3 {
       font-size: 2rem;
@@ -71,15 +70,13 @@ export const StyledSectionTop = styled.section`
     h1 {
       font-size: 2.5rem;
       color: #7F554F;
-
       letter-spacing: 2px;
-      margin: 0;
+      margin-bottom: 1rem;
     }
 
     p {
-      font-size: 1.2rem;
       line-height: 1.6;
-      color: #444444;
+      color: #777777;
     }
   }
 
@@ -112,10 +109,11 @@ export const StyledSectionTop = styled.section`
       }
       h1 {
         font-size: 2rem;
-        margin: 0.5rem 0;
+        margin: 0.5rem 0 1rem 0;
       }
       p {
-        color: #e5e5e5;
+        color: #fff;
+        margin-bottom: 1rem;
       }
     }
     img {
@@ -149,7 +147,7 @@ export const StyledSectionMid = styled.section`
     box-sizing: border-box;
   }
   width: 100%;
-  height: 430vh;
+  height: 500vh;
   scroll-snap-align: start;
   position: relative;
   display: flex;
@@ -175,12 +173,12 @@ export const StyledSectionMid = styled.section`
       object-fit: cover;
       position: absolute;
       top: 30%;
-      left: 5%;
+      right: 50%;
     }
 
     .one-text {
       width: 500px;
-      height: auto;
+      height: 400px;
       position: absolute;
       left: 50%;
       top: 10%;
@@ -194,15 +192,19 @@ export const StyledSectionMid = styled.section`
       row-gap: 2rem;
 
       h1 {
-        font-family: 'Nanum Pen Script', cursive;
         color: #444444;
-        font-size: 3rem;
+        font-size: 2rem;
+        line-height: 1.3;
+        margin-bottom: 2rem;
       }
 
       p {
-        color: #9e9e9e;
-        font-size: 1.2rem;
+        color: #777777;
         line-height: 1.6;
+        span {
+          color: #FE5244;
+          font-weight: bold;
+        }
       }
     }
 
@@ -223,12 +225,16 @@ export const StyledSectionMid = styled.section`
       .one-text {
         position: static;
         width: 100%;
-        height: 50vh;
+        height: 40vh;
         border-radius: 0;
         box-shadow: none;
         row-gap: 1rem;
         h1 {
-          font-size: 2rem;
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        p {
+          font-size: 1rem;
         }
       }
     }
@@ -242,10 +248,10 @@ export const StyledSectionMid = styled.section`
 
   .two {
     .two-text {
-      width: 550px;
-      height: auto;
+      width: 500px;
+      height: 500px;
       position: absolute;
-      left: 15%;
+      right: 50%;
       top: 0%;
       padding: 3rem;
       background-color: rgba(252,252,252,0.9);
@@ -257,23 +263,36 @@ export const StyledSectionMid = styled.section`
       row-gap: 1rem;
     
       h1 {
-        font-family: 'Nanum Pen Script', cursive;
         color: #444444;
-        font-size: 3rem;
-
+        font-size: 2rem;
+        margin-bottom: 2rem;
       }
 
       p {
-        color: #9e9e9e;
-        font-size: 1.2rem;
+        color: #777777;
         line-height: 1.6;
+
+        span {
+          color: #FE5244;
+          font-weight: bold;
+        }
+      }
+      .mid-title{
+          font-family: 'Nanum Pen Script', cursive;
+          font-size: 2rem;
+          color: #444444;
+          font-weight: bold;
+          margin-top: 2rem;
+      }
+      .three-btnBox {
+        align-self: flex-end;
       }
     }
 
     .two-img {
       position: absolute;
       top: 50%;
-      right: 30%;
+      left: 50%;
     }
 
     @media (max-width: 1045px) {
@@ -283,11 +302,18 @@ export const StyledSectionMid = styled.section`
         width: 100vw;
       }
       .two-text {
-        height: 40vh;
+        height: 60vh;
         border-radius: 0;
         box-shadow: none;
         h1 {
-          font-size: 2rem;
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        p {
+          font-size: 1rem;
+        }
+        .mid-title {
+          font-size: 1.5rem;
         }
       }
       .two-img {
@@ -303,13 +329,13 @@ export const StyledSectionMid = styled.section`
   }
 
   .three {
-    height: 130px;
+    height: 250vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-between;
+
     .three-text {
       width: 500px;
-      height: auto;
-      position: absolute;
-      right: 15%;
-      top: 5%;
       padding: 3rem;
       background-color: rgba(252,252,252,0.9);
       box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
@@ -320,22 +346,42 @@ export const StyledSectionMid = styled.section`
       row-gap: 2rem;
       
       h1 {
-        font-family: 'Nanum Pen Script', cursive;
         color: #444444;
-        font-size: 3rem;
+        font-size: 1.5rem;
       }
 
-      p {
-        color: #9e9e9e;
-        font-size: 1.2rem;
-        line-height: 1.6;
+      ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        margin-bottom: 1rem;
       }
     }
 
-    .three-img {
+    #three-text-top {
       position: absolute;
-      top: 0%;
-      left: 20%;
+      left: 50%;
+      top: 5%;
+    }
+
+    #three-text-bottom {
+      position: absolute;
+      right: 50%;
+      top: 35%;
+    }
+
+    .three-img-top {
+      position: absolute;
+      top: 5%;
+      right: 50%;
+      border: 1px solid red;
+    }
+    .three-img-bottom {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      border: 1px solid red;
     }
 
     .three-btnBox {
@@ -355,23 +401,45 @@ export const StyledSectionMid = styled.section`
       .three-img, .three-text {
         position: static;
         width: 100vw;
+        ul {
+          margin: 0;
+        }
       }
-      .three-img {
-        height: 60vh;
+      .three-img-top {
+        position: static;
+      }
+      .three-img-bottom {
+        position: static;
       }
       .three-text {
         box-shadow: none;
         border-radius: 0;
         height: 40vh;
         h1 {
-          font-size: 2rem;
+          font-size: 1.5rem;
         }
+      }
+      #three-text-top {
+        position: static;
+        height: auto;
+        padding: 1.5rem;
+      }
+      #three-text-bottom {
+        position: static;
+        height: auto;
+        padding: 1.5rem;
+      }
+      .three-btnBox {
+        margin: 0;
       }
     }
 
     @media ${device.mobile} {
       .three-text {
         padding: 2rem 1rem;
+        h1 {
+          font-size: 1.2rem;
+        }
       }
     }
   }
@@ -384,7 +452,7 @@ export const StyledSectionBottom = styled.section`
   }
 
   width: 100%;
-  height: auto;
+  height: 250vh;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
@@ -420,10 +488,15 @@ export const ButtonBox = styled.span`
   justify-content: flex-start;
   align-items: center;
   column-gap: 1rem;
+  margin-top: 1rem;
 
   @media (max-width: 1045px) {
     width: 100%;
     justify-content: flex-end;
+    margin: 0;
+  }
+  @media ${device.mobile} {
+    justify-content: center;
   }
 `
 
