@@ -22,7 +22,7 @@ import axios from "axios";
 import { logIn, logOut } from "../actions/index";
 import getCookie from "../utilities/getCookie";
 import GoToTopButton from "../components/GoToTopButton.js";
-import { BsBookHalf, BsCheck } from 'react-icons/bs'
+import { BsBookHalf, BsCheck } from "react-icons/bs";
 
 export default function LandingPage() {
   const state = useSelector((state) => state.logInStatusReducer);
@@ -51,11 +51,7 @@ export default function LandingPage() {
         const { accessToken, username, userId, email, category, subId } =
           res.data;
 
-        if (subId)
-          dispatch(
-            logIn(email, userId, username, accessToken, category, subId)
-          );
-        dispatch(logIn(email, userId, username, accessToken, category));
+        dispatch(logIn(email, userId, username, accessToken, category, subId));
       })
       .catch((err) => {
         if (err.response) {
@@ -137,9 +133,9 @@ export default function LandingPage() {
           <h3>목표 달성을 위한 긴 여정,</h3>
           <h1>사각사각에서 함께 하세요!</h1>
           <p>
-            사각사각은 온라인 모각공(모여서 각자 공부) 플랫폼 입니다. <br/>
-            때로는 카페처럼, 때로는 도서관처럼! <br/>
-            내 방에서도 외롭지 않은 공부를 이어가세요.
+            사각사각은 온라인 모각공(모여서 각자 공부) 플랫폼 입니다. <br />
+            때로는 카페처럼, 때로는 도서관처럼! <br />내 방에서도 외롭지 않은
+            공부를 이어가세요.
           </p>
           <ButtonBox>
             <LandingPageBtn backgroundColor={`#F5D0A9`} color={`#F58820`}>
@@ -187,10 +183,13 @@ export default function LandingPage() {
           >
             <h1>공부 방식은 모두 다릅니다.</h1>
             <p>
-              누군가는 혼자 공부할 때 능률이 오릅니다. <br/>하지만 또 다른 누군가는 여러 사람들이 있는 곳에서 더욱 집중력을 발휘합니다.
+              누군가는 혼자 공부할 때 능률이 오릅니다. <br />
+              하지만 또 다른 누군가는 여러 사람들이 있는 곳에서 더욱 집중력을
+              발휘합니다.
             </p>
             <p>
-              언택트가 일상이 된 <span>포스트 코로나 시대</span>. <br/> <span>사각사각</span>은 이러한 분들을 위해 탄생했습니다.
+              언택트가 일상이 된 <span>포스트 코로나 시대</span>. <br />{" "}
+              <span>사각사각</span>은 이러한 분들을 위해 탄생했습니다.
             </p>
           </div>
         </div>
@@ -201,11 +200,16 @@ export default function LandingPage() {
           <div className="two-text">
             <h1>온라인 스터디카페, 사각사각</h1>
             <p>
-              <span>사각사각</span>은 같은 목적을 가지고 공부하는 동료들과 온라인 상으로 함께 공부할 수 있도록 해주는 플랫폼입니다.
+              <span>사각사각</span>은 같은 목적을 가지고 공부하는 동료들과
+              온라인 상으로 함께 공부할 수 있도록 해주는 플랫폼입니다.
             </p>
-            <p className="mid-title"> <BsBookHalf/> 내 방에서도 카페처럼, 도서관처럼!</p>
+            <p className="mid-title">
+              {" "}
+              <BsBookHalf /> 내 방에서도 카페처럼, 도서관처럼!
+            </p>
             <p>
-              언택트 시대, 사각사각과 함께라면 목표 달성의 여정이 더 이상 외롭지 않습니다. 
+              언택트 시대, 사각사각과 함께라면 목표 달성의 여정이 더 이상 외롭지
+              않습니다.
             </p>
             <div className="three-btnBox">
               <LandingPageBtn backgroundColor={`#F5C3B8`} color={`#DE877F`}>
@@ -223,12 +227,19 @@ export default function LandingPage() {
           <div className="three-text" id="three-text-top">
             <ul>
               <h1>같은 목표를 가진 사람들과 공부하기</h1>
-              <li><BsCheck/> 방 생성 시, 원하는 주제를 선택할 수 있습니다.</li>
-              <li><BsCheck/> 직접 방을 만들거나 다른 사용자가 만든 방을 선택해서 입장할 수 있습니다.</li>
+              <li>
+                <BsCheck /> 방 생성 시, 원하는 주제를 선택할 수 있습니다.
+              </li>
+              <li>
+                <BsCheck /> 직접 방을 만들거나 다른 사용자가 만든 방을 선택해서
+                입장할 수 있습니다.
+              </li>
             </ul>
             <ul>
               <h1>방 추천 기능</h1>
-              <li><BsCheck/> 사용자 맞춤 주제의 화상 공부방을 추천해드립니다.</li>
+              <li>
+                <BsCheck /> 사용자 맞춤 주제의 화상 공부방을 추천해드립니다.
+              </li>
             </ul>
             <div className="three-btnBox">
               <LandingPageBtn backgroundColor={`#F5C3B8`} color={`#DE877F`}>
@@ -240,15 +251,22 @@ export default function LandingPage() {
           <div className="three-text" id="three-text-bottom">
             <ul>
               <h1>스터디 로그 기능</h1>
-              <li><BsCheck/> 각 주제별 공부 참여 시간 기록을 제공합니다.</li>
+              <li>
+                <BsCheck /> 각 주제별 공부 참여 시간 기록을 제공합니다.
+              </li>
             </ul>
             <ul>
               <h1>까먹지 말자! 투두(To-Do) 리스트</h1>
-              <li><BsCheck/> 공부방 참여 도중에도, 방을 나와서도 투두 리스트를 작성할 수 있습니다.</li>
+              <li>
+                <BsCheck /> 공부방 참여 도중에도, 방을 나와서도 투두 리스트를
+                작성할 수 있습니다.
+              </li>
             </ul>
             <ul>
               <h1>카메라 On/Off 기능</h1>
-              <li><BsCheck/> 원할 때 자유롭게 자신의 영상을 끄고 킬 수 있습니다.</li>
+              <li>
+                <BsCheck /> 원할 때 자유롭게 자신의 영상을 끄고 킬 수 있습니다.
+              </li>
             </ul>
             <div className="three-btnBox">
               <LandingPageBtn backgroundColor={`#F5C3B8`} color={`#DE877F`}>

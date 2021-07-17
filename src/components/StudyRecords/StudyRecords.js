@@ -40,7 +40,7 @@ export default function StudyRecords() {
   const history = useHistory();
   const { user } = useSelector((state) => state.logInStatusReducer);
   const [records, setRecords] = useState([]);
-  const [totalHours, setTotalHours] = useState('');
+  const [totalHours, setTotalHours] = useState("");
   const [hoursByCategory, setHoursByCategory] = useState([]); //배열
 
   const refreshLogInRef = useRef();
@@ -59,11 +59,7 @@ export default function StudyRecords() {
         const { accessToken, username, userId, email, category, subId } =
           res.data;
 
-        if (subId)
-          dispatch(
-            logIn(email, userId, username, accessToken, category, subId)
-          );
-        dispatch(logIn(email, userId, username, accessToken, category));
+        dispatch(logIn(email, userId, username, accessToken, category, subId));
       })
       .catch((err) => {
         if (err.response) {
@@ -195,9 +191,9 @@ export default function StudyRecords() {
       });
       if (minutes < 60) return `${minutes}분`;
       else {
-        let hours = Math.round(minutes/60)
-        minutes = minutes%60
-        return `${hours}시간 ${minutes}분`
+        let hours = Math.round(minutes / 60);
+        minutes = minutes % 60;
+        return `${hours}시간 ${minutes}분`;
       }
     });
   }, [hoursByCategory]);
@@ -207,7 +203,9 @@ export default function StudyRecords() {
       {user.isLogedIn ? (
         <>
           <section className="records-top">
-            <h1><AiFillPieChart /> 나의 총 공부시간: {totalHours}</h1>
+            <h1>
+              <AiFillPieChart /> 나의 총 공부시간: {totalHours}
+            </h1>
             <div className="pie-box">
               {hoursByCategory.length !== 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
