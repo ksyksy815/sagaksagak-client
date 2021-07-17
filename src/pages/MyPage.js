@@ -552,14 +552,20 @@ const MyPage = () => {
             )}
           </div>
         </div>
-        <div className="content-password">
-          <label>비밀번호</label>
-          <button onClick={() => setPasswordChangeMode(true)}>변경하기</button>
-        </div>
-        <div className="content-signout">
-          <label>회원탈퇴</label>
-          <button onClick={() => setSignoutMode(true)}>탈퇴</button>
-        </div>
+        {!user.googleId && (
+          <>
+            <div className="content-password">
+              <label>비밀번호</label>
+              <button onClick={() => setPasswordChangeMode(true)}>
+                변경하기
+              </button>
+            </div>
+            <div className="content-signout">
+              <label>회원탈퇴</label>
+              <button onClick={() => setSignoutMode(true)}>탈퇴</button>
+            </div>
+          </>
+        )}
       </StyledContentWrapper>
     </StyledMyPage>
   );
