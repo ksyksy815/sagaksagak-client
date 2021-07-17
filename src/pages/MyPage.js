@@ -47,9 +47,18 @@ const StyledContentWrapper = styled.div`
   height: 70%;
   row-gap: 3rem;
 
+  @media only screen and (max-width: 470px) {
+    width: 90%;
+    row-gap: 2rem;
+  }
+
   label {
     font-size: 1.7em;
     font-weight: 600;
+
+    @media only screen and (max-width: 470px) {
+      font-size: 1.2em;
+    }
   }
 
   button {
@@ -57,19 +66,27 @@ const StyledContentWrapper = styled.div`
     border-radius: 20px;
     background: lightgray;
     height: 40px;
-    width: 70px;
+    min-width: 70px;
     cursor: pointer;
     color: white;
+
+    @media only screen and (max-width: 470px) {
+      font-size: 0.8em;
+    }
   }
 
   .content-email {
     display: flex;
     column-gap: 30px;
     align-items: center;
-    width: 420px;
+    width: 100%;
+
+    @media only screen and (max-width: 470px) {
+      column-gap: 20px;
+    }
 
     label {
-      width: 80px;
+      min-width: 60px;
     }
 
     div {
@@ -87,12 +104,16 @@ const StyledContentWrapper = styled.div`
   .content-username {
     display: flex;
     flex-direction: column;
-    column-gap: 30px;
-    align-items: center;
+    justify-content: center;
+    align-items: space-between;
     width: 100%;
 
     label {
-      width: 80px;
+      min-width: 80px;
+
+      @media only screen and (max-width: 470px) {
+        min-width: 60px;
+      }
     }
 
     .username-info {
@@ -100,11 +121,17 @@ const StyledContentWrapper = styled.div`
       flex-direction: row;
       align-items: center;
       column-gap: 30px;
+
+      @media only screen and (max-width: 470px) {
+        column-gap: 20px;
+      }
+
       div {
         display: flex;
         flex-direction: row;
         column-gap: 20px;
         align-items: center;
+        width: 100%;
 
         input {
           border-radius: 20px;
@@ -116,7 +143,7 @@ const StyledContentWrapper = styled.div`
           justify-content: center;
           align-items: center;
           overflow-x: scroll;
-          width: 220px;
+          width: 100%;
 
           &:focus {
             outline: none;
@@ -525,14 +552,20 @@ const MyPage = () => {
             )}
           </div>
         </div>
-        <div className="content-password">
-          <label>비밀번호</label>
-          <button onClick={() => setPasswordChangeMode(true)}>변경하기</button>
-        </div>
-        <div className="content-signout">
-          <label>회원탈퇴</label>
-          <button onClick={() => setSignoutMode(true)}>탈퇴</button>
-        </div>
+        {!user.googleId && (
+          <>
+            <div className="content-password">
+              <label>비밀번호</label>
+              <button onClick={() => setPasswordChangeMode(true)}>
+                변경하기
+              </button>
+            </div>
+            <div className="content-signout">
+              <label>회원탈퇴</label>
+              <button onClick={() => setSignoutMode(true)}>탈퇴</button>
+            </div>
+          </>
+        )}
       </StyledContentWrapper>
     </StyledMyPage>
   );

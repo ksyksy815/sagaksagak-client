@@ -16,96 +16,114 @@ const StyledSignUpPage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  row-gap: 20px;
   min-height: 100vh;
+  width: 100%;
 
-  h1 {
-    border-bottom: 2px solid black;
-    width: 400px;
-    margin: 0;
-  }
-
-  #sign-in-link {
-    font-size: 0.8rem;
-
-    span {
-      padding: 0.5rem;
-      display: inline-block;
-      transition: 0.2s linear;
-
-      &:hover {
-        color: #f58820;
-        cursor: pointer;
-        transform: translateY(-3px);
-      }
-    }
-  }
-
-  #username-input-wrapper {
+  .signup-page-wrapper {
     display: flex;
-    max-width: 400px;
-    column-gap: 10px;
-    border-bottom: 1px solid black;
-
-    input {
-      flex: 2;
-      border-bottom: none;
-    }
-
-    button {
-      flex: 1;
-      height: 1.3rem;
-      background: #dddddd;
-    }
-  }
-
-  form {
-    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    row-gap: 10px;
+    row-gap: 20px;
+    width: 400px;
 
-    input {
-      border: none;
-      border-bottom: 1px solid black;
-      width: 400px;
-      font-size: 1.3rem;
-
-      &:focus {
-        outline: none;
-      }
-
-      &::placeholder {
-        opacity: 0.7;
-        font-size: 0.7rem;
-      }
+    @media only screen and (max-width: 445px) {
+      width: 90%;
     }
 
-    p {
-      color: #fa8900;
-      max-width: 300px;
+    h1 {
+      border-bottom: 2px solid black;
+      width: 100%;
       margin: 0;
-      font-size: 0.8rem;
+      padding: 10px 0;
     }
 
-    button {
-      border: none;
-      width: 400px;
-      height: 40px;
-      background: #f5d0a9;
-      border-radius: 3px;
+    #sign-in-link {
+      font-size: 0.8rem;
 
-      &:hover {
-        cursor: pointer;
-        background: #f58820;
+      span {
+        padding: 0.5rem;
+        display: inline-block;
         transition: 0.2s linear;
+
+        &:hover {
+          color: #f58820;
+          cursor: pointer;
+          transform: translateY(-3px);
+        }
+      }
+    }
+
+    #username-input-wrapper {
+      display: flex;
+      width: 100%;
+      column-gap: 10px;
+      border-bottom: 1px solid black;
+
+      input {
+        flex: 3;
+        border-bottom: none;
+      }
+
+      button {
+        flex: 1;
+        height: 1.3rem;
+        background: #dddddd;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+      width: 100%;
+
+      input {
+        border: none;
+        border-bottom: 1px solid black;
+        width: 100%;
+        font-size: 1.3rem;
+
+        &:focus {
+          outline: none;
+        }
+
+        &::placeholder {
+          opacity: 0.7;
+          font-size: 0.7rem;
+
+          @media only screen and (max-width: 445px) {
+            font-size: 0.5rem;
+          }
+        }
+      }
+
+      p {
+        color: #fa8900;
+        max-width: 300px;
+        margin: 0;
+        font-size: 0.8rem;
+      }
+
+      button {
+        border: none;
+        width: 100%;
+        height: 40px;
+        background: #f5d0a9;
+        border-radius: 3px;
+
+        &:hover {
+          cursor: pointer;
+          background: #f58820;
+          transition: 0.2s linear;
+        }
       }
     }
   }
 `;
 
 const StyledGoogleLogin = styled(GoogleLogin)`
-  width: 400px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -363,58 +381,62 @@ const SignUpPage = () => {
 
   return (
     <StyledSignUpPage>
-      <h1>Sign Up</h1>
-      <form>
-        <label>Email</label>
-        <input
-          type="text"
-          onChange={handleUserInput("email")}
-          onKeyUp={() => handleErrMessage(emailCheck(userInput.email))}
-        ></input>
-        {errMessage.emailErr && <p>{errMessage.emailErr}</p>}
-        <label>Username</label>
-        <div id="username-input-wrapper">
+      <div className="signup-page-wrapper">
+        <h1>Sign Up</h1>
+        <form>
+          <label>Email</label>
           <input
             type="text"
-            onChange={handleUserInput("username")}
-            onKeyUp={() => handleErrMessage(usernameCheck(userInput.username))}
-            placeholder="닉네임은 2자 이상으로 공백을 제외해야 합니다"
+            onChange={handleUserInput("email")}
+            onKeyUp={() => handleErrMessage(emailCheck(userInput.email))}
           ></input>
-          <button onClick={handleUsernameExist}>중복검사</button>
-        </div>
-        {errMessage.usernameErr && <p>{errMessage.usernameErr}</p>}
-        <label>Password</label>
-        <input
-          type="password"
-          onChange={handleUserInput("password")}
-          onKeyUp={() => handleErrMessage(passwordCheck(userInput.password))}
-          placeholder="비밀번호는 8자리 이상으로 영어,숫자,특수문자가 포함되어야 합니다"
-        ></input>
-        {errMessage.passwordErr && <p>{errMessage.passwordErr}</p>}
-        <label>Password Check</label>
-        <input
-          type="password"
-          onChange={handleUserInput("passwordCheck")}
-        ></input>
-        {userInput.password &&
-          userInput.passwordCheck &&
-          userInput.password !== userInput.passwordCheck && (
-            <p>입력한 비밀번호와 다릅니다</p>
-          )}
-        <button onClick={handleSignUp}>Submit</button>
-        {errMessage.other && <p>{errMessage.other}</p>}
-      </form>
-      <StyledGoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Sign up with Google"
-        onSuccess={handleGoogleSignUp}
-        onFailure={handleGoogleSignUpErr}
-        cookiePolicy={"single_host_origin"}
-      />
-      <p id="sign-in-link">
-        이미 회원 이신가요?
-        <span onClick={() => history.push("/login")}>로그인 하러 가기</span>
-      </p>
+          {errMessage.emailErr && <p>{errMessage.emailErr}</p>}
+          <label>Username</label>
+          <div id="username-input-wrapper">
+            <input
+              type="text"
+              onChange={handleUserInput("username")}
+              onKeyUp={() =>
+                handleErrMessage(usernameCheck(userInput.username))
+              }
+              placeholder="닉네임은 2자 이상으로 공백을 제외해야 합니다"
+            ></input>
+            <button onClick={handleUsernameExist}>중복검사</button>
+          </div>
+          {errMessage.usernameErr && <p>{errMessage.usernameErr}</p>}
+          <label>Password</label>
+          <input
+            type="password"
+            onChange={handleUserInput("password")}
+            onKeyUp={() => handleErrMessage(passwordCheck(userInput.password))}
+            placeholder="비밀번호는 8자리 이상으로 영어,숫자,특수문자가 포함되어야 합니다"
+          ></input>
+          {errMessage.passwordErr && <p>{errMessage.passwordErr}</p>}
+          <label>Password Check</label>
+          <input
+            type="password"
+            onChange={handleUserInput("passwordCheck")}
+          ></input>
+          {userInput.password &&
+            userInput.passwordCheck &&
+            userInput.password !== userInput.passwordCheck && (
+              <p>입력한 비밀번호와 다릅니다</p>
+            )}
+          <button onClick={handleSignUp}>Submit</button>
+          {errMessage.other && <p>{errMessage.other}</p>}
+        </form>
+        <StyledGoogleLogin
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+          buttonText="Sign up with Google"
+          onSuccess={handleGoogleSignUp}
+          onFailure={handleGoogleSignUpErr}
+          cookiePolicy={"single_host_origin"}
+        />
+        <p id="sign-in-link">
+          이미 회원 이신가요?
+          <span onClick={() => history.push("/login")}>로그인 하러 가기</span>
+        </p>
+      </div>
     </StyledSignUpPage>
   );
 };
