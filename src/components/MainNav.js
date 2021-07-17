@@ -42,7 +42,7 @@ const StyledMainNav = styled.nav`
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    background: #7F554F;
+    background: #7f554f;
     border: none;
     &:hover {
       cursor: pointer;
