@@ -16,6 +16,10 @@ const StyledArrow = styled.div`
   align-items: center;
   transition: transform ease-in 0.1s;
 
+  @media only screen and (max-width: 500px) {
+    display: none;
+  }
+
   &:hover {
     transform: scale(1.2);
   }

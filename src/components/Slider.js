@@ -50,6 +50,10 @@ const StyledSlider = styled.section`
   width: 100%;
   margin: 0 auto;
   overflow: hidden;
+
+  @media only screen and (max-width: 500px) {
+    height: 350px;
+  }
 `;
 
 const getWidth = () => {
