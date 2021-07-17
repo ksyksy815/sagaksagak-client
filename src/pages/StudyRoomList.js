@@ -85,7 +85,6 @@ const StudyRoomList = () => {
         userId: state.user.userId,
       })
       .then((res) => {
-        console.log(res.data.users);
         if (res.data.users !== undefined) {
           dispatch(setParticipants(res.data.users));
         } else {
