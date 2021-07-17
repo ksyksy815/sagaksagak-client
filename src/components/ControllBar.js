@@ -13,13 +13,14 @@ const StyledControllBar = styled.section`
     align-self: center;
     column-gap: 20px;
     padding: 20px 0 0 0;
+    width: 480px;
 
     button {
       border: none;
       border-radius: 10px;
       background: #7f554f;
       height: 40px;
-      width: 80px;
+      min-width: 80px;
       cursor: pointer;
       color: white;
       font-size: 0.9em;
@@ -29,13 +30,19 @@ const StyledControllBar = styled.section`
     input {
       border-radius: 20px;
       height: 40px;
-      width: 380px;
+      width: 100%;
       border: solid 1px lightgray;
       box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
       padding: 20px;
 
       &:focus {
         outline: none;
+      }
+
+      &::placeholder {
+        @media only screen and (max-width: 400px) {
+          font-size: 0.8rem;
+        }
       }
     }
   }
