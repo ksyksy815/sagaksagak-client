@@ -373,15 +373,15 @@ export default function TodoList() {
           withCredentials: true,
         })
         .then((res) => {
-          // 서버에서 받은 투두 날짜 이쁘게(?) 보이게 하기. 테스트 필요 
-          let completed = res.data.doneList.map(todo => {
-            let date = String(todo.updatedAt).slice(0, 10)
-            return {...todo, updatedAt: date}
-          })
-          let notCompleted = res.data.todoList.map(todo => {
-            let date = String(todo.createdAt).slice(0, 10)
-            return {...todo, createdAt: date}
-          })
+          // 서버에서 받은 투두 날짜 이쁘게(?) 보이게 하기. 테스트 필요
+          let completed = res.data.doneList.map((todo) => {
+            let date = String(todo.updatedAt).slice(0, 10);
+            return { ...todo, updatedAt: date };
+          });
+          let notCompleted = res.data.todoList.map((todo) => {
+            let date = String(todo.createdAt).slice(0, 10);
+            return { ...todo, createdAt: date };
+          });
 
           setCompletedList(completed);
           setTodoList(notCompleted);
@@ -438,11 +438,7 @@ export default function TodoList() {
         const { accessToken, username, userId, email, category, subId } =
           res.data;
 
-        if (subId)
-          dispatch(
-            logIn(email, userId, username, accessToken, category, subId)
-          );
-        dispatch(logIn(email, userId, username, accessToken, category));
+        dispatch(logIn(email, userId, username, accessToken, category, subId));
       })
       .catch((err) => {
         if (err.response) {

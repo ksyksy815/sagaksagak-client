@@ -130,11 +130,7 @@ const StudyRoomList = () => {
         const { accessToken, username, userId, email, category, subId } =
           res.data;
 
-        if (subId)
-          dispatch(
-            logIn(email, userId, username, accessToken, category, subId)
-          );
-        dispatch(logIn(email, userId, username, accessToken, category));
+        dispatch(logIn(email, userId, username, accessToken, category, subId));
       })
       .catch((err) => {
         if (err.response) {
