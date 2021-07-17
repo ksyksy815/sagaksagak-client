@@ -10,72 +10,85 @@ const StyledLogInPage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  row-gap: 15px;
   min-height: 100vh;
+  width: 100%;
 
-  h1 {
-    border-bottom: 2px solid black;
-    padding: 10px 0;
-    width: 400px;
-    margin: 10px;
-  }
-
-  #sign-up-link {
-    padding: 1rem;
-    font-size: 0.8rem;
-
-    span {
-      padding: 0.5rem;
-      display: inline-block;
-      transition: 0.2s linear;
-
-      &:hover {
-        color: #f58820;
-        cursor: pointer;
-        transform: translateY(-3px);
-      }
-    }
-  }
-
-  form {
+  .login-page-wrapper {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 15px;
+    width: 400px;
 
-    input {
-      border: none;
-      border-bottom: 1px solid black;
-      width: 400px;
-      font-size: 1.3rem;
-
-      &:focus {
-        outline: none;
-      }
+    @media only screen and (max-width: 445px) {
+      width: 90%;
     }
 
-    p {
-      color: #fa8900;
-      margin: 0;
-      font-size: 0.9rem;
+    h1 {
+      border-bottom: 2px solid black;
+      padding: 10px 0;
+      width: 100%;
+      margin: 10px;
     }
 
-    div {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    #sign-up-link {
+      padding: 1rem;
+      font-size: 0.8rem;
 
-      button {
-        border: none;
-        width: 400px;
-        height: 40px;
-        background: #f5d0a9;
-        border-radius: 3px;
+      span {
+        padding: 0.5rem;
+        display: inline-block;
+        transition: 0.2s linear;
 
         &:hover {
+          color: #f58820;
           cursor: pointer;
-          background: #f58820;
-          transition: 0.2s linear;
+          transform: translateY(-3px);
+        }
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+      width: 100%;
+
+      input {
+        border: none;
+        border-bottom: 1px solid black;
+        width: 100%;
+        font-size: 1.3rem;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      p {
+        color: #fa8900;
+        margin: 0;
+        font-size: 0.9rem;
+      }
+
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        button {
+          border: none;
+          width: 100%;
+          height: 40px;
+          background: #f5d0a9;
+          border-radius: 3px;
+
+          &:hover {
+            cursor: pointer;
+            background: #f58820;
+            transition: 0.2s linear;
+          }
         }
       }
     }
@@ -83,7 +96,7 @@ const StyledLogInPage = styled.div`
 `;
 
 const StyledGoogleLogin = styled(GoogleLogin)`
-  width: 400px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -187,28 +200,32 @@ const LogInPage = () => {
 
   return (
     <StyledLogInPage>
-      <h1>Sign In</h1>
-      <form>
-        <label>Email</label>
-        <input type="text" onChange={handleUserInput("email")}></input>
-        <label>Password</label>
-        <input type="password" onChange={handleUserInput("password")}></input>
-        {errMessage && <p>{errMessage}</p>}
-        <div>
-          <button onClick={handleLogIn}>Log In</button>
-        </div>
-      </form>
-      <StyledGoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Log in with Google"
-        onSuccess={handleGoogleLogIn}
-        onFailure={handleGoogleLogInErr}
-        cookiePolicy={"single_host_origin"}
-      />
-      <p id="sign-up-link">
-        아직 회원이 아니신가요?
-        <span onClick={() => history.push("/signup")}>회원가입 하러 가기</span>
-      </p>
+      <div className="login-page-wrapper">
+        <h1>Sign In</h1>
+        <form>
+          <label>Email</label>
+          <input type="text" onChange={handleUserInput("email")}></input>
+          <label>Password</label>
+          <input type="password" onChange={handleUserInput("password")}></input>
+          {errMessage && <p>{errMessage}</p>}
+          <div>
+            <button onClick={handleLogIn}>Log In</button>
+          </div>
+        </form>
+        <StyledGoogleLogin
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+          buttonText="Log in with Google"
+          onSuccess={handleGoogleLogIn}
+          onFailure={handleGoogleLogInErr}
+          cookiePolicy={"single_host_origin"}
+        />
+        <p id="sign-up-link">
+          아직 회원이 아니신가요?
+          <span onClick={() => history.push("/signup")}>
+            회원가입 하러 가기
+          </span>
+        </p>
+      </div>
     </StyledLogInPage>
   );
 };
