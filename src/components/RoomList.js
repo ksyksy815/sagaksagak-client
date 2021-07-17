@@ -105,30 +105,32 @@ const RoomList = ({
         {rooms.length === 0 ? (
           <h2>검색 결과가 없습니다</h2>
         ) : (
-          rooms.map((room, idx) => {
-            if (rooms.length === idx + 1) {
-              return (
-                <Room
-                  lastRoomElRef={lastRoomElRef}
-                  key={idx}
-                  room={room}
-                  handleEntance={handleEntrance}
-                ></Room>
-              );
-            } else {
-              return (
-                <Room
-                  key={idx}
-                  room={room}
-                  handleEntance={handleEntrance}
-                ></Room>
-              );
-            }
-          })
+          <>
+            {rooms.map((room, idx) => {
+              if (rooms.length === idx + 1) {
+                return (
+                  <Room
+                    lastRoomElRef={lastRoomElRef}
+                    key={idx}
+                    room={room}
+                    handleEntance={handleEntrance}
+                  ></Room>
+                );
+              } else {
+                return (
+                  <Room
+                    key={idx}
+                    room={room}
+                    handleEntance={handleEntrance}
+                  ></Room>
+                );
+              }
+            })}
+            <div>{loading && "Loading..."}</div>
+            <div>{error && "Error..."}</div>
+          </>
         )}
       </div>
-      <div>{loading && "Loading..."}</div>
-      <div>{error && "Error..."}</div>
     </StyledRoomListWrapper>
   );
 };
