@@ -360,14 +360,15 @@ export default function ChatroomTodo( { toggleTodo }) {
           withCredentials: true,
         })
         .then((res) => {
-          let list = [...res.data.todoList, res.data.doneList]
+          let list = [...res.data.todoList, ...res.data.doneList]
           if(list.length === 0) {
             setTodoList([])
           } else {
-            let listWithPrettyDates = list.map((todo) => {
+            let listWithPrettyDates = list.reduce((todos, todo) => {
               let date = String(todo.updatedAt).slice(0, 10);
-              return { ...todo, updatedAt: date };
-            });
+              todo = { ...todo, updatedAt: date };
+              return todos.push(todo)
+            }, []);
             setTodoList(listWithPrettyDates)
           }
         })
