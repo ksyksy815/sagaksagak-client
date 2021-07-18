@@ -340,6 +340,8 @@ const MyPage = () => {
   const handleChangeUsername = (e) => {
     e.preventDefault();
 
+    if (!userInput) return;
+
     if (user.username === userInput) return;
 
     if (usernameCheck(userInput) !== "usernameAvail") return;
