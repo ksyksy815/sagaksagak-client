@@ -137,6 +137,7 @@ export default function VideoChatRoom() {
         //answer()를 해야 mediaConnection이 활성화됨
         mediaConnection.answer(stream);
         const newVideo = document.createElement("video");
+        newVideo.setAttribute("autoplay", "playsinline");
 
         mediaConnection.on("stream", (newStream) => {
           addVideoStream(newVideo, newStream);
@@ -154,7 +155,7 @@ export default function VideoChatRoom() {
         setUsers((prev) => prev + 1);
         const mediaConnection = peer.call(peerId, stream);
         const newVideo = document.createElement("video");
-        newVideo.setAttribute("id", `${peerId}`, "autoplay", "playsinline");
+        // newVideo.setAttribute("id", `${peerId}`);
 
         mediaConnection.on("stream", (newStream) => {
           addVideoStream(newVideo, newStream);
