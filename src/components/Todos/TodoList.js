@@ -34,6 +34,7 @@ export default function TodoList() {
   const [newTodo, setNewTodo] = useState("");
   const [todoList, setTodoList] = useState([]);
   const [completedList, setCompletedList] = useState([]);
+  const [emptyInput, setEmptyInput] = useState(false)
 
   const toggleTodoForm = () => {
     setWriteMode(true);
@@ -51,84 +52,93 @@ export default function TodoList() {
     setNewTodo(e.target.value);
   };
 
+  const showNoEmptyInputMessage = () => {
+    setEmptyInput(true)
+    setTimeout(()=> setEmptyInput(false), 2000)
+  }
+
   const handleCreateTodo = (e) => {
     e.preventDefault();
 
-    const id = uuidV4();
-    const content = newTodo;
-    const createdAt = `${new Date().getFullYear()}-${
-      new Date().getMonth() + 1
-    }-${new Date().getDate()}`;
-
-    if (user.isLogedIn) {
-      let contents = content;
-      axios
-        .post(
-          `${process.env.REACT_APP_SERVER_DOMAIN}/todo`,
-          { contents: content },
-          {
-            headers: { authorization: `bearer ${user.accessToken}` },
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          setTodoList((prev) => [
-            {
-              id: res.data.id,
-              content: contents,
-              createdAt: createdAt,
-              checked: false,
-            },
-            ...prev,
-          ]);
-        })
-        .catch((err) => {
-          if (err.response.status === 403) {
-            // access token 만료
-            axios
-              .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
-              .then((res) => {
-                dispatch(setAccessToken(res.data.accessToken));
-                axios
-                  .post(
-                    `${process.env.REACT_APP_SERVER_DOMAIN}/todo`,
-                    { contents: content },
-                    {
-                      headers: { authorization: `bearer ${user.accessToken}` },
-                      withCredentials: true,
-                    }
-                  )
-                  .then(() => {
-                    setTodoList((prev) => [
-                      {
-                        id: res.data.id,
-                        content: contents,
-                        createdAt: createdAt,
-                        checked: false,
-                      },
-                      ...prev,
-                    ]);
-                  })
-                  .catch((err) => console.log(err));
-              })
-              .catch((err) => {
-                if (err.response.status === 403) {
-                  dispatch(logOut());
-                  history.push(`/unauthorized`);
-                } else {
-                  console.log(err);
-                }
-              });
-          } else {
-            console.log(err);
-          }
-        });
+    if (newTodo.length === 0) {
+      showNoEmptyInputMessage()
     } else {
-      dispatch(createTodo(id, content, createdAt));
+      const id = uuidV4();
+      const content = newTodo;
+      const createdAt = `${new Date().getFullYear()}-${
+        new Date().getMonth() + 1
+      }-${new Date().getDate()}`;
+  
+      if (user.isLogedIn) {
+        let contents = content;
+        axios
+          .post(
+            `${process.env.REACT_APP_SERVER_DOMAIN}/todo`,
+            { contents: content },
+            {
+              headers: { authorization: `bearer ${user.accessToken}` },
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            setTodoList((prev) => [
+              {
+                id: res.data.id,
+                content: contents,
+                createdAt: createdAt,
+                checked: false,
+              },
+              ...prev,
+            ]);
+          })
+          .catch((err) => {
+            if (err.response.status === 403) {
+              // access token 만료
+              axios
+                .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
+                .then((res) => {
+                  dispatch(setAccessToken(res.data.accessToken));
+                  axios
+                    .post(
+                      `${process.env.REACT_APP_SERVER_DOMAIN}/todo`,
+                      { contents: content },
+                      {
+                        headers: { authorization: `bearer ${user.accessToken}` },
+                        withCredentials: true,
+                      }
+                    )
+                    .then(() => {
+                      setTodoList((prev) => [
+                        {
+                          id: res.data.id,
+                          content: contents,
+                          createdAt: createdAt,
+                          checked: false,
+                        },
+                        ...prev,
+                      ]);
+                    })
+                    .catch((err) => console.log(err));
+                })
+                .catch((err) => {
+                  if (err.response.status === 403) {
+                    dispatch(logOut());
+                    history.push(`/unauthorized`);
+                  } else {
+                    console.log(err);
+                  }
+                });
+            } else {
+              console.log(err);
+            }
+          });
+      } else {
+        dispatch(createTodo(id, content, createdAt));
+      }
+  
+      setNewTodo("");
+      setWriteMode(false);
     }
-
-    setNewTodo("");
-    setWriteMode(false);
   };
 
   const handleTodoCheck = (e, completed) => {
@@ -502,6 +512,7 @@ export default function TodoList() {
                 <TodoForm
                   handleCreateTodo={handleCreateTodo}
                   handleNewTodoChange={handleNewTodoChange}
+                  emptyInput={emptyInput}
                 />
               )}
               {noTodoMode ? (
