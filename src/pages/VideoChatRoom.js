@@ -154,7 +154,7 @@ export default function VideoChatRoom() {
         setUsers((prev) => prev + 1);
         const mediaConnection = peer.call(peerId, stream);
         const newVideo = document.createElement("video");
-        newVideo.setAttribute("id", `${peerId}`);
+        newVideo.setAttribute("id", `${peerId}`, "autoplay", "playsinline");
 
         mediaConnection.on("stream", (newStream) => {
           addVideoStream(newVideo, newStream);
@@ -198,7 +198,7 @@ export default function VideoChatRoom() {
       <ChatRoom numberOfUsers={users}>
         {isLoading && <span>Loading...</span>}
         <div ref={videoGrid} id="video-grid">
-          <video ref={myVideo}></video>
+          <video ref={myVideo} autoPlay playsInline></video>
         </div>
       </ChatRoom>
       {roomClosed && <ClosedRoomRedirctModal />}
