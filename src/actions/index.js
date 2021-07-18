@@ -133,13 +133,13 @@ export const setTodoList = (todos, completeTodos) => {
   };
 };
 
-export const createTodo = (id, content, createdAt) => {
+export const createTodo = (id, content, updatedAt) => {
   return {
     type: NEW_TO_DO,
     payload: {
       id,
       content,
-      createdAt,
+      updatedAt,
       checked: false,
     },
   };
