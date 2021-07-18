@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import circle from '../assets/circle-bg.svg'
 import { device } from '../device'
+import iMac from "../assets/videos/imac_27.jpeg"
 
 
 export const StyledLandingPage = styled.div`
@@ -291,8 +292,20 @@ export const StyledSectionMid = styled.section`
 
     .two-img {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 30%;
+      left: 55%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 400px;
+        object-fit: cover;
+      }
+      video {
+        position: absolute;
+        top: 25px;
+        width: 360px;
+      }
     }
 
     @media (max-width: 1045px) {
@@ -317,13 +330,24 @@ export const StyledSectionMid = styled.section`
         }
       }
       .two-img {
-        height: 60vh;
+        video {
+          top: 170px;
+        }
       }
     }
 
     @media ${device.mobile} {
       .two-text {
         padding: 2rem 1rem;
+      }
+      .two-img {
+        img {
+          width: 350px;
+        }
+        video {
+          width: 320px;
+          top:190px;
+        }
       }
     }
   }
@@ -373,15 +397,38 @@ export const StyledSectionMid = styled.section`
 
     .three-img-top {
       position: absolute;
-      top: 5%;
-      right: 50%;
-      border: 1px solid red;
+      top: 0;
+      right: 55%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 400px;
+        object-fit: cover;
+      }
+      video {
+        position: absolute;
+        top: 25px;
+        width: 360px;
+      }
+      
     }
     .three-img-bottom {
       position: absolute;
-      top: 35%;
-      left: 50%;
-      border: 1px solid red;
+      top: 45%;
+      left: 55%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 400px;
+        object-fit: cover;
+      }
+      video {
+        position: absolute;
+        top: 25px;
+        width: 360px;
+      }
     }
 
     .three-btnBox {
@@ -407,9 +454,19 @@ export const StyledSectionMid = styled.section`
       }
       .three-img-top {
         position: static;
+        margin-top: 40rem;
+        margin-bottom: 3rem;
+        video {
+          top: -60px;
+        }
       }
       .three-img-bottom {
         position: static;
+        video {
+          top: 700px;
+        }
+        margin-top: 5rem;
+        margin-bottom: 2rem;
       }
       .three-text {
         box-shadow: none;
@@ -439,6 +496,26 @@ export const StyledSectionMid = styled.section`
         padding: 2rem 1rem;
         h1 {
           font-size: 1.2rem;
+        }
+      }
+
+      .three-img-top {
+        img {
+          width: 350px;
+        }
+        video {
+          width: 320px;
+          top: -95px;
+        }
+      }
+
+      .three-img-bottom {
+        img {
+          width: 350px;
+        }
+        video {
+          width: 320px;
+          top: 700px;
         }
       }
     }
@@ -471,7 +548,7 @@ export const StyledSectionBottom = styled.section`
     height: 100vh;
     padding: 0;
     justify-content: flex-end;
-
+    margin-top: 20rem;
     h1 {
       font-size: 1.5rem;
       margin: 0;
