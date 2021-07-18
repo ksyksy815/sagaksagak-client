@@ -23,6 +23,10 @@ import { logIn, logOut } from "../actions/index";
 import getCookie from "../utilities/getCookie";
 import GoToTopButton from "../components/GoToTopButton.js";
 import { BsBookHalf, BsCheck } from "react-icons/bs";
+import videochatView from "../assets/videos/videochatView.mov"
+import iMac from '../assets/videos/imac.png'
+import roomList from '../assets/videos/roomList.mov'
+import studyRecordMov from '../assets/videos/studyRecordMov.mov'
 
 export default function LandingPage() {
   const state = useSelector((state) => state.logInStatusReducer);
@@ -217,13 +221,19 @@ export default function LandingPage() {
               </LandingPageBtn>
             </div>
           </div>
-          <div className="two-img">화상 채팅 사용 비주얼 요기에</div>
+          <div className="two-img">
+            <img src={iMac} alt="imac"/>
+            <video src={videochatView}  autoPlay muted loop></video>
+          </div>
         </div>
         <div
           className="three"
           style={{ transform: `translateY(${offsetY * 0.2}px)` }}
         >
-          <div className="three-img-top">화상 채팅 사용 비주얼 요기에</div>
+          <div className="three-img-top">
+            <img src={iMac} alt="imac"/>
+            <video src={roomList}  autoPlay muted loop></video>
+          </div>
           <div className="three-text" id="three-text-top">
             <ul>
               <h1>같은 목표를 가진 사람들과 공부하기</h1>
@@ -247,7 +257,10 @@ export default function LandingPage() {
               </LandingPageBtn>
             </div>
           </div>
-          <div className="three-img-bottom">화상 채팅 사용 비주얼 요기에</div>
+          <div className="three-img-bottom">
+            <img src={iMac} alt="imac"/>
+            <video src={studyRecordMov}  autoPlay muted loop></video>
+          </div>
           <div className="three-text" id="three-text-bottom">
             <ul>
               <h1>스터디 로그 기능</h1>
