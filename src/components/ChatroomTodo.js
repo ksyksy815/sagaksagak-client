@@ -367,6 +367,8 @@ export default function ChatroomTodo( { toggleTodo }) {
             let listWithPrettyDates = list.reduce((todos, todo) => {
               let date = String(todo.updatedAt).slice(0, 10);
               todo = { ...todo, updatedAt: date };
+              todo.checked = todo.isDone === 0 ? false : true
+              delete todo.isDone
               return todos.push(todo)
             }, []);
             setTodoList(listWithPrettyDates)
