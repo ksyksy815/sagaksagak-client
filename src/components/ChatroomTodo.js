@@ -48,6 +48,8 @@ const InRoomTodo = styled.div`
     align-items: center;
     column-gap: 0.2rem;
     padding: 0 1rem;
+    position: relative;
+
     input {
       flex: 1 1 auto;
       color: #fff;
@@ -55,16 +57,29 @@ const InRoomTodo = styled.div`
       background: transparent;
       border: none;
       border-bottom: 1px solid #fff;
+      transition: 0.2s;
+
       &::placeholder {
-        color: #fff;
+        color: ${props=> props.emptyInput ? 'red' : '#fff'};
         font-style: italic;
       }
       &:focus {
         outline: none;
       }
     }
+
     button {
       padding: 0.2rem;
+    }
+
+    #no-input-message {
+      position: absolute;
+      bottom: -2rem;
+      right: 2rem;
+      background: #DDBCB5;
+      padding: 0.3rem;
+      border-radius: 10px;
+      z-index: 5;
     }
   }
 
@@ -105,6 +120,7 @@ export default function ChatroomTodo( { toggleTodo }) {
   const [todoList, setTodoList] = useState([])
   const [noTodoMode, setNoTodoMode] = useState(false)
   const [inputContent, setInputContent] = useState('')
+  const [emptyInput, setEmptyInput] = useState(false)
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -113,84 +129,92 @@ export default function ChatroomTodo( { toggleTodo }) {
     setInputContent(e.target.value)
   }
 
+  const showNoEmptyInputMessage = () => {
+    setEmptyInput(true)
+    setTimeout(()=> setEmptyInput(false), 2000)
+  }
+
   const handleMakeTodo = (e) => {
     e.preventDefault()
-    
-    const id = uuidV4()
-    const content = inputContent
-    const createdAt = `${new Date().getFullYear()}-${
-      new Date().getMonth() + 1
-    }-${new Date().getDate()}`
-
-    if (user.isLogedIn) {
-      let contents = content;
-      axios
-        .post(
-          `${process.env.REACT_APP_SERVER_DOMAIN}/todo`,
-          { contents: content },
-          {
-            headers: { authorization: `bearer ${user.accessToken}` },
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          setTodoList((prev) => [
-            {
-              id: res.data.id,
-              content: contents,
-              createdAt: createdAt,
-              checked: false,
-            },
-            ...prev,
-          ]);
-        })
-        .catch((err) => {
-          if (err.response.status === 403) {
-            // access token 만료
-            axios
-              .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
-              .then((res) => {
-                dispatch(setAccessToken(res.data.accessToken));
-                axios
-                  .post(
-                    `${process.env.REACT_APP_SERVER_DOMAIN}/todo`,
-                    { contents: content },
-                    {
-                      headers: { authorization: `bearer ${user.accessToken}` },
-                      withCredentials: true,
-                    }
-                  )
-                  .then(() => {
-                    setTodoList((prev) => [
-                      {
-                        id: res.data.id,
-                        content: contents,
-                        createdAt: createdAt,
-                        checked: false,
-                      },
-                      ...prev,
-                    ]);
-                  })
-                  .catch((err) => console.log(err));
-              })
-              .catch((err) => {
-                if (err.response.status === 403) {
-                  dispatch(logOut());
-                  history.push(`/unauthorized`);
-                } else {
-                  console.log(err);
-                }
-              });
-          } else {
-            console.log(err);
-          }
-        });
+    if (inputContent.length === 0) {
+      showNoEmptyInputMessage()
     } else {
-      dispatch(createTodo(id, content, createdAt));
+      const id = uuidV4()
+      const content = inputContent
+      const createdAt = `${new Date().getFullYear()}-${
+        new Date().getMonth() + 1
+      }-${new Date().getDate()}`
+  
+      if (user.isLogedIn) {
+        let contents = content;
+        axios
+          .post(
+            `${process.env.REACT_APP_SERVER_DOMAIN}/todo`,
+            { contents: content },
+            {
+              headers: { authorization: `bearer ${user.accessToken}` },
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            setTodoList((prev) => [
+              {
+                id: res.data.id,
+                content: contents,
+                createdAt: createdAt,
+                checked: false,
+              },
+              ...prev,
+            ]);
+          })
+          .catch((err) => {
+            if (err.response.status === 403) {
+              // access token 만료
+              axios
+                .get(`${process.env.REACT_APP_SERVER_DOMAIN}/user/token`)
+                .then((res) => {
+                  dispatch(setAccessToken(res.data.accessToken));
+                  axios
+                    .post(
+                      `${process.env.REACT_APP_SERVER_DOMAIN}/todo`,
+                      { contents: content },
+                      {
+                        headers: { authorization: `bearer ${user.accessToken}` },
+                        withCredentials: true,
+                      }
+                    )
+                    .then(() => {
+                      setTodoList((prev) => [
+                        {
+                          id: res.data.id,
+                          content: contents,
+                          createdAt: createdAt,
+                          checked: false,
+                        },
+                        ...prev,
+                      ]);
+                    })
+                    .catch((err) => console.log(err));
+                })
+                .catch((err) => {
+                  if (err.response.status === 403) {
+                    dispatch(logOut());
+                    history.push(`/unauthorized`);
+                  } else {
+                    console.log(err);
+                  }
+                });
+            } else {
+              console.log(err);
+            }
+          });
+      } else {
+        dispatch(createTodo(id, content, createdAt));
+      }
+  
+      setInputContent("")
+      e.target[0].value = ''
     }
-
-    setInputContent("")
-    e.target[0].value = ''
   }
 
   const handleTodoCheck = (e) => {
@@ -213,7 +237,13 @@ export default function ChatroomTodo( { toggleTodo }) {
         )
         .then(() => {
           setTodoList((list) => {
-            return list.map(todo => todo.id === id ? {...todo, checked: !todo.checked} : todo)
+            return list.map(todo => {
+              if (todo.id === id) {
+                return todo.isDone === 0 ? 1 : 0
+              } else {
+                return todo
+              }
+            })
           })
         })
         .catch((err) => {
@@ -236,7 +266,13 @@ export default function ChatroomTodo( { toggleTodo }) {
                   )
                   .then(() => {
                     setTodoList((list) => {
-                      return list.map(todo => todo.id === id ? {...todo, checked: !todo.checked} : todo)
+                      return list.map(todo => {
+                        if (todo.id === id) {
+                          return todo.isDone === 0 ? 1 : 0
+                        } else {
+                          return todo
+                        }
+                      })
                     })
                   })
                   .catch((err) => console.log(err));
@@ -325,7 +361,15 @@ export default function ChatroomTodo( { toggleTodo }) {
         })
         .then((res) => {
           let list = [...res.data.todoList, res.data.doneList]
-          setTodoList(list)
+          if(list.length === 0) {
+            setTodoList([])
+          } else {
+            let listWithPrettyDates = list.map((todo) => {
+              let date = String(todo.updatedAt).slice(0, 10);
+              return { ...todo, updatedAt: date };
+            });
+            setTodoList(listWithPrettyDates)
+          }
         })
         .catch((err) => {
           if (err.response.status === 403) {
@@ -349,9 +393,7 @@ export default function ChatroomTodo( { toggleTodo }) {
     } else if (!user.isLogedIn) {
       setTodoList(todos)
     }
-  }, [user.isLogedIn, todos, user.accessToken, dispatch, history]);
-
-  
+  }, [user.isLogedIn, todos, user.accessToken, dispatch, history]);  
 
   //로컬 상태인 todoList가 변동되면 불려짐
   useEffect(() => {
@@ -361,7 +403,7 @@ export default function ChatroomTodo( { toggleTodo }) {
   }, [todoList]);
 
   return (
-    <InRoomTodo>
+    <InRoomTodo emptyInput={emptyInput}>
       <div className="chatroom-todo-top">
         <button id="chatroom-todo-close-btn" onClick={toggleTodo}>X</button>
         <h2>To-Dos</h2>

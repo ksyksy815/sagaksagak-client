@@ -28,6 +28,10 @@ const Form = styled.form`
     &:focus {
       outline: none;
     }
+    &::placeholder {
+      font-style: italic;
+      color: ${props=>props.emptyInput ? `red` : `#444444`};
+    }
   }
 
   #saveBtn {
@@ -44,9 +48,9 @@ const Form = styled.form`
   }
 `
 
-export default function TodoForm( { handleCreateTodo, handleNewTodoChange } ) {
+export default function TodoForm( { handleCreateTodo, handleNewTodoChange, emptyInput } ) {
   return (
-    <Form onSubmit={handleCreateTodo}>
+    <Form onSubmit={handleCreateTodo} emptyInput={emptyInput}>
       <button className="todo-check"><FaRegCircle /></button>
       <input onChange={handleNewTodoChange} type="text" placeholder="할 일을 적어주세요!"></input>
       <button type="submit" id="saveBtn">Save</button>
