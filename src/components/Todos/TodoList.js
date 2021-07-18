@@ -410,7 +410,7 @@ export default function TodoList() {
       setTodoList(todos.filter((todo) => todo.checked !== true));
       setCompletedList(todos.filter((todo) => todo.checked !== false));
     }
-  }, [user.isLogedIn, todos, user.accessToken]);
+  }, [user.isLogedIn, todos, user.accessToken, dispatch, history]);
 
   //로컬 상태인 todoList와 completedList가 변동되면 불려짐
   useEffect(() => {

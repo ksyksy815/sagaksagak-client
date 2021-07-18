@@ -213,7 +213,13 @@ export default function ChatroomTodo( { toggleTodo }) {
         )
         .then(() => {
           setTodoList((list) => {
-            return list.map(todo => todo.id === id ? {...todo, checked: !todo.checked} : todo)
+            return list.map(todo => {
+              if (todo.id === id) {
+                return todo.isDone === 0 ? 1 : 0
+              } else {
+                return todo
+              }
+            })
           })
         })
         .catch((err) => {
@@ -236,7 +242,13 @@ export default function ChatroomTodo( { toggleTodo }) {
                   )
                   .then(() => {
                     setTodoList((list) => {
-                      return list.map(todo => todo.id === id ? {...todo, checked: !todo.checked} : todo)
+                      return list.map(todo => {
+                        if (todo.id === id) {
+                          return todo.isDone === 0 ? 1 : 0
+                        } else {
+                          return todo
+                        }
+                      })
                     })
                   })
                   .catch((err) => console.log(err));
@@ -325,7 +337,15 @@ export default function ChatroomTodo( { toggleTodo }) {
         })
         .then((res) => {
           let list = [...res.data.todoList, res.data.doneList]
-          setTodoList(list)
+          if(list.length === 0) {
+            setTodoList([])
+          } else {
+            let listWithPrettyDates = list.map((todo) => {
+              let date = String(todo.updatedAt).slice(0, 10);
+              return { ...todo, updatedAt: date };
+            });
+            setTodoList(listWithPrettyDates)
+          }
         })
         .catch((err) => {
           if (err.response.status === 403) {
@@ -349,9 +369,7 @@ export default function ChatroomTodo( { toggleTodo }) {
     } else if (!user.isLogedIn) {
       setTodoList(todos)
     }
-  }, [user.isLogedIn, todos, user.accessToken, dispatch, history]);
-
-  
+  }, [user.isLogedIn, todos, user.accessToken, dispatch, history]);  
 
   //로컬 상태인 todoList가 변동되면 불려짐
   useEffect(() => {
