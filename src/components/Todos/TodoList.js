@@ -65,7 +65,7 @@ export default function TodoList() {
     } else {
       const id = uuidV4();
       const content = newTodo;
-      const createdAt = `${new Date().getFullYear()}-${
+      const updatedAt = `${new Date().getFullYear()}-${
         new Date().getMonth() + 1
       }-${new Date().getDate()}`;
   
@@ -85,7 +85,7 @@ export default function TodoList() {
               {
                 id: res.data.id,
                 content: contents,
-                createdAt: createdAt,
+                updatedAt: updatedAt,
                 checked: false,
               },
               ...prev,
@@ -112,7 +112,7 @@ export default function TodoList() {
                         {
                           id: res.data.id,
                           content: contents,
-                          createdAt: createdAt,
+                          updatedAt: updatedAt,
                           checked: false,
                         },
                         ...prev,
@@ -133,7 +133,7 @@ export default function TodoList() {
             }
           });
       } else {
-        dispatch(createTodo(id, content, createdAt));
+        dispatch(createTodo(id, content, updatedAt));
       }
   
       setNewTodo("");
@@ -389,8 +389,8 @@ export default function TodoList() {
             return { ...todo, updatedAt: date };
           });
           let notCompleted = res.data.todoList.map((todo) => {
-            let date = String(todo.createdAt).slice(0, 10);
-            return { ...todo, createdAt: date };
+            let date = String(todo.updatedAt).slice(0, 10);
+            return { ...todo, updatedAt: date };
           });
 
           setCompletedList(completed);

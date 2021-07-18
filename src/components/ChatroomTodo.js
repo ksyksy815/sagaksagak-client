@@ -141,7 +141,7 @@ export default function ChatroomTodo( { toggleTodo }) {
     } else {
       const id = uuidV4()
       const content = inputContent
-      const createdAt = `${new Date().getFullYear()}-${
+      const updatedAt = `${new Date().getFullYear()}-${
         new Date().getMonth() + 1
       }-${new Date().getDate()}`
   
@@ -161,7 +161,7 @@ export default function ChatroomTodo( { toggleTodo }) {
               {
                 id: res.data.id,
                 content: contents,
-                createdAt: createdAt,
+                updatedAt: updatedAt,
                 checked: false,
               },
               ...prev,
@@ -188,7 +188,7 @@ export default function ChatroomTodo( { toggleTodo }) {
                         {
                           id: res.data.id,
                           content: contents,
-                          createdAt: createdAt,
+                          updatedAt: updatedAt,
                           checked: false,
                         },
                         ...prev,
@@ -209,7 +209,7 @@ export default function ChatroomTodo( { toggleTodo }) {
             }
           });
       } else {
-        dispatch(createTodo(id, content, createdAt));
+        dispatch(createTodo(id, content, updatedAt));
       }
   
       setInputContent("")

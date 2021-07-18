@@ -93,7 +93,7 @@ export default function TodoRoom( {todo, deleteTodo, checkTodo}) {
       </button>
       <div className="todoroom-todo-content-And-date">
         <span className="todo-content"> {todo.content}</span>
-        <span className="todo-date">{todo.createdAt || todo.updatedAt}</span>
+        <span className="todo-date">{todo.updatedAt}</span>
       </div>
       <button onClick={deleteTodo} id="todoroom-delete-btn"><AiOutlineCloseSquare id={todo.id}/></button>
     </RoomTodo>
