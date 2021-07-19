@@ -12,3 +12,8 @@
 
 [사각사각](https://sagaksagak.site/)</br></br></br></br>
 
+### 미리보기
+**1. 서비스 소개**
+</br></br>
+![랜딩페이지](https://www.notion.so/codestates/8-DevPull-1b926a1a8f20427fb06446a22adf4ae1#cf97a74e10f44d79b4f4ccf9d7f721f8)
+</br></br>
