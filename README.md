@@ -97,4 +97,6 @@
 
 ### **🌼 More Information**
 ---
-📝[프로젝트 소개문서](https://www.notion.so/codestates/8-DevPull-1b926a1a8f20427fb06446a22adf4ae1)</br></br></br></br>
+[📝프로젝트 소개문서](https://www.notion.so/codestates/8-DevPull-1b926a1a8f20427fb06446a22adf4ae1)</br></br></br></br>
+[🗄sagaksagak Server Repository](https://github.com/codestates/sagaksagak-server)</br></br></br></br>
+
