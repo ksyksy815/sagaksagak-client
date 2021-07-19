@@ -26,7 +26,7 @@
 </br></br>
 ![googlelogin](https://user-images.githubusercontent.com/75826911/126118579-5005e322-7022-4b0c-80e3-8064b87ad137.gif)
 </br></br>
-**3. 스터디룸 **
+**3. 스터디룸**
 </br></br>
 ![roomlist](https://user-images.githubusercontent.com/75826911/126119544-db7088ec-1d1c-4858-b44d-050195161ee8.gif)
 </br></br>
