@@ -15,5 +15,15 @@
 ### 미리보기
 **1. 서비스 소개**
 </br></br>
-![랜딩페이지](https://www.notion.so/codestates/8-DevPull-1b926a1a8f20427fb06446a22adf4ae1#cf97a74e10f44d79b4f4ccf9d7f721f8)
+![랜딩페이지]()
 </br></br>
+
+
+### 팀 데브풀
+***
+| 포지션 | 이름 | Github |
+|:----------:|:----------:|:----------:|
+| 🧡 **Frontend** | 김우성 | [IJMilk-WS](https://github.com/IJMilk-WS) |
+| 🧡 **Frontend** | 김서연 | [ksyksy815](https://github.com/ksyksy815) |
+| 💜 **Backend** | 황순은 | [Hwangsooneun](https://github.com/Hwangsooneun) |
+| 💜 **Backend** | 정현우 | [david-jeong95](https://github.com/david-Jeong95) |
