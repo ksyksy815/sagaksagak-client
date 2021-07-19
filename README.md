@@ -27,7 +27,7 @@
 </br></br>
 ![server](https://user-images.githubusercontent.com/75826911/126124285-f9236241-436d-4d10-b5fc-f487d0662161.jpg)
 </br></br>
-
+</br></br>
 # 😏 미리보기
 
 <details>
@@ -84,7 +84,7 @@
 </div>
 </details>
 
-
+</br></br></br></br>
 
 ### 😈 팀 데브풀
 ***
@@ -94,9 +94,10 @@
 | 🧡 **Frontend** | 김서연 | [ksyksy815](https://github.com/ksyksy815) |
 | 💜 **Backend** | 황순은 | [Hwangsooneun](https://github.com/Hwangsooneun) |
 | 💜 **Backend** | 정현우 | [david-jeong95](https://github.com/david-Jeong95) |
+</br></br></br></br>
 
 ### **🌼 More Information**
 ---
-[📝프로젝트 소개문서](https://www.notion.so/codestates/8-DevPull-1b926a1a8f20427fb06446a22adf4ae1)</br></br></br></br>
+[📝프로젝트 소개문서](https://www.notion.so/codestates/8-DevPull-1b926a1a8f20427fb06446a22adf4ae1)
 [🗄sagaksagak Server Repository](https://github.com/codestates/sagaksagak-server)</br></br></br></br>
 
