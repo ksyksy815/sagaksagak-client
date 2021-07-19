@@ -185,7 +185,7 @@ const Slider = ({ recommend, handleEntrance, loading }) => {
 
   return (
     <StyledSlider>
-      {loading ? (
+      {recommend.length === 0? (
         <div className="err-message">
           <div>Loading...</div>
         </div>

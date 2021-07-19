@@ -235,7 +235,7 @@ const StudyRoomList = () => {
       />
       <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} open={isRoomFull} />
       {
-        !loading &&
+        recommend.length !== 0 &&
         <Slider
           recommend={recommend}
           handleEntrance={handleEntrance}
