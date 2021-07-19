@@ -505,6 +505,7 @@ export const StyledSectionMid = styled.section`
 
       .three-img-top {
         img {
+          position: relative;
           width: 350px;
         }
         video {
