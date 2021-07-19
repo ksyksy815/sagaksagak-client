@@ -54,6 +54,14 @@ const StyledSlider = styled.section`
   @media only screen and (max-width: 500px) {
     height: 350px;
   }
+
+  .err-message {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const getWidth = () => {
@@ -61,7 +69,7 @@ const getWidth = () => {
   return window.innerWidth;
 };
 
-const Slider = ({ recommend, handleEntrance }) => {
+const Slider = ({ recommend, handleEntrance, loading }) => {
   const getImage = (roomList) => {
     const mappedRooms = roomList.map((r) => {
       return {
@@ -177,21 +185,27 @@ const Slider = ({ recommend, handleEntrance }) => {
 
   return (
     <StyledSlider>
-      <SliderContent
-        translate={translate}
-        transition={transition}
-        width={getWidth() * _slides.length}
-      >
-        {_slides.map((slide, idx) => {
-          return (
-            <Slide
-              key={slide.image + idx}
-              content={slide}
-              handleEntrance={handleEntrance}
-            />
-          );
-        })}
-      </SliderContent>
+      {loading ? (
+        <div className="err-message">
+          <div>Loading...</div>
+        </div>
+      ) : (
+        <SliderContent
+          translate={translate}
+          transition={transition}
+          width={getWidth() * _slides.length}
+        >
+          {_slides.map((slide, idx) => {
+            return (
+              <Slide
+                key={slide.image + idx}
+                content={slide}
+                handleEntrance={handleEntrance}
+              />
+            );
+          })}
+        </SliderContent>
+      )}
       <Arrow direction="left" handleClick={prevSlide} />
       <Arrow direction="right" handleClick={nextSlide} />
       <Dots slides={mappedRoomList} activeIndex={activeIndex} />
