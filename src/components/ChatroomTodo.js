@@ -238,8 +238,13 @@ export default function ChatroomTodo( { toggleTodo }) {
         .then(() => {
           setTodoList((list) => {
             return list.map(todo => {
-              if (todo.id === id) {
-                return todo.isDone === 0 ? 1 : 0
+              if (todo.id === Number(id)) {
+                return {
+                  id: todo.id,
+                  content: todo.content,
+                  updatedAt: todo.updatedAt,
+                  checked: !todo.checked
+                }
               } else {
                 return todo
               }
@@ -267,8 +272,13 @@ export default function ChatroomTodo( { toggleTodo }) {
                   .then(() => {
                     setTodoList((list) => {
                       return list.map(todo => {
-                        if (todo.id === id) {
-                          return todo.isDone === 0 ? 1 : 0
+                        if (todo.id === Number(id)) {
+                          return {
+                            id: todo.id,
+                            content: todo.content,
+                            updatedAt: todo.updatedAt,
+                            checked: !todo.checked
+                          }
                         } else {
                           return todo
                         }
@@ -364,13 +374,15 @@ export default function ChatroomTodo( { toggleTodo }) {
           if(list.length === 0) {
             setTodoList([])
           } else {
-            let listWithPrettyDates = list.reduce((todos, todo) => {
-              let date = String(todo.updatedAt).slice(0, 10);
-              todo = { ...todo, updatedAt: date };
-              todo.checked = todo.isDone === 0 ? false : true
-              delete todo.isDone
-              return todos.push(todo)
-            }, []);
+            let listWithPrettyDates = list.map((el) => {
+              let date = String(el.updatedAt).slice(0, 10);
+              return {
+                id: el.id,
+                content: el.content,
+                updatedAt: date,
+                checked: el.isDone === 0 ? false : true
+              }
+            });
             setTodoList(listWithPrettyDates)
           }
         })
