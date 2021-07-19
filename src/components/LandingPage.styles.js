@@ -1,17 +1,18 @@
-import styled from 'styled-components'
-import circle from '../assets/circle-bg.svg'
-import { device } from '../device'
-import iMac from "../assets/videos/imac_27.jpeg"
-
+import styled from "styled-components";
+import circle from "../assets/circle-bg.svg";
+import { device } from "../device";
+import iMac from "../assets/videos/imac_27.jpeg";
 
 export const StyledLandingPage = styled.div`
   width: 100vw;
   height: auto;
   background-color: #f5f5f5;
-  background-image: url(${circle}), url(${circle}), url(${circle}), url(${circle}), url(${circle});
+  background-image: url(${circle}), url(${circle}), url(${circle}),
+    url(${circle}), url(${circle});
   background-repeat: no-repeat;
-  background-size:  50%, 30%, 80%, 40%, 80%;
-  background-position: top -5% left -20%, top 20% right -10%, bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
+  background-size: 50%, 30%, 80%, 40%, 80%;
+  background-position: top -5% left -20%, top 20% right -10%,
+    bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
 
   display: flex;
   flex-direction: column;
@@ -19,21 +20,23 @@ export const StyledLandingPage = styled.div`
   position: relative;
 
   @media (max-width: 1045px) {
-    background-image:   url(${circle}), url(${circle}), url(${circle}), url(${circle});
+    background-image: url(${circle}), url(${circle}), url(${circle}),
+      url(${circle});
     background-repeat: no-repeat;
-    background-size:  60%, 80%, 50%, 80%;
-    background-position:  top 20% right -200px, top 35% left -200px, bottom 30% right -40%, bottom 5% left -80%;
+    background-size: 60%, 80%, 50%, 80%;
+    background-position: top 20% right -200px, top 35% left -200px,
+      bottom 30% right -40%, bottom 5% left -80%;
   }
 
   @media ${device.mobile} {
-    background-image:   url(${circle}), url(${circle}), url(${circle}), url(${circle});
+    background-image: url(${circle}), url(${circle}), url(${circle}),
+      url(${circle});
     background-repeat: no-repeat;
     background-size: 80%, 90%, 70%, 90%;
-    background-position: top 12% right -200px, top 30% left -200px, bottom 35% right -100px, bottom 10% left -150px;
+    background-position: top 12% right -200px, top 30% left -200px,
+      bottom 35% right -100px, bottom 10% left -150px;
   }
-
-
-`
+`;
 
 export const StyledSectionTop = styled.section`
   * {
@@ -61,16 +64,16 @@ export const StyledSectionTop = styled.section`
     position: absolute;
     left: 15%;
     bottom: 15%;
-    
+
     h3 {
       font-size: 2rem;
-      font-family: 'Nanum Pen Script', cursive;
+      font-family: "Nanum Pen Script", cursive;
       color: #444444;
     }
 
     h1 {
       font-size: 2.5rem;
-      color: #7F554F;
+      color: #7f554f;
       letter-spacing: 2px;
       margin-bottom: 1rem;
     }
@@ -101,7 +104,7 @@ export const StyledSectionTop = styled.section`
     div {
       min-width: 100vw;
       position: static;
-      background-color: #CCB19D;
+      background-color: #ccb19d;
       padding: 1rem 2rem;
 
       h3 {
@@ -139,7 +142,7 @@ export const StyledSectionTop = styled.section`
       max-width: 350px;
     }
   }
-`
+`;
 
 export const StyledSectionMid = styled.section`
   * {
@@ -184,8 +187,8 @@ export const StyledSectionMid = styled.section`
       left: 50%;
       top: 10%;
       padding: 3rem;
-      background-color: rgba(252,252,252,0.9);
-      box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+      background-color: rgba(252, 252, 252, 0.9);
+      box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -203,7 +206,7 @@ export const StyledSectionMid = styled.section`
         color: #777777;
         line-height: 1.6;
         span {
-          color: #FE5244;
+          color: #fe5244;
           font-weight: bold;
         }
       }
@@ -255,14 +258,14 @@ export const StyledSectionMid = styled.section`
       right: 50%;
       top: 0%;
       padding: 3rem;
-      background-color: rgba(252,252,252,0.9);
-      box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+      background-color: rgba(252, 252, 252, 0.9);
+      box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
       row-gap: 1rem;
-    
+
       h1 {
         color: #444444;
         font-size: 2rem;
@@ -274,16 +277,16 @@ export const StyledSectionMid = styled.section`
         line-height: 1.6;
 
         span {
-          color: #FE5244;
+          color: #fe5244;
           font-weight: bold;
         }
       }
-      .mid-title{
-          font-family: 'Nanum Pen Script', cursive;
-          font-size: 2rem;
-          color: #444444;
-          font-weight: bold;
-          margin-top: 2rem;
+      .mid-title {
+        font-family: "Nanum Pen Script", cursive;
+        font-size: 2rem;
+        color: #444444;
+        font-weight: bold;
+        margin-top: 2rem;
       }
       .three-btnBox {
         align-self: flex-end;
@@ -310,7 +313,8 @@ export const StyledSectionMid = styled.section`
 
     @media (max-width: 1045px) {
       flex-direction: column-reverse;
-      .two-text, .two-img {
+      .two-text,
+      .two-img {
         position: static;
         width: 100vw;
       }
@@ -331,7 +335,7 @@ export const StyledSectionMid = styled.section`
       }
       .two-img {
         video {
-          top: 170px;
+          top: 210px;
         }
       }
     }
@@ -346,7 +350,7 @@ export const StyledSectionMid = styled.section`
         }
         video {
           width: 320px;
-          top:190px;
+          top: 220px;
         }
       }
     }
@@ -361,14 +365,14 @@ export const StyledSectionMid = styled.section`
     .three-text {
       width: 500px;
       padding: 3rem;
-      background-color: rgba(252,252,252,0.9);
-      box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
+      background-color: rgba(252, 252, 252, 0.9);
+      box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
       row-gap: 2rem;
-      
+
       h1 {
         color: #444444;
         font-size: 1.5rem;
@@ -411,7 +415,6 @@ export const StyledSectionMid = styled.section`
         top: 25px;
         width: 360px;
       }
-      
     }
     .three-img-bottom {
       position: absolute;
@@ -445,7 +448,8 @@ export const StyledSectionMid = styled.section`
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      .three-img, .three-text {
+      .three-img,
+      .three-text {
         position: static;
         width: 100vw;
         ul {
@@ -457,13 +461,13 @@ export const StyledSectionMid = styled.section`
         margin-top: 40rem;
         margin-bottom: 3rem;
         video {
-          top: -60px;
+          top: -20px;
         }
       }
       .three-img-bottom {
         position: static;
         video {
-          top: 700px;
+          top: 740px;
         }
         margin-top: 5rem;
         margin-bottom: 2rem;
@@ -505,7 +509,7 @@ export const StyledSectionMid = styled.section`
         }
         video {
           width: 320px;
-          top: -95px;
+          top: -10px;
         }
       }
 
@@ -515,7 +519,7 @@ export const StyledSectionMid = styled.section`
         }
         video {
           width: 320px;
-          top: 700px;
+          top: 740px;
         }
       }
     }
@@ -558,7 +562,7 @@ export const StyledSectionBottom = styled.section`
   @media (max-width: 1045px) {
     height: 130vh;
   }
-`
+`;
 
 export const ButtonBox = styled.span`
   display: flex;
@@ -575,13 +579,13 @@ export const ButtonBox = styled.span`
   @media ${device.mobile} {
     justify-content: center;
   }
-`
+`;
 
 export const LandingPageBtn = styled.button`
   width: 130px;
   padding: 0.7rem;
   border-radius: 15px;
-  background-color: #7F554F;
+  background-color: #7f554f;
   border: none;
   font-weight: bold;
   transition: 0.2s;
@@ -593,11 +597,10 @@ export const LandingPageBtn = styled.button`
 
   &:hover {
     background-color: #f5f5f5;
-    background-color: #205B59;
+    background-color: #205b59;
     transform: translateY(-3px);
   }
-
-`
+`;
 
 export const ParallaxImg = styled.div`
   background-image: ${(props) => props.img};
