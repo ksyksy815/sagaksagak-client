@@ -14,8 +14,7 @@
 
 ### **기술 스택**
 </br></br>
-![기술스택](https://user-images.githubusercontent.com/75826911/126116849-d0c95b13-e7ea-4230-bbcc-ad42134ce7be.png)
-<img src = "https://user-images.githubusercontent.com/75826911/126116849-d0c95b13-e7ea-4230-bbcc-ad42134ce7be.png" width="70%" height="70%">
+<img src = "https://user-images.githubusercontent.com/75826911/126116849-d0c95b13-e7ea-4230-bbcc-ad42134ce7be.png" width="85%" height="80%">
 </br></br>
 
 ### 미리보기
