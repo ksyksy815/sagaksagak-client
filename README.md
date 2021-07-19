@@ -18,18 +18,18 @@
 </br></br>
 
 # 😏 미리보기
-**1. 서비스 소개**
+
 <details>
-<summary>여기를 눌러주세요</summary>
+<summary>**1. 서비스 소개**</summary>
 <div markdown="1">       
 
-😎숨겨진 내용😎
-
-</div>
-</details>
 </br></br>
 ![landing](https://user-images.githubusercontent.com/75826911/126117915-855928cd-1ba1-49b2-bf23-fbd49f8eaee4.gif)
 </br></br>
+
+</div>
+</details>
+
 **2. google login**
 </br></br>
 ![googlelogin](https://user-images.githubusercontent.com/75826911/126118579-5005e322-7022-4b0c-80e3-8064b87ad137.gif)
