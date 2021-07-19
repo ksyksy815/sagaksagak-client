@@ -234,7 +234,11 @@ const StudyRoomList = () => {
         isCRModalOpen={isCRModalOpen}
       />
       <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} open={isRoomFull} />
-      <Slider recommend={recommend} handleEntrance={handleEntrance} />
+      <Slider
+        recommend={recommend}
+        handleEntrance={handleEntrance}
+        loading={loading}
+      />
       <ControllBar setQuery={setQuery} setPageNum={setPageNum} query={query} />
       <RoomList
         rooms={rooms}
