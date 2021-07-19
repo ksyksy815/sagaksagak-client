@@ -17,6 +17,17 @@
 <img src = "https://user-images.githubusercontent.com/75826911/126116849-d0c95b13-e7ea-4230-bbcc-ad42134ce7be.png" width="85%" height="80%">
 </br></br>
 
+# **📋 Flow Chart**
+### client
+</br></br>
+![client](https://user-images.githubusercontent.com/75826911/126124251-933b63dc-a8f3-41de-9485-e58a532d9a14.jpg)
+</br></br>
+
+### server
+</br></br>
+![server](https://user-images.githubusercontent.com/75826911/126124285-f9236241-436d-4d10-b5fc-f487d0662161.jpg)
+</br></br>
+
 # 😏 미리보기
 
 <details>
@@ -83,3 +94,6 @@
 | 🧡 **Frontend** | 김서연 | [ksyksy815](https://github.com/ksyksy815) |
 | 💜 **Backend** | 황순은 | [Hwangsooneun](https://github.com/Hwangsooneun) |
 | 💜 **Backend** | 정현우 | [david-jeong95](https://github.com/david-Jeong95) |
+
+### **More Information**
+---
