@@ -94,7 +94,8 @@
 | 🧡 **Frontend** | 김서연 | [ksyksy815](https://github.com/ksyksy815) |
 | 💜 **Backend** | 황순은 | [Hwangsooneun](https://github.com/Hwangsooneun) |
 | 💜 **Backend** | 정현우 | [david-jeong95](https://github.com/david-Jeong95) |
-</br></br></br>
+</br></br></br></br>
+
 
 # **🌼 More Information**
 
