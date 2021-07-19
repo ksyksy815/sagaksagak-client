@@ -191,7 +191,7 @@ const StudyRoomList = () => {
             });
             if (res.data.recommend) setRecommend(res.data.recommend);
             setHasMore(res.data.rooms.length > 0);
-            setLoading(false);
+            setLoading(false)
           })
           .catch((err) => {
             if (axios.isCancel(err)) return;
@@ -234,11 +234,14 @@ const StudyRoomList = () => {
         isCRModalOpen={isCRModalOpen}
       />
       <FullRoomModal handleFRMCloseBtn={handleFRMCloseBtn} open={isRoomFull} />
-      <Slider
-        recommend={recommend}
-        handleEntrance={handleEntrance}
-        loading={loading}
-      />
+      {
+        !loading &&
+        <Slider
+          recommend={recommend}
+          handleEntrance={handleEntrance}
+          loading={loading}
+        />
+      }
       <ControllBar setQuery={setQuery} setPageNum={setPageNum} query={query} />
       <RoomList
         rooms={rooms}
