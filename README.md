@@ -1,4 +1,3 @@
-![landing](https://user-images.githubusercontent.com/75826911/126117857-d7b5f622-1595-4df4-a764-7fc8e38950ef.gif)
 # 사각사각에서 함께 하세요! in sagaksagak
 
 사각사각은 온라인 모각공(모여서 각자 공부) 플랫폼 입니다.
@@ -22,8 +21,9 @@
 **1. 서비스 소개**
 </br></br>
 ![landing](https://user-images.githubusercontent.com/75826911/126117915-855928cd-1ba1-49b2-bf23-fbd49f8eaee4.gif)
-
 </br></br>
+
+
 
 
 ### 팀 데브풀
