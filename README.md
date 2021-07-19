@@ -1,4 +1,4 @@
-# ✏ 서비스 소개 ✎
+# ✏ 서비스 소개 
 
 ## 사각사각에서 함께 하세요! in sagaksagak
 
@@ -14,12 +14,12 @@
 
 [사각사각](https://sagaksagak.site/)</br></br></br></br>
 
-## **hammer_and_wrench Tech stack**
+# **🛠 Tech stack**
 </br></br>
 <img src = "https://user-images.githubusercontent.com/75826911/126116849-d0c95b13-e7ea-4230-bbcc-ad42134ce7be.png" width="85%" height="80%">
 </br></br>
 
-## 미리보기
+# 😏 미리보기
 **1. 서비스 소개**
 </br></br>
 ![landing](https://user-images.githubusercontent.com/75826911/126117915-855928cd-1ba1-49b2-bf23-fbd49f8eaee4.gif)
