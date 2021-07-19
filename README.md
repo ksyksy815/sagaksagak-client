@@ -22,7 +22,18 @@
 </br></br>
 ![landing](https://user-images.githubusercontent.com/75826911/126117915-855928cd-1ba1-49b2-bf23-fbd49f8eaee4.gif)
 </br></br>
-
+**2. google login**
+</br></br>
+![googlelogin](https://user-images.githubusercontent.com/75826911/126118579-5005e322-7022-4b0c-80e3-8064b87ad137.gif)
+</br></br>
+**3. 스터디룸 **
+</br></br>
+![roomlist](https://user-images.githubusercontent.com/75826911/126119544-db7088ec-1d1c-4858-b44d-050195161ee8.gif)
+</br></br>
+**4. 화상채팅방 할 일(todo) 체크**
+</br></br>
+![chattingroom](https://user-images.githubusercontent.com/75826911/126119972-672efa2a-b0b9-4bc8-a67d-2295fa0a8b0c.gif)
+</br></br>
 
 
 
