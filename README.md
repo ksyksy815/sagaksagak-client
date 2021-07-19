@@ -12,10 +12,16 @@
 
 [사각사각](https://sagaksagak.site/)</br></br></br></br>
 
+### **기술 스택**
+</br></br>
+![기술스택](https://user-images.githubusercontent.com/75826911/126116849-d0c95b13-e7ea-4230-bbcc-ad42134ce7be.png)
+</br></br>
+
 ### 미리보기
 **1. 서비스 소개**
 </br></br>
-![랜딩페이지]()
+
+
 </br></br>
 
 
