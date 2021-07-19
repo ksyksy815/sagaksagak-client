@@ -20,37 +20,59 @@
 # 😏 미리보기
 
 <details>
-<summary>**1. 서비스 소개**</summary>
+<summary>1. 서비스 소개</summary>
 <div markdown="1">       
-
 </br></br>
 ![landing](https://user-images.githubusercontent.com/75826911/126117915-855928cd-1ba1-49b2-bf23-fbd49f8eaee4.gif)
 </br></br>
-
 </div>
 </details>
 
-**2. google login**
+<details>
+<summary>2. google login</summary>
+<div markdown="1">       
 </br></br>
 ![googlelogin](https://user-images.githubusercontent.com/75826911/126118579-5005e322-7022-4b0c-80e3-8064b87ad137.gif)
 </br></br>
-**3. 스터디룸**
+</div>
+</details>
+
+<details>
+<summary>3. 스터디룸</summary>
+<div markdown="1">       
 </br></br>
 ![roomlist](https://user-images.githubusercontent.com/75826911/126119544-db7088ec-1d1c-4858-b44d-050195161ee8.gif)
 </br></br>
-**4. 화상채팅방 할 일(todo) 체크**
+</div>
+</details>
+
+<details>
+<summary>4. 화상채팅방 할 일(todo) 체크</summary>
+<div markdown="1">       
 </br></br>
 ![chattingroom](https://user-images.githubusercontent.com/75826911/126119972-672efa2a-b0b9-4bc8-a67d-2295fa0a8b0c.gif)
 </br></br>
-**5. 스터디로그 할일(todo) 생성/완료**
+</div>
+</details>
+
+<details>
+<summary>5. 스터디로그 할일(todo) 생성/완료</summary>
+<div markdown="1">       
 </br></br>
 ![todo](https://user-images.githubusercontent.com/75826911/126122822-1e0229ba-6f34-43ed-85ae-6796214618eb.gif)
 </br></br>
-**6. 공부 기록 확인 및 그래프**
+</div>
+</details>
+
+<details>
+<summary>6. 공부 기록 확인 및 그래프</summary>
+<div markdown="1">       
 </br></br>
 ![record](https://user-images.githubusercontent.com/75826911/126122967-2d9df2bb-7fc3-4f3a-a55d-f17240c7d6dc.gif)
-
 </br></br>
+</div>
+</details>
+
 
 
 ### 😈 팀 데브풀
