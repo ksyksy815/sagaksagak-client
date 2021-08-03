@@ -27,6 +27,7 @@ import videochatView from "../assets/videos/videochatView.mov"
 import iMac from '../assets/videos/imac.png'
 import roomList from '../assets/videos/roomList.mov'
 import studyRecordMov from '../assets/videos/studyRecordMov.mov'
+import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 
 export default function LandingPage() {
   const state = useSelector((state) => state.logInStatusReducer);
@@ -40,6 +41,23 @@ export default function LandingPage() {
   const sectionMid = useRef();
   const modalRef = useRef();
   const refreshLogInRef = useRef();
+
+  // Scroll animation
+  const animatedOne = useScrollFadeIn('down', 1, 0)
+  const animatedTwo = useScrollFadeIn('down', 1, 0.4)
+  const animatedThree = useScrollFadeIn('down', 1, 1)
+  const animatedFour = useScrollFadeIn('down', 1, 1.8)
+
+  const animatedFive = useScrollFadeIn('up', 1, 0)
+  const animatedSix = useScrollFadeIn('down', 1, 0.5)
+
+  const animatedSeven = useScrollFadeIn('down', 1, 0)
+  const animatedEight = useScrollFadeIn('left', 1, 0.5)
+
+  const animatedNine = useScrollFadeIn('right', 1, 0)
+  const animatedTen = useScrollFadeIn('up', 1, 0.5)
+  const animatedEleven = useScrollFadeIn('right', 1, 0)
+  const animatedTwelve = useScrollFadeIn('up', 1, 0.5)
 
   const handleRefreshLogIn = () => {
     if (!getCookie("refreshToken")) return;
@@ -108,10 +126,10 @@ export default function LandingPage() {
     setOffsetY(window.pageYOffset);
   };
 
-  const divProps = useSpring({
-    from: { bottom: "100%", opacity: "0" },
-    to: { bottom: "15%", opacity: "1" },
-  });
+  // const divProps = useSpring({
+  //   from: { bottom: "100%", opacity: "0" },
+  //   to: { bottom: "15%", opacity: "1" },
+  // });
 
   useEffect(() => {
     const setModal = () => {
@@ -133,15 +151,15 @@ export default function LandingPage() {
     <StyledLandingPage>
       <CategorySelectModal open={isCSModalOpen} close={catSelModalClose} />
       <StyledSectionTop>
-        <animated.div style={divProps}>
-          <h3>목표 달성을 위한 긴 여정,</h3>
-          <h1>사각사각에서 함께 하세요!</h1>
-          <p>
+        <div>
+          <h3 {...animatedOne}>목표 달성을 위한 긴 여정,</h3>
+          <h1 {...animatedTwo}>사각사각에서 함께 하세요!</h1>
+          <p  {...animatedThree}>
             사각사각은 온라인 모각공(모여서 각자 공부) 플랫폼 입니다. <br />
             때로는 카페처럼, 때로는 도서관처럼! <br />내 방에서도 외롭지 않은
             공부를 이어가세요.
           </p>
-          <ButtonBox>
+          <ButtonBox  {...animatedFour}>
             <LandingPageBtn backgroundColor={`#F5D0A9`} color={`#F58820`}>
               <Link to="/studyroom">스터디룸 참여하기</Link>
             </LandingPageBtn>
@@ -149,7 +167,7 @@ export default function LandingPage() {
               <Link to="/studylog">To-do 작성하기</Link>
             </LandingPageBtn>
           </ButtonBox>
-        </animated.div>
+        </div>
         <animated.img
           src={imgVideoChat}
           alt="Video chat illustration"
@@ -180,10 +198,12 @@ export default function LandingPage() {
             src={imgStudyingAloneHard}
             alt="Studying alone is not easy"
             style={{ transform: `translateY(${offsetY * 0.1}px)` }}
+            {...animatedFive}
           />
           <div
             className="one-text"
             style={{ transform: `translateY(${offsetY * 0.2}px)` }}
+            {...animatedSix}
           >
             <h1>공부 방식은 모두 다릅니다.</h1>
             <p>
@@ -201,7 +221,7 @@ export default function LandingPage() {
           className="two"
           style={{ transform: `translateY(${offsetY * 0.2}px)` }}
         >
-          <div className="two-text">
+          <div className="two-text" {...animatedSeven}>
             <h1>온라인 스터디카페, 사각사각</h1>
             <p>
               <span>사각사각</span>은 같은 목적을 가지고 공부하는 동료들과
@@ -221,7 +241,7 @@ export default function LandingPage() {
               </LandingPageBtn>
             </div>
           </div>
-          <div className="two-img">
+          <div className="two-img" {...animatedEight}>
             <img src={iMac} alt="imac"/>
             <video src={videochatView}  autoPlay muted loop></video>
           </div>
@@ -230,11 +250,11 @@ export default function LandingPage() {
           className="three"
           style={{ transform: `translateY(${offsetY * 0.2}px)` }}
         >
-          <div className="three-img-top">
+          <div className="three-img-top" {...animatedNine}>
             <img src={iMac} alt="imac"/>
             <video src={roomList}  autoPlay muted loop></video>
           </div>
-          <div className="three-text" id="three-text-top">
+          <div className="three-text" id="three-text-top" {...animatedTen}>
             <ul>
               <h1>같은 목표를 가진 사람들과 공부하기</h1>
               <li>
@@ -257,11 +277,11 @@ export default function LandingPage() {
               </LandingPageBtn>
             </div>
           </div>
-          <div className="three-img-bottom">
+          <div className="three-img-bottom" {...animatedTwelve}>
             <img src={iMac} alt="imac"/>
             <video src={studyRecordMov}  autoPlay muted loop></video>
           </div>
-          <div className="three-text" id="three-text-bottom">
+          <div className="three-text" id="three-text-bottom" {...animatedEleven}>
             <ul>
               <h1>스터디 로그 기능</h1>
               <li>
