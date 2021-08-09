@@ -1,15 +1,16 @@
+# 😆 Welcome!
+
 안녕하세요! 😁 <br></br>
 본 레포지토리는 코드스테이츠 소프트웨어 엔지니어링 프로그램에 참여하면서 개발한 4인 프로젝트를
-수료 이후 개선 및 추가 사항들을 반영하면서 그 기록들을 남긴 곳입니다. <br></br>
+수료 이후 개선 및 추가 사항들을 반영하면서 그 기록들을 남긴 곳입니다. 
 수료 당시 파이널 프로젝트의 원본 레포지토리는 여기를 참고해주세요!: 
 https://github.com/codestates/sagaksagak-client
 
 <br></br>
-<br></br>
 
 Hello! 😁 <br></br>
-This repository is where I record further improvements and additional features that I made 
-on the group project that was carried out as the final project in the Code States' software boot camp. <br></br>
+This repository is where I record further improvements and additional features that I made (and am making)
+on the group project that was carried out as the final project in the Code States' software boot camp. 
 Please refer to the following link for the original version of the service:
 https://github.com/codestates/sagaksagak-client
 
