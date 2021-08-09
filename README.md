@@ -4,6 +4,9 @@
 수료 당시 파이널 프로젝트의 원본 레포지토리는 여기를 참고해주세요!: 
 https://github.com/codestates/sagaksagak-client
 
+<br></br>
+<br></br>
+
 Hello! 😁 <br></br>
 This repository is where I record further improvements and additional features that I made 
 on the group project that was carried out as the final project in the Code States' software boot camp. <br></br>
