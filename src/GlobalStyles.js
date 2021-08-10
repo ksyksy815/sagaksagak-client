@@ -2,6 +2,15 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
 // 필기체(제목 등 꾸미는 곳에 필요 시)font-family: 'Nanum Pen Script', cursive;
+  :root {
+    --light-blue: rgb(187,213,248);
+    --blue: rgb(113,178,248);
+    --purple: rgb(134,144,220);
+    --light-gray: rgb(238,242,248);
+    --green: rgb(122,212,173);
+    --yellow: rgb(255,182,77);
+    --red: rgb(223,117,146);
+  }
 
   * {
     margin: 0px;
@@ -17,26 +26,3 @@ export const GlobalStyles = createGlobalStyle`
     color: #FE5244;
   }
 `;
-
-// colors used
-/*
-Landing page background: #F4EBE2
-
-Dark orange: #F58820
--> with opacity: #f58720be
-Light orange: #F5D0A9
-
-Dark pink: #DE877F
--> with opacity: #de877fc9
-Light pink: #F5C3B8
-
-Dark green: #205B5A
--> with opacity: #205b5ab4
-Light green: #A2C8BF
-
-Yellow: #FECF2D
--> with opacity: #fed12dc9
-
-Blue: #66B0F0
--> with opacity: #66b0f0b2
-*/
