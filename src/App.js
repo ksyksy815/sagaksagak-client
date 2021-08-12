@@ -13,6 +13,7 @@ import Studylog from "./pages/Studylog";
 import MyPage from "./pages/MyPage";
 import VideoChatRoom from "./pages/VideoChatRoom";
 import Unauthorized from "./pages/Unauthorized"
+import KanbanBoard from "./components/kanban/KanbanBoard";
 
 const StyledApp = styled.div`
   width: 100%;
@@ -58,6 +59,10 @@ function App() {
           <Route path="/mypage">
             <MainNav isLogedIn={user.isLogedIn} />
             <MyPage />
+          </Route>
+          <Route path="/board">
+            <MainNav isLogedIn={user.isLogedIn} />
+            <KanbanBoard />
           </Route>
           <Route path="/unauthorized">
             <Unauthorized />
