@@ -3,37 +3,31 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../device";
-import { AiOutlineMenu } from "react-icons/ai";
+import { BiMenuAltRight } from "react-icons/bi";
 import MobileMainNav from "../components/MobileMainNav";
 import { logOut } from "../actions/index";
 import axios from "axios";
 
 const StyledMainNav = styled.nav`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
   width: 100vw;
-  height: 45px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  position: fixed;
   top: 0;
   z-index: 100;
   letter-spacing: 1.5px;
-  padding: 0.5rem 2rem;
+  padding: 1rem 5rem;
   box-sizing: border-box;
-
+  
   h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+    
     a {
       text-decoration: none;
-      color: #7f554f;
+      color: #fff;
     }
   }
 
@@ -42,8 +36,8 @@ const StyledMainNav = styled.nav`
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    background: #7f554f;
     border: none;
+    background: transparent;
     &:hover {
       cursor: pointer;
     }
@@ -81,14 +75,12 @@ const StyledMainNav = styled.nav`
           &:hover {
             transform: translateY(-3px);
             cursor: pointer;
-            color: #7f554f;
           }
         }
 
         a,
         button {
-          color: #444444;
-          font-weight: bold;
+          color: #fff;
           text-decoration: none;
           padding: 1rem 0;
         }
@@ -97,7 +89,6 @@ const StyledMainNav = styled.nav`
           transform: translateY(-3px);
           & a {
             cursor: pointer;
-            color: #7f554f;
           }
         }
       }
@@ -105,12 +96,10 @@ const StyledMainNav = styled.nav`
   }
 
   @media ${device.laptop} {
-    max-width: 1200px;
+    max-width: 1440px;
   }
 
   @media ${device.tablet} {
-    background-color: #7f554f;
-
     h2 {
       a {
         font-size: 1.2rem;
@@ -184,37 +173,23 @@ export default function MainNav({ isLogedIn }) {
         <Link to="/">사각사각</Link>
       </h2>
       <button className="menu-btn" onClick={toggleMenus}>
-        <AiOutlineMenu />
+        <BiMenuAltRight />
       </button>
       <div className="nav-menus">
         <ul>
-          <li>
-            <Link to="/">홈</Link>
-          </li>
-          <li>
-            <Link to="/studyroom">스터디룸</Link>
-          </li>
-          <li>
-            <Link to="/studylog">스터디로그</Link>
-          </li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/studyroom">Room List</Link></li>
+          <li><Link to="/studylog">Study Log</Link></li>
         </ul>
         {isLogedIn ? (
           <ul>
-            <li>
-              <Link to="/mypage">마이페이지</Link>
-            </li>
-            <li>
-              <button onClick={handleLogOut}>로그아웃</button>
-            </li>
+            <li><Link to="/mypage">My Page</Link></li>
+            <li><button onClick={handleLogOut}>Logout</button></li>
           </ul>
         ) : (
           <ul>
-            <li>
-              <Link to="/login">로그인</Link>
-            </li>
-            <li>
-              <Link to="/signup">회원가입</Link>
-            </li>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/signup">Signin</Link></li>
           </ul>
         )}
       </div>

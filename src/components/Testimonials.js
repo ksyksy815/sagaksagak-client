@@ -1,228 +1,84 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import styled from 'styled-components'
-import { StyledSectionBottom } from '../components/LandingPage.styles.js'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
-import { IoFlowerOutline } from 'react-icons/io5'
-import user0 from '../assets/testimonials/user2.png'
-import user1 from '../assets/testimonials/user4.png'
-import user2 from '../assets/testimonials/user5.png'
-import user3 from '../assets/testimonials/user3.png'
-import user4 from '../assets/testimonials/user1.png'
-import doubleMark from '../assets/doubleMark.svg'
-import { device } from '../device'
+import deco from '../assets/doubleMark.svg'
 
-// 후기 부분에 한해서 device 사이즈를 1070px로 사용
-
-const UserCard = styled.div`
-  box-sizing: border-box;
-  border-radius: 15px;
+const Testimonial = styled.div`
+  background: #003366;
+  background-image: url(${deco});
+  background-size: 20%;
+  background-repeat: no-repeat;
+  background-position: left 20px top 20px;
+  width: 500px;
+  height: 500px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
+  justify-content: center;
+  align-items:center;
   position: relative;
-  padding: 1rem;
-  box-shadow: 10px 10px 5px rgba(0,0,0,0.2);
-  transition: 0.2s;
+  padding: 6rem 3rem 5rem 3rem;
+  row-gap: 2rem;
 
-  &::before {
-    content: '';
+  #testi-bottom-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 1rem;
+    
+    div {
+      display: flex;
+      column-gap: 0.5rem;
+      justify-content: center;
+      align-items:center;
+      h3 {
+        color: #fff;
+      }
+    }
+  }
+
+  #testi-text {
+    margin: 0;
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 1.8rem;
+    line-height: 1.3;
+  }
+
+  button {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid white;
+    border-radius: 999px;
     width: 50px;
     height: 50px;
-    background-image: url(${doubleMark});
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-  }
-
-  &:hover {
-    cursor: pointer;
-    transform: translateY(-5px);
-  }
-
-  p {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    line-height: 1.6;
-    font-size: 0.9rem;
-    margin-top: 3rem;
-    padding: 0 1rem;
-  }
-
-  .userInfo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 1rem;
-
-    div{
-      margin-top: 2rem;
-      display: flex;
-      flex-direction: column;
-
-      .testi-job {
-        font-family: 'Nanum Pen Script', cursive;
-        font-size: 1.5rem;
-      }
-      .testi-name {
-        font-weight: bold;
-        font-size: 1.2rem;
-      }
-    }
-  }
-  
-  .userImg {
-    object-fit: cover;
+    margin-top: 0;
+    font-size: 2rem;
+    display: grid;
+    place-content: center;
     transition: 0.2s;
-  }
-
-  &:hover .userImg{
-    transform: rotateZ(15deg)
-  }
-`
-
-const MainCard = styled(UserCard)`
-  width: 300px;
-  height: 55vh;
-  background-color: #CCB19D;
-
-  p {
-    color: #fff;
-  }
-
-  .userInfo {
-    .userImg {
-      width: 100px;
-    }
-
-    div {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      .testi-job {
-        color: #e5e5e5;
-      }
-      .testi-name {
-          color: #fff;
+    svg {
+      pointer-events: none;
+      path {
+        fill: #fff;
       }
     }
-  }
-
-  @media (max-width: 1070px) {
-    flex: 1 1 auto;
-    max-height: 300px;
-    max-width: 540px;
-
-    &::before {
-      width: 40px;
-      height: 40px;
-    }
-
-    p {
-      font-size: 1rem;
-      padding: 1rem;
-    }
-
-    .userInfo {
-      .userImg {
-        width: 80px;
-      }
-      
-      span {
-        font-size: 0.8rem;
-      }
-    }
-  }
-
-  @media ${device.mobile} {
-    p {
-      padding-top: 1rem;
-      margin-top: 2rem;
-      font-size: 0.8rem;
-    }
-
-    .userInfo {
-      .userImg {
-        width: 70px;
-      }
-    }
-  }
-`
-const SideCard = styled(UserCard)`
-  width:270px;
-  min-width: 225px;
-  height: 45vh;
-  opacity: 0.6;
-  background-color: #E9E4DE;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  .userImg {
-    width: 80px;
-  }
-`
-
-const UserCardBox = styled.div`
-  display: flex;
-  column-gap: 1rem;
-  justify-content: center;
-  align-items: center;
-
-  .arrows {
-    font-size: 3rem;
-    fill: #7F554F;
-    position: relative;
-    z-index: 500;
     &:hover {
       cursor: pointer;
-      fill: #B7D5CE;
+      transform: translateY(-3px);
+      font-weight: bold;
+      box-shadow: 0 0 3px 3px rgba(255, 255, 255, 0.3);
     }
   }
 
-  @media (max-width: 1070px) {
-    display: none;
+  #testi-left-btn {
+    margin-top: 0;
+    left: -25px;
+    
   }
-`
 
-const Carousel = styled.div`
-  padding: 2rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  column-gap: 1rem;
-
-  @media (max-width: 1070px) {
-    display: none;
-  }
-`
-
-const MobileTestimonials = styled.div`
-  display: none;
-
-  @media (max-width: 1070px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 70vh;
-    column-gap: 1rem;
-
-    .arrows {
-      font-size: 3rem;
-      fill: #7F554F;
-      &:hover {
-        cursor: pointer;
-        fill: #B7D5CE;
-      }
-    }
+  #testi-right-btn {
+    margin-top: 0;
+    right: -25px;
   }
 `
 
@@ -255,143 +111,41 @@ const userInfo = [
 ]
 
 export default function Testimonials() {
-  const [userCards, setUserCards] = useState({
-    left: { id: 4, job: userInfo[4].job, title: userInfo[4].title, text: userInfo[4].text,image: user4},
-    main: { id: 0, job: userInfo[0].job, title: userInfo[0].title, text: userInfo[0].text, image: user0},
-    right: { id: 1, job: userInfo[1].job, title: userInfo[1].title, text: userInfo[1].text, image: user1}
+  const img = useRef()
+  const [user, setUser] = useState({
+    index: 0,
+    title: userInfo[0].title,
+    job: userInfo[0].job,
+    text: userInfo[0].text,
   })
-  
-  const handleClickLeft = () => {
-    setUserCards(prev => {
-      switch (prev.main.id) {
-        case 0:
-          return { 
-            left: { id: 3, job: userInfo[3].job, title: userInfo[3].title, text: userInfo[3].text, image: user3, bgColor: userInfo[3].color },
-            main: { id: 4, job: userInfo[4].job, title: userInfo[4].title, text: userInfo[4].text, image: user4, bgColor: userInfo[4].color },
-            right: { id: 0, job: userInfo[0].job, title: userInfo[0].title, text: userInfo[0].text, image: user0, bgColor: userInfo[0].color }
-          }
-        case 1:
-          return { 
-            left: { id: 4, job: userInfo[4].job, title: userInfo[4].title, text: userInfo[4].text, image: user4, bgColor: userInfo[4].color },
-            main: { id: 0, job: userInfo[0].job, title: userInfo[0].title, text: userInfo[0].text, image: user0, bgColor: userInfo[0].color },
-            right: { id: 1, job: userInfo[1].job, title: userInfo[1].title, text: userInfo[1].text, image: user1, bgColor: userInfo[1].color }
-          }
-        case 2:
-          return { 
-            left: { id: 0, job: userInfo[0].job, title: userInfo[0].title, text: userInfo[0].text, image: user0, bgColor: userInfo[0].color },
-            main: { id: 1, job: userInfo[1].job, title: userInfo[1].title, text: userInfo[1].text, image: user1, bgColor: userInfo[1].color },
-            right: { id: 2, job: userInfo[2].job, title: userInfo[2].title, text: userInfo[2].text, image: user2, bgColor: userInfo[2].color }
-          }
-        case 3:
-          return { 
-            left: { id: 1, job: userInfo[1].job, title: userInfo[1].title, text: userInfo[1].text, image: user1, bgColor: userInfo[1].color },
-            main: { id: 2, job: userInfo[2].job, title: userInfo[2].title, text: userInfo[2].text, image: user2, bgColor: userInfo[2].color },
-            right: { id: 3, job: userInfo[3].job,title: userInfo[3].title, text: userInfo[3].text, image: user3, bgColor: userInfo[3].color }
-          }
-        case 4:
-          return { 
-            left: { id: 2, job: userInfo[2].job, title: userInfo[2].title, text: userInfo[2].text, image: user2, bgColor: userInfo[2].color },
-            main: { id: 3, job: userInfo[3].job, title: userInfo[3].title, text: userInfo[3].text, image: user3, bgColor: userInfo[3].color },
-            right: { id: 4, job: userInfo[4].job, title: userInfo[4].title, text: userInfo[4].text, image: user4, bgColor: userInfo[4].color }
-          }
-        default:
-          console.log(`default`)
-      }
-    })
-  }
 
-  const handleClickRight = () => {
-    setUserCards(prev => {
-      switch (prev.main.id) {
-        case 0:
-          return { 
-            left: { id: 0,job: userInfo[0].job, title: userInfo[0].title, text: userInfo[0].text, image: user0, bgColor: userInfo[0].color },
-            main: { id: 1,job: userInfo[1].job, title: userInfo[1].title, text: userInfo[1].text, image: user1, bgColor: userInfo[1].color },
-            right: { id: 2,job: userInfo[2].job, title: userInfo[2].title, text: userInfo[2].text, image: user2, bgColor: userInfo[2].color }
-          }
-        case 1:
-          return { 
-            left: { id: 1, job: userInfo[1].job, title: userInfo[1].title, text: userInfo[1].text, image: user1, bgColor: userInfo[1].color },
-            main: { id: 2, job: userInfo[2].job, title: userInfo[2].title, text: userInfo[2].text, image: user2, bgColor: userInfo[2].color },
-            right: { id: 3, job: userInfo[3].job, title: userInfo[3].title, text: userInfo[3].text, image: user3, bgColor: userInfo[3].color }
-          }
-        case 2:
-          return { 
-            left: { id: 2, job: userInfo[2].job, title: userInfo[2].title, text: userInfo[2].text, image: user2, bgColor: userInfo[2].color },
-            main: { id: 3, job: userInfo[3].job, title: userInfo[3].title, text: userInfo[3].text, image: user3, bgColor: userInfo[3].color },
-            right: { id: 4, job: userInfo[4].job, title: userInfo[4].title, text: userInfo[4].text, image: user4, bgColor: userInfo[4].color }
-          }
-        case 3:
-          return { 
-            left: { id: 3, job: userInfo[3].job, title: userInfo[3].title, text: userInfo[3].text, image: user3, bgColor: userInfo[3].color },
-            main: { id: 4, job: userInfo[4].job, title: userInfo[4].title, text: userInfo[4].text, image: user4, bgColor: userInfo[4].color },
-            right: { id: 0, job: userInfo[0].job, title: userInfo[0].title, text: userInfo[0].text, image: user0, bgColor: userInfo[0].color }
-          }
-        case 4:
-          return { 
-            left: { id: 4, job: userInfo[4].job, title: userInfo[4].title, text: userInfo[4].text, image: user4, bgColor: userInfo[4].color },
-            main: { id: 0, job: userInfo[0].job, title: userInfo[0].title, text: userInfo[0].text, image: user0, bgColor: userInfo[0].color },
-            right: { id: 1, job: userInfo[1].job, title: userInfo[1].title, text: userInfo[1].text, image: user1, bgColor: userInfo[1].color }
-          }
-        default:
-          console.log(`default`)
-      }
-    })
+  const changeUser = (e) => {
+    let index;
+
+    if (e.target.id === "testi-left-btn") {
+      if (user.index === 0) index = 4;
+      else if (user.index <= 4) index = user.index - 1;
+
+    } else if (e.target.id === "testi-right-btn") {
+      if (user.index < 4) index = user.index + 1;
+      else if (user.index === 4) index = 0;
+    }      
+
+    const { job, title, text } = userInfo[index]
+    setUser({ index, title, job, text })
   }
 
   return (
-    <StyledSectionBottom>
-      <h1><IoFlowerOutline/> 이용 후기 <IoFlowerOutline/></h1>
-      <UserCardBox>
-        <BiLeftArrow className="arrows" onClick={handleClickLeft} />
-        <Carousel>
-          <SideCard onClick={handleClickLeft}>
-            <p>{userCards.left.text}</p>
-            <div className="userInfo">
-              <img className="userImg" src={userCards.left.image} alt="User avatar"/>
-              <div>
-                <span className="testi-job">{userCards.left.job}</span>
-                <span className="testi-name">{userCards.left.title}</span>
-              </div>
-            </div>
-          </SideCard>
-          <MainCard>
-            <p>{userCards.main.text}</p>
-            <div className="userInfo">
-              <img className="userImg" src={userCards.main.image} alt="User avatar"/>
-              <div>
-                <span className="testi-job">{userCards.main.job}</span>
-                <span className="testi-name">{userCards.main.title}</span>
-              </div>
-            </div>
-          </MainCard>
-          <SideCard onClick={handleClickRight}>
-            <p>{userCards.right.text}</p>
-            <div className="userInfo">
-              <img className="userImg" src={userCards.right.image} alt="User avatar"/>
-              <div>
-                <span className="testi-job">{userCards.right.job}</span>
-                <span className="testi-name">{userCards.right.title}</span>
-              </div>
-            </div>
-          </SideCard>
-        </Carousel>
-        <BiRightArrow className="arrows" onClick={handleClickRight}/>
-      </UserCardBox>
-      <MobileTestimonials>
-        <BiLeftArrow className="arrows" onClick={handleClickLeft} />
-        <MainCard>
-          <p>{userCards.main.text}</p>
-          <div className="userInfo">
-            <img className="userImg" src={userCards.main.image} alt="User avatar"/>
-            <div>
-              <span className="testi-job">{userCards.main.job}</span>
-              <span className="testi-name">{userCards.main.title}</span>
-            </div>
-          </div>
-        </MainCard>
-        <BiRightArrow className="arrows" onClick={handleClickRight}/>
-      </MobileTestimonials>
-    </StyledSectionBottom>
+    <Testimonial>
+      <button id="testi-left-btn" onClick={changeUser}><BiLeftArrow /></button>
+      <p id ="testi-text">{user.text}</p>
+      <div id="testi-bottom-box">
+        <div>
+          <h3>{user.title}</h3>
+          <span>{user.job}</span>
+        </div>
+      </div>
+      <button id="testi-right-btn" onClick={changeUser}><BiRightArrow /></button>
+    </Testimonial>
   )
 }
