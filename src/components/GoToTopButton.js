@@ -25,12 +25,12 @@ const TopButton = styled.button`
 
   span {
     font-size: 1rem;
-    color: #f58820;
+    color: #fff;
   }
 
   svg {
     polyline {
-      color: #f58820;
+      color: #fff;
     }
   }
 `;

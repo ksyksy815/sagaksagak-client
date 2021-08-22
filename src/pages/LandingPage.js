@@ -1,63 +1,140 @@
 import { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { useSpring, animated } from "react-spring";
-import {
-  StyledLandingPage,
-  StyledSectionTop,
-  StyledSectionMid,
-  ButtonBox,
-  LandingPageBtn,
-  ParallaxImg,
-} from "../components/LandingPage.styles.js";
-import Testimonials from "../components/Testimonials";
+import axios from "axios";
+import styled from 'styled-components';
 import Footer from "../components/Footer";
 import CategorySelectModal from "../components/modals/CategorySelectModal.js";
-import imgVideoChat from "../assets/imgVideoChat.png";
-import imgStudyingAloneHard from "../assets/imgStudyingAloneHard.svg";
-import calculator from "../assets/calculator.svg";
-import book from "../assets/book-stack.svg";
-import mouse from "../assets/mouse.svg";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { logIn, logOut } from "../actions/index";
 import getCookie from "../utilities/getCookie";
 import GoToTopButton from "../components/GoToTopButton.js";
-import { BsBookHalf, BsCheck } from "react-icons/bs";
-import videochatView from "../assets/videos/videochatView.mov"
-import iMac from '../assets/videos/imac.png'
-import roomList from '../assets/videos/roomList.mov'
-import studyRecordMov from '../assets/videos/studyRecordMov.mov'
-import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
+import image1 from '../assets/study-with-laptop.png';
+import image2 from '../assets/laptop.png';
+import image3 from '../assets/livingroom-objects.png';
+import { Button } from '../components/WhiteButton.style'
+import Testimonials from '../components/Testimonials'
+
+const LandingPageWrapper = styled.div`
+  scroll-snap-type: y mandatory;
+  width: 100vw;
+  max-width: 1440px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+
+  section {
+    width: 100vw;
+    height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 5rem;
+
+    span, h1, p {
+        color: #fff;
+    }
+
+    h1 {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: 3.5rem;
+    }
+
+    p {
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+
+    button {
+      margin-top: 2rem;
+    }
+  }
+
+  #landing-section1 {
+    background: #003333;
+    position: relative;
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      flex: 1 1 auto;
+
+      &:first-child {
+        z-index: 10;
+        padding-left: 5%;
+      }
+
+      &:nth-child(2) {
+        position: absolute;
+        left: 40%;
+        img {
+          width: 100%;
+          max-width: 600px;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+  #landing-section2 {
+    justify-content: flex-start;
+    align-items:center;
+    position: relative;
+    background: #003366;
+    img {
+      width: 70%;
+      object-fit: cover;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+  #landing-section3 {
+    background: #cc6633;
+    column-gap: 3rem;
+    div {
+      width: 100%;
+      height: 100%;
+
+      &:first-child {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+      }
+
+      &:last-child {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        row-gap: 2rem;
+      }
+    }
+    img {
+      width: 100%;
+    }
+  }
+  #landing-section4 {
+    background: #f5aa14;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 2rem;
+  }
+`
 
 export default function LandingPage() {
   const state = useSelector((state) => state.logInStatusReducer);
   const { user } = state;
   const [isCSModalOpen, setIsCSModalOpen] = useState(false);
-  const [offsetY, setOffsetY] = useState(0);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const sectionMid = useRef();
   const modalRef = useRef();
   const refreshLogInRef = useRef();
-
-  // Scroll animation
-  const animatedOne = useScrollFadeIn('down', 1, 0)
-  const animatedTwo = useScrollFadeIn('down', 1, 0.4)
-  const animatedThree = useScrollFadeIn('down', 1, 1)
-  const animatedFour = useScrollFadeIn('down', 1, 1.8)
-
-  const animatedFive = useScrollFadeIn('up', 1, 0)
-  const animatedSix = useScrollFadeIn('down', 1, 0.5)
-
-  const animatedSeven = useScrollFadeIn('down', 1, 0)
-  const animatedEight = useScrollFadeIn('left', 1, 0.5)
-
-  const animatedNine = useScrollFadeIn('right', 1, 0)
-  const animatedTen = useScrollFadeIn('up', 1, 0.5)
-  const animatedEleven = useScrollFadeIn('right', 1, 0)
-  const animatedTwelve = useScrollFadeIn('up', 1, 0.5)
 
   const handleRefreshLogIn = () => {
     if (!getCookie("refreshToken")) return;
@@ -122,196 +199,54 @@ export default function LandingPage() {
     setIsCSModalOpen(false);
   };
 
-  const handleScroll = () => {
-    setOffsetY(window.pageYOffset);
-  };
-
-  // const divProps = useSpring({
-  //   from: { bottom: "100%", opacity: "0" },
-  //   to: { bottom: "15%", opacity: "1" },
-  // });
-
   useEffect(() => {
-    const setModal = () => {
-      modalRef.current();
-    };
-
-    const logInRefresh = () => {
-      refreshLogInRef.current();
-    };
-
+    const setModal = () => { modalRef.current() };
+    const logInRefresh = () => { refreshLogInRef.current() };
     logInRefresh();
     setModal();
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <StyledLandingPage>
+    <LandingPageWrapper>
       <CategorySelectModal open={isCSModalOpen} close={catSelModalClose} />
-      <StyledSectionTop>
+      <section id="landing-section1">
         <div>
-          <h3 {...animatedOne}>목표 달성을 위한 긴 여정,</h3>
-          <h1 {...animatedTwo}>사각사각에서 함께 하세요!</h1>
-          <p  {...animatedThree}>
-            사각사각은 온라인 모각공(모여서 각자 공부) 플랫폼 입니다. <br />
-            때로는 카페처럼, 때로는 도서관처럼! <br />내 방에서도 외롭지 않은
-            공부를 이어가세요.
-          </p>
-          <ButtonBox  {...animatedFour}>
-            <LandingPageBtn backgroundColor={`#F5D0A9`} color={`#F58820`}>
-              <Link to="/studyroom">스터디룸 참여하기</Link>
-            </LandingPageBtn>
-            <LandingPageBtn backgroundColor={`#A2C8BF`} color={`#205B5A`}>
-              <Link to="/studylog">To-do 작성하기</Link>
-            </LandingPageBtn>
-          </ButtonBox>
+          <span>목표 달성을 위한 긴 여정,</span>
+          <h1>사각사각과 함께 하세요!</h1>
+          <p>사각사각은 화상 채팅을 기반으로한 <br/> 온라인 스터디윗미(Study With Me)입니다.</p>
+          <p>때로는 카페처럼, 때로는 도서관처럼! <br/> 내 방에서도 외롭지 않은 공부를 이어가세요.</p>
+          <Link to='/studyroom'><Button>Learn More</Button></Link>
         </div>
-        <animated.img
-          src={imgVideoChat}
-          alt="Video chat illustration"
-          style={{ transform: `translateY(${offsetY * 0.2}px)` }}
-        />
-      </StyledSectionTop>
-      <StyledSectionMid>
-        <ParallaxImg
-          img={`url(${calculator})`}
-          style={{ transform: `translateY(${offsetY * 0.3}px)` }}
-          top={`0%`}
-          left={`5%`}
-        />
-        <ParallaxImg
-          img={`url(${book})`}
-          style={{ transform: `translateY(${offsetY * 0.4}px)` }}
-          top={`35%`}
-          right={`15%`}
-        />
-        <ParallaxImg
-          img={`url(${mouse})`}
-          style={{ transform: `translateY(${offsetY * 0.4}px)` }}
-          bottom={`50%`}
-          left={`15%`}
-        />
-        <div ref={sectionMid} className="one">
-          <img
-            src={imgStudyingAloneHard}
-            alt="Studying alone is not easy"
-            style={{ transform: `translateY(${offsetY * 0.1}px)` }}
-            {...animatedFive}
-          />
-          <div
-            className="one-text"
-            style={{ transform: `translateY(${offsetY * 0.2}px)` }}
-            {...animatedSix}
-          >
-            <h1>공부 방식은 모두 다릅니다.</h1>
-            <p>
-              누군가는 혼자 공부할 때 능률이 오릅니다. <br />
-              하지만 또 다른 누군가는 여러 사람들이 있는 곳에서 더욱 집중력을
-              발휘합니다.
-            </p>
-            <p>
-              언택트가 일상이 된 <span>포스트 코로나 시대</span>. <br />{" "}
-              <span>사각사각</span>은 이러한 분들을 위해 탄생했습니다.
-            </p>
-          </div>
+        <div><img src={image1} alt="A woman studying with a laptop by rawpixel.com"/></div>
+      </section>
+      <section id="landing-section2">
+        <div>
+          <h1>Q. 스터디윗미(Study With Me)란?</h1>
+          <p>화상 채팅을 켜고 온라인상에 함께 모여 공부하는 트랜디한 공부 방법입니다.</p>
+          <p>언택트 시대, 사각사각은 여러 사람이 있는 곳에서 더욱 공부가 잘되는 분들을 위해 탄생했습니다.</p>
+          <Link to='/studyroom'><Button>Learn More</Button></Link>
         </div>
-        <div
-          className="two"
-          style={{ transform: `translateY(${offsetY * 0.2}px)` }}
-        >
-          <div className="two-text" {...animatedSeven}>
-            <h1>온라인 스터디카페, 사각사각</h1>
-            <p>
-              <span>사각사각</span>은 같은 목적을 가지고 공부하는 동료들과
-              온라인 상으로 함께 공부할 수 있도록 해주는 플랫폼입니다.
-            </p>
-            <p className="mid-title">
-              {" "}
-              <BsBookHalf /> 내 방에서도 카페처럼, 도서관처럼!
-            </p>
-            <p>
-              언택트 시대, 사각사각과 함께라면 목표 달성의 여정이 더 이상 외롭지
-              않습니다.
-            </p>
-            <div className="three-btnBox">
-              <LandingPageBtn backgroundColor={`#F5C3B8`} color={`#DE877F`}>
-                <Link to="/studyroom">체험하기</Link>
-              </LandingPageBtn>
-            </div>
-          </div>
-          <div className="two-img" {...animatedEight}>
-            <img src={iMac} alt="imac"/>
-            <video src={videochatView}  autoPlay muted loop></video>
-          </div>
+        <img src={image2} alt="Laptop by rawpixel.com"/>
+      </section>
+      <section id="landing-section3">
+        <div><img src={image3} alt="Objects by rawpixel.com"></img></div>
+        <div>
+          <article>
+            <h1>title</h1>
+            <p>words</p>
+          </article>
+          <article>
+            <h1>title</h1>
+            <p>words</p>
+          </article>
         </div>
-        <div
-          className="three"
-          style={{ transform: `translateY(${offsetY * 0.2}px)` }}
-        >
-          <div className="three-img-top" {...animatedNine}>
-            <img src={iMac} alt="imac"/>
-            <video src={roomList}  autoPlay muted loop></video>
-          </div>
-          <div className="three-text" id="three-text-top" {...animatedTen}>
-            <ul>
-              <h1>같은 목표를 가진 사람들과 공부하기</h1>
-              <li>
-                <BsCheck /> 방 생성 시, 원하는 주제를 선택할 수 있습니다.
-              </li>
-              <li>
-                <BsCheck /> 직접 방을 만들거나 다른 사용자가 만든 방을 선택해서
-                입장할 수 있습니다.
-              </li>
-            </ul>
-            <ul>
-              <h1>방 추천 기능</h1>
-              <li>
-                <BsCheck /> 사용자 맞춤 주제의 화상 공부방을 추천해드립니다.
-              </li>
-            </ul>
-            <div className="three-btnBox">
-              <LandingPageBtn backgroundColor={`#F5C3B8`} color={`#DE877F`}>
-                <Link to="/studyroom">스터디룸으로 이동</Link>
-              </LandingPageBtn>
-            </div>
-          </div>
-          <div className="three-img-bottom" {...animatedTwelve}>
-            <img src={iMac} alt="imac"/>
-            <video src={studyRecordMov}  autoPlay muted loop></video>
-          </div>
-          <div className="three-text" id="three-text-bottom" {...animatedEleven}>
-            <ul>
-              <h1>스터디 로그 기능</h1>
-              <li>
-                <BsCheck /> 각 주제별 공부 참여 시간 기록을 제공합니다.
-              </li>
-            </ul>
-            <ul>
-              <h1>까먹지 말자! 투두(To-Do) 리스트</h1>
-              <li>
-                <BsCheck /> 공부방 참여 도중에도, 방을 나와서도 투두 리스트를
-                작성할 수 있습니다.
-              </li>
-            </ul>
-            <ul>
-              <h1>카메라 On/Off 기능</h1>
-              <li>
-                <BsCheck /> 원할 때 자유롭게 자신의 영상을 끄고 킬 수 있습니다.
-              </li>
-            </ul>
-            <div className="three-btnBox">
-              <LandingPageBtn backgroundColor={`#F5C3B8`} color={`#DE877F`}>
-                <Link to="/studylog">스터디로그로 이동</Link>
-              </LandingPageBtn>
-            </div>
-          </div>
-        </div>
-      </StyledSectionMid>
-      <Testimonials />
+      </section>
+      <section id="landing-section4">
+        <h1>Testimonials</h1>
+        <Testimonials />
+      </section>
       <Footer />
       <GoToTopButton />
-    </StyledLandingPage>
+    </LandingPageWrapper>
   );
 }

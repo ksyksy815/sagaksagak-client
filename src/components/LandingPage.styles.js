@@ -1,27 +1,16 @@
 import styled from "styled-components";
-import circle from "../assets/circle-bg.svg";
 import { device } from "../device";
-import iMac from "../assets/videos/imac_27.jpeg";
 
 export const StyledLandingPage = styled.div`
   width: 100vw;
   height: auto;
   background-color: #f5f5f5;
-  background-image: url(${circle}), url(${circle}), url(${circle}),
-    url(${circle}), url(${circle});
-  background-repeat: no-repeat;
-  background-size: 50%, 30%, 80%, 40%, 80%;
-  background-position: top -5% left -20%, top 20% right -10%,
-    bottom 60% left -50%, bottom 30% right -20%, bottom 0% left -80%;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
 
   @media (max-width: 1045px) {
-    background-image: url(${circle}), url(${circle}), url(${circle}),
-      url(${circle});
     background-repeat: no-repeat;
     background-size: 60%, 80%, 50%, 80%;
     background-position: top 20% right -200px, top 35% left -200px,
@@ -29,8 +18,6 @@ export const StyledLandingPage = styled.div`
   }
 
   @media ${device.mobile} {
-    background-image: url(${circle}), url(${circle}), url(${circle}),
-      url(${circle});
     background-repeat: no-repeat;
     background-size: 80%, 90%, 70%, 90%;
     background-position: top 12% right -200px, top 30% left -200px,
