@@ -5,14 +5,9 @@ import { device } from '../device'
 
 
 const StyledFooter = styled.footer`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
   width: 100vw;
   height: 50vh;
-  background-color: #7F5550;
+  background-color: #361c18;
   display: flex;
   padding: 2rem 2rem;
   box-sizing: border-box;
