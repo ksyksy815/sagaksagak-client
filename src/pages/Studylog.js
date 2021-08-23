@@ -10,7 +10,7 @@ const StudylogWrapper = styled.div`
   width: 100vw;
   height: auto;
   min-height: 100vh;
-  padding-top: 45px; /*나브바 높이 뺀 것 */
+  padding-top: 87px; /*나브바 높이 뺀 것 */
   padding-bottom: 2rem;
   display: flex;
   justify-content: center;

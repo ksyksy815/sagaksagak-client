@@ -14,7 +14,7 @@ import GoToTopButton from "../components/GoToTopButton";
 
 const StyledStudyLoby = styled.div`
   position: relative;
-  top: 45px;
+  top: 87px;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
