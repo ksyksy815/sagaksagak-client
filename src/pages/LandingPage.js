@@ -13,6 +13,7 @@ import image2 from '../assets/laptop.png';
 import image3 from '../assets/livingroom-objects.png';
 import { Button } from '../components/WhiteButton.style'
 import Testimonials from '../components/Testimonials'
+import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 
 const LandingPageWrapper = styled.div`
   scroll-snap-type: y mandatory;
@@ -191,6 +192,13 @@ export default function LandingPage() {
   const modalRef = useRef();
   const refreshLogInRef = useRef();
 
+  const animation1 = useScrollFadeIn('down', 1, 0);
+  const animation2 = useScrollFadeIn('right', 1, 0.3);
+  const animation3 = useScrollFadeIn('left', 1, 0.3);
+  const animation4 = useScrollFadeIn('left', 1, 0.6);
+  const animation5 = useScrollFadeIn('left', 1, 0.9);
+  const animation6 = useScrollFadeIn('up', 1, 0.3);
+
   const handleRefreshLogIn = () => {
     if (!getCookie("refreshToken")) return;
 
@@ -265,7 +273,7 @@ export default function LandingPage() {
     <LandingPageWrapper>
       <CategorySelectModal open={isCSModalOpen} close={catSelModalClose} />
       <section id="landing-section1">
-        <div>
+        <div {...animation1}>
           <span>목표 달성을 위한 긴 여정,</span>
           <h1>사각사각과 함께 하세요!</h1>
           <p>사각사각은 화상 채팅을 기반으로한 <br/> 온라인 스터디윗미(Study With Me)입니다.</p>
@@ -274,7 +282,7 @@ export default function LandingPage() {
         </div>
       </section>
       <section id="landing-section2">
-        <div>
+        <div {...animation2}>
           <h1>Q. 스터디윗미(Study With Me)란?</h1>
           <p>화상 채팅을 켜고 온라인상에 함께 모여 공부하는 트랜디한 공부 방법입니다.</p>
           <p>언택트 시대, 사각사각은 여러 사람이 있는 곳에서 더욱 공부가 잘되는 분들을 위해 탄생했습니다.</p>
@@ -283,17 +291,17 @@ export default function LandingPage() {
       </section>
       <section id="landing-section3">
         <div>
-          <article>
+          <article {...animation3}>
             <h1>같은 목표를 가진 사람들과 공부하기</h1>
             <p>방 생성 시, 원하는 주제를 선택할 수 있습니다.</p>
             <p>직접 방을 만들거나 다른 사용자가 만든 방을 선택해서 입장할 수 있습니다.</p>
           </article>
-          <article>
+          <article {...animation4}>
             <h1>공부 기록과 To-Do 리스트</h1>
             <p>각 주제별 공부 참여 시간 기록을 제공합니다.</p>
             <p>공부방 참여 도중에도, 방을 나와서도 투두 리스트를 작성할 수 있습니다.</p>
           </article>
-          <Link to='/studyroom'><Button>Learn More</Button></Link>
+          <Link to='/studyroom'><Button  {...animation5}>Learn More</Button></Link>
         </div>
       </section>
       <section id="landing-section4">
