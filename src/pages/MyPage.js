@@ -242,6 +242,7 @@ const renderIconByCategory = (category) => {
       return <FaBrush fontSize={30} />;
     case "자유":
       return <FaPlayCircle fontSize={30} />;
+    default: return;
   }
 };
 
