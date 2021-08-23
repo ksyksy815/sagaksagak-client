@@ -26,11 +26,13 @@ const LandingPageWrapper = styled.div`
     width: 100vw;
     height: 100vh;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     overflow: hidden;
     padding: 5rem;
+    position: relative;
 
     span, h1, p {
         color: #fff;
@@ -53,28 +55,17 @@ const LandingPageWrapper = styled.div`
 
   #landing-section1 {
     background: #003333;
+    background-image: url(${image1});
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: bottom 0 left 80%;
     position: relative;
     div {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      flex: 1 1 auto;
-
-      &:first-child {
-        z-index: 10;
-        padding-left: 5%;
-      }
-
-      &:nth-child(2) {
-        position: absolute;
-        left: 40%;
-        img {
-          width: 100%;
-          max-width: 600px;
-          object-fit: cover;
-        }
-      }
+      right: 50%;
     }
   }
 
@@ -83,37 +74,30 @@ const LandingPageWrapper = styled.div`
     align-items:center;
     position: relative;
     background: #003366;
-    img {
-      width: 70%;
-      object-fit: cover;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-    }
+    background-image: url(${image2});
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: bottom 0 right 0;  
   }
+
   #landing-section3 {
     background: #cc6633;
-    column-gap: 3rem;
+    background-image: url(${image3});
+    background-size: 40%;
+    background-repeat: no-repeat;
+    background-position: center left 5rem;
+    justify-content: center;
     div {
-      width: 100%;
-      height: 100%;
-
-      &:first-child {
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-end;
+      position: absolute;
+      left: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      row-gap: 2rem;
+      h1 {
+        font-size: 2.5rem;
       }
-
-      &:last-child {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        row-gap: 2rem;
-      }
-    }
-    img {
-      width: 100%;
     }
   }
   #landing-section4 {
@@ -122,6 +106,77 @@ const LandingPageWrapper = styled.div`
     justify-content: center;
     align-items: center;
     row-gap: 2rem;
+  }
+
+  // tablet
+  @media (max-width: 900px) {
+    section {
+      padding: 1rem;
+    }
+
+    #landing-section1 {
+      background-size: 70%;
+      div {
+        position: static;
+      }
+    }
+    #landing-section2 {
+      background-size: 100%;
+    }
+    #landing-section3 {
+      background-position: center left 1rem;
+      div {
+        left: 45%;
+      }
+      h1 {
+        font-size: 3rem;
+      }
+    }
+  }
+
+  // mobile
+  @media (max-width: 425px) {
+    section {
+      h1 {
+          font-size: 2rem;
+        }
+      button {
+        margin-top: 1rem
+      }
+    }
+    #landing-section1 {
+      background-size: 90%;
+      background-position: top 20% center;
+      justify-content: center;
+      align-items: flex-end;
+      div {
+        position: static;
+        padding-bottom: 2rem;
+      }
+    }
+    #landing-section2 {
+      background-size: 180%;
+      background-position: bottom 0 right -100px;
+      align-items: flex-start;
+      div {
+        padding-top: 30%;
+      }
+    }
+    #landing-section3 {
+      background-size: 80%;
+      background-position: top 80px center;
+      align-items: flex-end;
+      div {
+        position: static;
+        left: 0;
+        padding-bottom: 3rem;
+        article {
+          h1 {
+            font-size: 2rem;
+          }
+        }
+      }
+    }
   }
 `
 
@@ -217,7 +272,6 @@ export default function LandingPage() {
           <p>때로는 카페처럼, 때로는 도서관처럼! <br/> 내 방에서도 외롭지 않은 공부를 이어가세요.</p>
           <Link to='/studyroom'><Button>Learn More</Button></Link>
         </div>
-        <div><img src={image1} alt="A woman studying with a laptop by rawpixel.com"/></div>
       </section>
       <section id="landing-section2">
         <div>
@@ -226,19 +280,20 @@ export default function LandingPage() {
           <p>언택트 시대, 사각사각은 여러 사람이 있는 곳에서 더욱 공부가 잘되는 분들을 위해 탄생했습니다.</p>
           <Link to='/studyroom'><Button>Learn More</Button></Link>
         </div>
-        <img src={image2} alt="Laptop by rawpixel.com"/>
       </section>
       <section id="landing-section3">
-        <div><img src={image3} alt="Objects by rawpixel.com"></img></div>
         <div>
           <article>
-            <h1>title</h1>
-            <p>words</p>
+            <h1>같은 목표를 가진 사람들과 공부하기</h1>
+            <p>방 생성 시, 원하는 주제를 선택할 수 있습니다.</p>
+            <p>직접 방을 만들거나 다른 사용자가 만든 방을 선택해서 입장할 수 있습니다.</p>
           </article>
           <article>
-            <h1>title</h1>
-            <p>words</p>
+            <h1>공부 기록과 To-Do 리스트</h1>
+            <p>각 주제별 공부 참여 시간 기록을 제공합니다.</p>
+            <p>공부방 참여 도중에도, 방을 나와서도 투두 리스트를 작성할 수 있습니다.</p>
           </article>
+          <Link to='/studyroom'><Button>Learn More</Button></Link>
         </div>
       </section>
       <section id="landing-section4">

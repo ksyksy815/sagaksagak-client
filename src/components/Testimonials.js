@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import deco from '../assets/doubleMark.svg'
@@ -80,6 +80,12 @@ const Testimonial = styled.div`
     margin-top: 0;
     right: -25px;
   }
+
+  @media (max-width: 900px) {
+    width: 80vw;
+    height: 60vh;
+    background-size: 10%;
+  }
 `
 
 const userInfo = [
@@ -111,7 +117,6 @@ const userInfo = [
 ]
 
 export default function Testimonials() {
-  const img = useRef()
   const [user, setUser] = useState({
     index: 0,
     title: userInfo[0].title,
