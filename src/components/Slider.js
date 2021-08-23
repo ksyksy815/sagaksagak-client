@@ -136,7 +136,7 @@ const Slider = ({ recommend, handleEntrance, loading }) => {
 
   useEffect(() => {
     if (transition === 0) setState({ ...state, transition: 0.45 });
-  }, [transition]);
+  }, [transition, state]);
 
   const handleResize = () => {
     setState({ ...state, translate: getWidth(), transition: 0 });

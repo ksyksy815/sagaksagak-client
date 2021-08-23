@@ -81,7 +81,7 @@ const RoomList = ({
       });
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore]
+    [loading, hasMore, setPageNum]
   );
 
   return (

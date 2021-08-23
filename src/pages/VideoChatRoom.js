@@ -70,7 +70,7 @@ export default function VideoChatRoom() {
   // Global
   const state = useSelector((state) => state.logInStatusReducer);
   const dispatch = useDispatch();
-  const { user, participants } = state; //roomId(str), participants(array)
+  const { user } = state; //roomId(str), participants(array)
 
   // Local
   const [cameraOn, setCameraOn] = useState(true);
@@ -187,7 +187,7 @@ export default function VideoChatRoom() {
       socket.disconnect();
       peer.destroy();
     };
-  }, []);
+  }, [dispatch, roomId, username, userId]);
 
   return (
     <>

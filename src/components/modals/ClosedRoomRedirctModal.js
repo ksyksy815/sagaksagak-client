@@ -31,7 +31,7 @@ export default function ClosedRoomRedirctModal() {
   useEffect(()=> {
     if (count === 0) history.push('/');
     count > 0 && setTimeout(() => setCount(prev=> prev-1), 1000)
-  }, [count])
+  }, [count, history])
 
   return (
     <RoomClosed>
