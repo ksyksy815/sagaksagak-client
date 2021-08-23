@@ -22,7 +22,7 @@ const StyledApp = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #111111;
+  background: #c0c0c0;
 `;
 
 function App() {

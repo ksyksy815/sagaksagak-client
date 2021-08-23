@@ -197,7 +197,6 @@ export default function LandingPage() {
   const animation3 = useScrollFadeIn('left', 1, 0.3);
   const animation4 = useScrollFadeIn('left', 1, 0.6);
   const animation5 = useScrollFadeIn('left', 1, 0.9);
-  const animation6 = useScrollFadeIn('up', 1, 0.3);
 
   const handleRefreshLogIn = () => {
     if (!getCookie("refreshToken")) return;

@@ -21,7 +21,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { dummyRecords } from "./StudyRecordsDummies";
 import { logOut } from "../../actions/index";
 import getCookie from "../../utilities/getCookie";
 import GoToTopButton from "../GoToTopButton";
