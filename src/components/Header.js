@@ -4,11 +4,11 @@ import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../device";
 import { BiMenuAltRight } from "react-icons/bi";
-import MobileMainNav from "../components/MobileMainNav";
+import MobileMainNav from "./MobileMainNav";
 import { logOut } from "../actions/index";
 import axios from "axios";
 
-const StyledMainNav = styled.nav`
+const MainHeader = styled.header`
   width: 100vw;
   display: flex;
   justify-content: space-between;
@@ -120,7 +120,7 @@ const StyledMainNav = styled.nav`
   }
 `;
 
-export default function MainNav({ isLogedIn }) {
+export default function Header({ isLogedIn }) {
   const state = useSelector((state) => state.logInStatusReducer);
   const { user } = state;
   const [menuOn, setMenuOn] = useState(false);
@@ -159,14 +159,14 @@ export default function MainNav({ isLogedIn }) {
   };
 
   return (
-    <StyledMainNav>
+    <MainHeader>
       <h2>
         <Link to="/">사각사각</Link>
       </h2>
       <button className="menu-btn" onClick={toggleMenus}>
         <BiMenuAltRight />
       </button>
-      <div className="nav-menus">
+      <nav className="nav-menus">
         <ul>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/studyroom">Room List</Link></li>
@@ -183,7 +183,7 @@ export default function MainNav({ isLogedIn }) {
             <li><Link to="/signup">Signin</Link></li>
           </ul>
         )}
-      </div>
+      </nav>
       {menuOn && (
         <MobileMainNav
           aniMode={aniMode}
@@ -193,6 +193,6 @@ export default function MainNav({ isLogedIn }) {
           handleLogOut={handleLogOut}
         />
       )}
-    </StyledMainNav>
+    </MainHeader>
   );
 }
