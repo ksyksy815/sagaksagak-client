@@ -1,7 +1,8 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
 import deco from '../assets/doubleMark.svg'
+import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 
 const Testimonial = styled.div`
   background: #003366;
@@ -80,6 +81,12 @@ const Testimonial = styled.div`
     margin-top: 0;
     right: -25px;
   }
+
+  @media (max-width: 900px) {
+    width: 80vw;
+    height: 60vh;
+    background-size: 10%;
+  }
 `
 
 const userInfo = [
@@ -111,13 +118,14 @@ const userInfo = [
 ]
 
 export default function Testimonials() {
-  const img = useRef()
   const [user, setUser] = useState({
     index: 0,
     title: userInfo[0].title,
     job: userInfo[0].job,
     text: userInfo[0].text,
   })
+
+  const animation = useScrollFadeIn('up', 1, 0.3)
 
   const changeUser = (e) => {
     let index;
@@ -136,7 +144,7 @@ export default function Testimonials() {
   }
 
   return (
-    <Testimonial>
+    <Testimonial {...animation}>
       <button id="testi-left-btn" onClick={changeUser}><BiLeftArrow /></button>
       <p id ="testi-text">{user.text}</p>
       <div id="testi-bottom-box">

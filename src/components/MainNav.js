@@ -28,6 +28,8 @@ const StyledMainNav = styled.nav`
     a {
       text-decoration: none;
       color: #fff;
+      font-size: 3rem;
+      font-family: 'Nanum Pen Script', cursive;
     }
   }
 
@@ -99,32 +101,21 @@ const StyledMainNav = styled.nav`
     max-width: 1440px;
   }
 
-  @media ${device.tablet} {
+  @media (max-width: 900px) {
+    padding: 1rem;
     h2 {
       a {
-        font-size: 1.2rem;
+        font-size: 2rem;
         color: #fff;
       }
     }
 
     .menu-btn {
       display: flex;
+      font-size: 3rem;
     }
     .nav-menus {
       display: none;
-    }
-  }
-
-  @media ${device.mobile} {
-    h2 {
-      a {
-        font-size: 1.1rem;
-        color: #fff;
-      }
-    }
-
-    .menu-btn {
-      font-size: 1.5rem;
     }
   }
 `;
