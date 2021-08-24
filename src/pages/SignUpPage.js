@@ -3,23 +3,27 @@ import { useDispatch } from "react-redux";
 import GoogleLogin from "react-google-login";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import {
-  passwordCheck,
-  emailCheck,
-  usernameCheck,
-  checkAll,
-} from "../utilities/availCheck";
+import { passwordCheck, emailCheck, usernameCheck, checkAll } from "../utilities/availCheck";
 import { firstLogIn } from "../actions/index";
 import axios from "axios";
 
 const StyledSignUpPage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-content: center;
   min-height: 100vh;
   width: 100%;
+  padding-top: 2rem;
+  
+  input {
+    background: transparent;
+    &:focus {
+      outline: none;
+    }
+  }
 
   .signup-page-wrapper {
+    background: var(--background-paper);
+    padding: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,7 +32,7 @@ const StyledSignUpPage = styled.div`
     width: 400px;
 
     @media only screen and (max-width: 445px) {
-      width: 90%;
+      width: 90vw;
     }
 
     h1 {
@@ -45,11 +49,11 @@ const StyledSignUpPage = styled.div`
         padding: 0.5rem;
         display: inline-block;
         transition: 0.2s linear;
+        text-decoration: underline;
 
         &:hover {
-          color: #f58820;
           cursor: pointer;
-          transform: translateY(-3px);
+          font-weight: bold;
         }
       }
     }
@@ -63,12 +67,12 @@ const StyledSignUpPage = styled.div`
       input {
         flex: 3;
         border-bottom: none;
+        background: transparent;
       }
 
       button {
         flex: 1;
         height: 1.3rem;
-        background: #dddddd;
       }
     }
 
@@ -84,12 +88,8 @@ const StyledSignUpPage = styled.div`
         width: 100%;
         font-size: 1.3rem;
 
-        &:focus {
-          outline: none;
-        }
-
         &::placeholder {
-          opacity: 0.7;
+          color: #888;
           font-size: 0.7rem;
 
           @media only screen and (max-width: 445px) {
@@ -109,13 +109,14 @@ const StyledSignUpPage = styled.div`
         border: none;
         width: 100%;
         height: 40px;
-        background: #f5d0a9;
+        background:rgb(47,69,82);
         border-radius: 3px;
+        color: #fff;
+        transition: 0.1s;
 
         &:hover {
           cursor: pointer;
-          background: #f58820;
-          transition: 0.2s linear;
+          background: rgb(96,162,152);
         }
       }
     }

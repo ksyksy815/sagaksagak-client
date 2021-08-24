@@ -197,11 +197,7 @@ const Slider = ({ recommend, handleEntrance, loading }) => {
         >
           {_slides.map((slide, idx) => {
             return (
-              <Slide
-                key={slide.image + idx}
-                content={slide}
-                handleEntrance={handleEntrance}
-              />
+              <Slide key={slide.image + idx} content={slide} handleEntrance={handleEntrance} />
             );
           })}
         </SliderContent>

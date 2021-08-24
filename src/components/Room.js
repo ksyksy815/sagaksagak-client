@@ -8,16 +8,17 @@ const StyledRoom = styled.div`
   width: 320px;
   height: 240px;
   padding: 10px 10px;
+  background: var(--background-paper);
   border-radius: 5px;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   cursor: pointer;
-  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
-  transition: 0.3s ease;
+  transition: 0.2s ease;
   row-gap: 4px;
 
   &:hover {
+    background: #fff;
     transform: translateY(-10px);
   }
 
@@ -29,8 +30,8 @@ const StyledRoom = styled.div`
 
   .room-title {
     width: 100%;
+    flex: 1 1 auto;
     height: 148px;
-    box-shadow: 0 5px 6px -6px rgba(0, 0, 0, 1);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -49,8 +50,8 @@ const StyledRoom = styled.div`
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    height: 32px;
+    padding: 1rem 20px;
+    border-top: 1px solid #999;
 
     .active-time {
       display: flex;

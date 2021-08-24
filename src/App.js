@@ -22,7 +22,7 @@ const StyledApp = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #c0c0c0;
+  background: linear-gradient(180deg, rgb(97,163,152) 50vh, rgb(48,70,83) 50vh);
 `;
 
 function App() {

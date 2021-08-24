@@ -18,7 +18,7 @@ const StyledRoomListWrapper = styled.section`
 
   .list-header {
     width: 100%;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid #e5e5e5;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,6 +27,7 @@ const StyledRoomListWrapper = styled.section`
       align-self: flex-start;
       margin: 0;
       padding: 10px;
+      color: #fff;
     }
 
     .icon-container {
@@ -35,14 +36,13 @@ const StyledRoomListWrapper = styled.section`
       column-gap: 10px;
       padding: 10px;
 
-      .new-room-icon {
-        font-size: 1.7em;
-        cursor: pointer;
-      }
-
-      .refresh-icon {
-        font-size: 1.6em;
-        cursor: pointer;
+      svg {
+        fill: #e5e5e5;
+        font-size: 1.8rem;
+        &:hover {
+          cursor: pointer;
+          fill: #fff;
+        }
       }
     }
   }

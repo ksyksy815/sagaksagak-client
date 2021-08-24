@@ -11,29 +11,29 @@ const StyledControllBar = styled.section`
     display: flex;
     justify-content: center;
     align-self: center;
-    column-gap: 20px;
+    column-gap: 1rem;
     padding: 20px 0 0 0;
     width: 480px;
 
     button {
       border: none;
       border-radius: 10px;
-      background: #7f554f;
-      height: 40px;
-      min-width: 80px;
+      padding: 0.5rem 2rem;
+      background: rgb(97,163,152);
       cursor: pointer;
       color: white;
       font-size: 0.9em;
-      font-weight: 600;
+      font-weight: bold;
+      text-align: center;
     }
 
     input {
-      border-radius: 20px;
+      border-radius: 5px;
       height: 40px;
       width: 100%;
       border: solid 1px lightgray;
       box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
-      padding: 20px;
+      padding: 0.5rem 1rem;
 
       &:focus {
         outline: none;
@@ -68,10 +68,10 @@ const ControllBar = ({ setQuery, setPageNum, query }) => {
       <form className="search-controller">
         <input
           type="text"
-          placeholder="참여를 원하는 방을 검색해 보세요"
+          placeholder="원하는 방을 검색하세요!"
           onChange={handleInput}
         ></input>
-        <button onClick={handleBtnClick}>검색</button>
+        <button onClick={handleBtnClick}>Search</button>
       </form>
     </StyledControllBar>
   );

@@ -13,8 +13,7 @@ const StyledRecommendCard = styled.div`
   align-items: center;
   flex-direction: column;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
+  background: #e5e5e5;
   transition: 0.3s ease;
   row-gap: 4px;
 

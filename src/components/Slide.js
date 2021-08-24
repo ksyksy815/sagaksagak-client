@@ -5,13 +5,11 @@ import RecommendCard from "./RecommendCard";
 const SytledSlide = styled.div`
   height: 100%;
   width: 100%;
-  background-image: url("${(props) => props.content}");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-color: rgba(0, 51, 51, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
 `;
 
 const Slide = ({ content, handleEntrance }) => {

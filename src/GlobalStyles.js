@@ -10,6 +10,10 @@ export const GlobalStyles = createGlobalStyle`
     --green: rgb(122,212,173);
     --yellow: rgb(255,182,77);
     --red: rgb(223,117,146);
+
+    --graish-dark-green: rgb(47,69,82);
+    --mint: rgb(96,162,152);
+    --background-paper: rgb(236,239,233);
   }
 
   * {

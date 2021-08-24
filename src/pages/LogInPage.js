@@ -7,9 +7,8 @@ import { useHistory } from "react-router-dom";
 import { logIn } from "../actions/index";
 
 const StyledLogInPage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-content: center;
   min-height: 100vh;
   width: 100%;
 
@@ -20,9 +19,11 @@ const StyledLogInPage = styled.div`
     flex-direction: column;
     row-gap: 15px;
     width: 400px;
+    background: var(--background-paper);
+    padding: 2rem;
 
     @media only screen and (max-width: 445px) {
-      width: 90%;
+      width: 90vw;
     }
 
     h1 {
@@ -40,11 +41,11 @@ const StyledLogInPage = styled.div`
         padding: 0.5rem;
         display: inline-block;
         transition: 0.2s linear;
+        text-decoration: underline;
 
         &:hover {
-          color: #f58820;
           cursor: pointer;
-          transform: translateY(-3px);
+          font-weight: bold;
         }
       }
     }
@@ -60,6 +61,7 @@ const StyledLogInPage = styled.div`
         border-bottom: 1px solid black;
         width: 100%;
         font-size: 1.3rem;
+        background: transparent;
 
         &:focus {
           outline: none;
@@ -81,13 +83,13 @@ const StyledLogInPage = styled.div`
           border: none;
           width: 100%;
           height: 40px;
-          background: #f5d0a9;
+          background: var(--graish-dark-green);
           border-radius: 3px;
+          color: #fff;
 
           &:hover {
             cursor: pointer;
-            background: #f58820;
-            transition: 0.2s linear;
+            background: var(--mint);
           }
         }
       }
