@@ -6,46 +6,32 @@ const StyledItem = styled.li`
   width: 100%;
   padding: 1rem;
   border-radius: 5px;
+  transition: 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  span {
+    pointer-events: none;
+  }
 `
 
-export default function Item( {todo, index, todoList, handleTodoList} ) {
+export default function Item( {item, id, itemList} ) {
   const draggingItem = useRef()
   const dragOverItem = useRef()
 
-  const handleDragStart = (e, position) => {
-    draggingItem.current = position
-    console.log(e.target)
-  }
-
-  const handleDragEnter = (e, position) => {
-    dragOverItem.current = position
-    console.log(e.target)
-  }
-
-  const handleDragEnd = (e) => {
-    console.log(`드래그 앤드다. 되니?`)
-    const listCopy = [...todoList]
-    
-    const draggingItemContent = listCopy[draggingItem.current]
-    listCopy.splice(draggingItem.current, 1)
-    listCopy.splice(dragOverItem.current, 0, draggingItemContent)
-
-    //초기화
-    draggingItem.current = null
-    dragOverItem.current = null
-    handleTodoList(listCopy)
-    console.log(listCopy)
+  const handleDragStart = (e, id) => {
+    e.dataTransfer.setData('itemId', id)
+    e.dataTransfer.setData('listName',e.target.parentElement.id)
   }
 
   return (
     <StyledItem 
       draggable
-      onDragStart={(e) => handleDragStart(e, index)}
-      onDragEnter={(e) => handleDragEnter(e, index)}
-      onDragEnd = {handleDragEnd}
-      onDragOver={(e) => e.preventDefault()}
+      onDragStart={(e) => handleDragStart(e, id)}
     >
-      <span>{todo.content}</span>
+      <span>{item.content}</span>
     </StyledItem>
   )
 }
