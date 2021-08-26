@@ -1,3 +1,6 @@
+<img width="907" alt="스크린샷 2021-08-26 오후 3 44 18" src="https://user-images.githubusercontent.com/76037764/130996524-105671eb-430b-4fed-9944-7cd88bfa5e44.png">
+
+
 # 😆 Welcome!
 
 안녕하세요! 😁 <br></br>
@@ -6,19 +9,30 @@
 수료 당시 파이널 프로젝트의 원본 레포지토리는 여기를 참고해주세요!: 
 https://github.com/codestates/sagaksagak-client
 
-<br></br>
-
 Hello! 😁 <br></br>
 This repository is where I record further improvements and additional features that I made (and am making)
-on the group project that was carried out as the final project in the Code States' software boot camp. 
-Please refer to the following link for the original version of the service:
+on the group project that was carried out as the final project during Code States' software boot camp program. 
+Please refer to the following link for the original version of the project:
 https://github.com/codestates/sagaksagak-client
 
 <br></br>
 
+# 🏋🏻‍♀️ Refactoring Process
+### Agenda
+
+* Arrange directory structure to meet the separation of concerns(SoC) principle, as well as to increase scalability and reusability of codes.
+* Update the landing page design so that it loads faster and lighter.
+* Change the plain to-do list into a kanban board with drag & drop functionality to enhance user experiences.
+* Enable real-time chatting via texts in video chat rooms.
+* Apply better suited page designs for the Room List, SignUp, and LogIn pages.
+* Add a whole-page loader for the Room List page.
 
 
-# ✏ 서비스 소개 
+<br></br>
+
+# Original Version:
+
+# ✏ Introduction
 
 
 사람마다 **자기에게 잘 맞는 공부 스타일**이 있습니다.
