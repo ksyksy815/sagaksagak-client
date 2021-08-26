@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const StyledItem = styled.li`
@@ -18,9 +18,6 @@ const StyledItem = styled.li`
 `
 
 export default function Item( {item, id, itemList} ) {
-  const draggingItem = useRef()
-  const dragOverItem = useRef()
-
   const handleDragStart = (e, id) => {
     e.dataTransfer.setData('itemId', id)
     e.dataTransfer.setData('listName',e.target.parentElement.id)
@@ -29,6 +26,7 @@ export default function Item( {item, id, itemList} ) {
   return (
     <StyledItem 
       draggable
+      id={id}
       onDragStart={(e) => handleDragStart(e, id)}
     >
       <span>{item.content}</span>
