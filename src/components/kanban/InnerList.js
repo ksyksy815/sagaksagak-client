@@ -1,4 +1,4 @@
-import React, { useCallback }  from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Item from './Item'
 
@@ -20,13 +20,35 @@ export default function InnerList( { items, handleItemMovement, listName }) {
     e.preventDefault(e)
   }
 
-  const beforeOrAfter = useCallback ((element, y) => {
-    const box = element.getBoundingClientRect()
-    const offset = y - box.top - (box.height/2)
+  const getHoveredElement = (ul, y) => {
+    let closestLi = {offset: Number.NEGATIVE_INFINITY, element: null}
+    
+    ul.childNodes.forEach(node => {
+      const box = node.getBoundingClientRect()
+      const offset = y - box.top - (box.height / 2)
+      
+      if (offset < 0 && offset > closestLi.offset) {
+        closestLi.offset = offset
+        closestLi.element = node
+      }
+    })
 
+    return closestLi.element
+  }
+
+  const beforeOrAfter = (element, y) => {
+    let box;
+    if (element.tagName !== 'LI') {
+      box = getHoveredElement(element, y).getBoundingClientRect()
+    } else {
+      box = element.getBoundingClientRect()
+    }
+
+    const offset = y - box.top - (box.height/2)
+    
     return offset < 0 ? 
     {where: 'before', id: Number(element.id)} : {where: 'after', id: Number(element.id)}
-  }, [])
+  }
 
   const handleDrop = (e) => {
     const itemId = Number(e.dataTransfer.getData('itemId'))
@@ -38,10 +60,10 @@ export default function InnerList( { items, handleItemMovement, listName }) {
     const updatedList = {...items}
     const movingData = updatedList[from].filter(el => el.id === itemId)
 
-    let newFrom, newTo;    
+    let newFrom = updatedList[from].filter(el => el.id !== itemId)
+    let newTo;
 
     if (from !== to) {
-      newFrom = updatedList[from].filter(el => el.id !== itemId)
       newTo = updatedList[to].reduce((acc, el) => {
         if (el.id === hoveredElementId) {
           if (where === 'before') return [...acc, ...movingData, el];
