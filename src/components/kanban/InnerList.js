@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback }  from 'react'
 import styled from 'styled-components'
 import Item from './Item'
 
@@ -15,23 +15,56 @@ const InnerListWrapper = styled.ul`
 `
 
 export default function InnerList( { items, handleItemMovement, listName }) {
+
   const handleDragOver = (e) => {
     e.preventDefault(e)
   }
+
+  const beforeOrAfter = useCallback ((element, y) => {
+    const box = element.getBoundingClientRect()
+    const offset = y - box.top - (box.height/2)
+
+    return offset < 0 ? 
+    {where: 'before', id: Number(element.id)} : {where: 'after', id: Number(element.id)}
+  }, [])
 
   const handleDrop = (e) => {
     const itemId = Number(e.dataTransfer.getData('itemId'))
     const from = e.dataTransfer.getData('listName')
     const to = e.target.tagName === 'LI' ? e.target.parentElement.id : e.target.id
     
+    const { where, id: hoveredElementId } = beforeOrAfter(e.target, e.clientY)
+
     const updatedList = {...items}
+    const movingData = updatedList[from].filter(el => el.id === itemId)
+
+    let newFrom, newTo;    
+
     if (from !== to) {
-      // 먼저, from에서 해당하는 아이템을 찾는다
-      const target = updatedList[from].filter(el => el.id === itemId)
-      const newTo = [...updatedList[to], ...target]
-      const newFrom = updatedList[from].filter(el => el.id !== itemId)
+      newFrom = updatedList[from].filter(el => el.id !== itemId)
+      newTo = updatedList[to].reduce((acc, el) => {
+        if (el.id === hoveredElementId) {
+          if (where === 'before') return [...acc, ...movingData, el];
+          if (where === 'after') return [...acc, el, ...movingData];
+        }
+        
+        return [...acc, el]
+      }, [])
 
       updatedList[from] = newFrom
+      updatedList[to] = newTo
+
+    } else {
+      newFrom = updatedList[from].filter(el => el.id !== itemId)
+      newTo = newFrom.reduce((acc, el) => {
+        if (el.id === hoveredElementId) {
+          if (where === 'before') return [...acc, ...movingData, el];
+          if (where === 'after') return [...acc, el, ...movingData];
+        }
+        
+        return [...acc, el]
+      }, [])
+
       updatedList[to] = newTo
     }
 
