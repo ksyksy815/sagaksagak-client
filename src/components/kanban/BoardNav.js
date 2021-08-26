@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { HiViewBoards, HiOutlineChartPie } from 'react-icons/hi'
 
-const BNav = styled.ul`
+const BNav = styled.aside`
   list-style: none;
   width: 120px;
   display: flex;
@@ -11,9 +11,9 @@ const BNav = styled.ul`
   align-items: center;
   row-gap: 2rem;
   padding-top: 2rem;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.8);
 
-  li {
+  div {
     width: 100%;
     height: auto;
     display: flex;
@@ -26,19 +26,32 @@ const BNav = styled.ul`
       font-size: 2.5rem;
     }
   }
+
+  @media (max-width: 900px) {
+    width: 100%;
+    flex-direction: row;
+    padding: 0;
+
+    div {
+      padding: 1rem;
+      svg {
+        font-size: 1.5rem;
+      }
+    }
+  }
 `
 
 export default function BoardNav() {
   return (
     <BNav>
-      <li>
+      <div>
         <HiViewBoards/>
         <span>To-Dos</span>
-      </li>
-      <li>
+      </div>
+      <div>
         <HiOutlineChartPie />
         <span>공부기록</span>
-      </li>
+      </div>
     </BNav>
   )
 }
