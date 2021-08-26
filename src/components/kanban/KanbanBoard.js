@@ -23,6 +23,7 @@ const Board = styled.main`
   max-width: 1440px;
   align-self: stretch;
   background: rgba(255,255,255, 0.3);
+  backdrop-filter: blur(10px);
   display: flex;
   box-shadow: 2px 2px 20px 5px rgba(0, 0, 0, 0.1);
   
