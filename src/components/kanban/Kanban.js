@@ -7,6 +7,7 @@ const StyledLists = styled.div`
   flex: 1 1 auto;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   column-gap: 1rem;
   padding: 1rem;
 
