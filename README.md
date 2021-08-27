@@ -17,7 +17,7 @@ https://github.com/codestates/sagaksagak-client
 
 <br></br>
 
-# 🏋🏻‍♀️ Refactoring Process
+# 🏋🏻‍♀️ Improvements & Additional Features
 ### Agenda
 
 * Arrange directory structure to meet the separation of concerns(SoC) principle, as well as to increase scalability and reusability of codes.
