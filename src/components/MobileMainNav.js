@@ -99,13 +99,7 @@ const MobileNav = styled.nav`
   }
 `;
 
-export default function MobileMainNav({
-  aniMode,
-  setAniMode,
-  setMenuOn,
-  isLogedIn,
-  handleLogOut,
-}) {
+export default function MobileMainNav({ aniMode, setAniMode, setMenuOn, isLogedIn, handleLogOut }) {
   const [shouldRender, setShouldRender] = useState(aniMode);
 
   const closeMenu = useCallback(() => {

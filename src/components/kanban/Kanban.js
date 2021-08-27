@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
+import AddCardButton from './AddCardButton'
 import InnerList from './InnerList'
+import KanbanForm from './KanbanForm'
 
 const StyledLists = styled.div`
   flex: 1 1 auto;
@@ -20,11 +22,12 @@ const StyledLists = styled.div`
 
 const EachList = styled.div`
   flex: 1 1 33.333%;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   background: var(--light-gray);
-  box-shadow: 5px 5px 20px 2px rgba(0, 0, 0, 0.1);
   border-top: 3px solid ${props => props.borderTop};
+  row-gap: 0.5rem;
 
   h3 {
     color: #555555;
@@ -39,6 +42,13 @@ export default function Kanban() {
   const state = useSelector((state) => state.todoReducer);
   //const { todos } = state;
   const dispatch = useDispatch();
+
+  // Local
+  const [listMode, setListMode] = useState({
+    todo: 'read',
+    inProgress: 'read',
+    completed: 'read'
+  })
 
   const [listData, setListData] = useState({
     todos: [
@@ -62,19 +72,71 @@ export default function Kanban() {
     setListData(updatedList)
   }
 
+  const toggleForm = useCallback ((listName, action) => {
+    switch (listName) {
+      case 'todo':
+        action === 'open' ?
+        setListMode({...listMode, todo: 'create'}) :
+        setListMode({...listMode, todo: 'read'})
+        break;
+      case 'inProgress':
+        action === 'open' ?
+        setListMode({...listMode, inProgress: 'create'}) :
+        setListMode({...listMode, inProgress: 'read'})
+        break;
+      case 'completed':
+        action === 'open' ?
+        setListMode({...listMode, completed: 'create'}) :
+        setListMode({...listMode, completed: 'read'})
+        break;
+      default: return
+    }
+  }, [listMode])
+
+  const handleCreation = (listName, content) => {
+    // ID 넘버는 서버 통신 추가 시 서버에서 받아 와야함
+    switch (listName) {
+      case 'todo':
+        const newTodo = [...listData.todos, {id: 500, content}]
+        setListData({...listData, todos: newTodo})
+        break;
+      case 'inProgress':
+        const newInProgress = [...listData.inProgress, {id: 500, content}]
+        setListData({...listData, inProgress: newInProgress})
+        break;
+      case 'completed':
+        const newCompleted = [...listData.completed, {id: 500, content}]
+        setListData({...listData, completed: newCompleted})
+        break;
+      default: return
+    }
+  }
+
   return (
     <StyledLists>
       <EachList borderTop={`rgb(223,117,146)`} >
         <h3>To-Do</h3>
         <InnerList items={listData} handleItemMovement={handleItemMovement} listName={`todos`}/>
+        { listMode.todo === 'create' ? 
+          <KanbanForm list={'todo'} closeForm={toggleForm} addItem={handleCreation}/> : 
+          <AddCardButton list={'todo'} openWriteForm={toggleForm}  />
+        }
       </EachList>
       <EachList borderTop={`rgb(255,182,77)`}>
         <h3>In-Progress</h3>
         <InnerList items={listData} handleItemMovement={handleItemMovement} listName={`inProgress`}/>
+        { listMode.inProgress === 'create' ?
+          <KanbanForm list={'inProgress'} closeForm={toggleForm} addItem={handleCreation}/> :
+          <AddCardButton list={'inProgress'} openWriteForm={toggleForm} />
+        }
       </EachList>
       <EachList borderTop={`rgb(113,178,248)`}>
         <h3>Completed</h3>
         <InnerList items={listData} handleItemMovement={handleItemMovement} listName={`completed`}/>
+        { listMode.completed === 'create' ? 
+          <KanbanForm list={'completed'} closeForm={toggleForm} addItem={handleCreation} /> : 
+          <AddCardButton list={'completed'} openWriteForm={toggleForm} />
+        }
       </EachList>
     </StyledLists>
   )
