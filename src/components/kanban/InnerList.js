@@ -7,11 +7,10 @@ const InnerListWrapper = styled.ul`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 0.5rem;
   list-style: none;
   row-gap: 0.5rem;
   border-radius: 5px;
-  min-height: 200
+  min-height: 25px;
 `
 
 export default function InnerList( { items, handleItemMovement, listName }) {
