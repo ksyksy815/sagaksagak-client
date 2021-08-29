@@ -3,35 +3,62 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { RiTodoFill, RiPieChart2Fill } from 'react-icons/ri'
 
-const Nav = styled.ul`
-  display: flex;
+const AsideWrapper = styled.aside`
   list-style: none;
-  width: 100%;
-  max-width: 1000px;
+  width: 120px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  row-gap: 2rem;
+  padding-top: 2rem;
+  background: rgba(255, 255, 255, 0.8);
 
-  li {
-
-    &:nth-child(1) {
-      border-bottom: ${props=> props.todoListClicked ? `3px solid #7F554F` : `none`};
+  div {
+    width: 100%;
+    height: auto;
+    display: grid;
+    place-content: center;
+    
+    &:first-child {
+      border-bottom: ${props => props.todoListClicked ? '3px solid rgb(47,69,82)' : null};
+      font-weight: ${props => props.todoListClicked ? 'bold' : 'normal'};
     }
 
-    &:nth-child(2) {
-      border-bottom: ${props=> props.recordsClicked ? `3px solid #7F554F` : `none`};
+    &:last-child {
+      border-bottom: ${props => props.recordsClicked ? '3px solid rgb(47,69,82)' : null};
+      font-weight: ${props => props.recordsClicked ? 'bold' : 'normal'};
     }
 
     a {
-      padding: 1rem;
       text-decoration: none;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      column-gap: 1rem;
+      row-gap: 1rem;
+    }
 
-      #option-todo {
-        font-weight: ${props=> props.todoListClicked ? `bold` : `normal`};
+    svg {
+      font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    width: 100%;
+    flex-direction: row;
+    padding: 0;
+    height: auto;
+
+    div {
+      padding: 1rem;
+      a {
+        flex-direction: row;
+        column-gap: 0.5rem;
       }
-      #option-log {
-        font-weight: ${props=> props.recordsClicked ? `bold` : `normal`};
+      svg {
+        font-size: 1.5rem;
       }
     }
   }
@@ -52,19 +79,19 @@ export default function StudylogNav() {
   }
 
   return (
-    <Nav todoListClicked={todoListClicked} recordsClicked={recordsClicked}>
-      <li onClick={handleClickTodo}>
+    <AsideWrapper todoListClicked={todoListClicked} recordsClicked={recordsClicked}>
+      <div onClick={handleClickTodo}>
         <Link to='/studylog'>
           <RiTodoFill/>
           <span id="option-todo">To-Do List</span>
         </Link>
-      </li>
-      <li onClick={handleClickRecords}>
+      </div>
+      <div onClick={handleClickRecords}>
         <Link to='/studylog/records'>
           <RiPieChart2Fill/>
           <span id="option-log">공부 기록</span>
         </Link>
-      </li>
-    </Nav>
+      </div>
+    </AsideWrapper>
   )
 }
