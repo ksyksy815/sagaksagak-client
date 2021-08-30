@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { BsPeopleCircle } from "react-icons/bs";
-import CategoryTag from "./CategoryTag";
+import CategoryTag from "../CategoryTag";
 
 const StyledRecommendCard = styled.div`
   width: 320px;

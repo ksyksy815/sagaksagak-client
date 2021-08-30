@@ -5,16 +5,16 @@ import RecommendCard from "./RecommendCard";
 const SytledSlide = styled.div`
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 51, 51, 0.8);
+  background: rgba(255,255,255, 0.3);
+  box-shadow: 2px 2px 20px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
 `;
 
 const Slide = ({ content, handleEntrance }) => {
   return (
-    <SytledSlide content={content.image}>
+    <SytledSlide>
       <RecommendCard handleEntrance={handleEntrance} content={content} />
     </SytledSlide>
   );
