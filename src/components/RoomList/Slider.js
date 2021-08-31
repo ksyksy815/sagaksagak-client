@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import SliderContent from "./SliderContent";
 import Slide from "./Slide";
-import Arrow from "../Arrow";
-import Dots from "../Dots";
+import Arrow from "./Arrow";
+import Dots from "./Dots";
 
 const images = [
   {
