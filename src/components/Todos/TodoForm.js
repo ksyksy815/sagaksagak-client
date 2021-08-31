@@ -6,31 +6,35 @@ const Form = styled.form`
   display: flex;
   column-gap: 1rem;
   padding: 1rem;
-  background: #edc0b2;
+  background: var(--mint);
   border-radius: 15px;
 
   .todo-check {
     background: transparent;
     border: none;
     font-size: 1.2rem;
+    svg {
+      fill: #fff;
+    }
   }
 
   input {
     flex: 1 1 auto;
     background: transparent;
     border: none;
-    border-bottom: 1px solid #444444;
+    border-bottom: 1px solid #fff;
     padding-left: 0.2rem;
     padding-bottom: 0.2rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    color: #fff;
     &:focus {
       outline: none;
     }
     &::placeholder {
       font-style: italic;
-      color: ${props=>props.emptyInput ? `red` : `#444444`};
+      color: ${props=>props.emptyInput ? `red` : `#fff`};
     }
   }
 
@@ -41,7 +45,7 @@ const Form = styled.form`
     background-color: #E9E4DE;
     &:hover {
       cursor: pointer;
-      background-color: #7F554F;
+      background-color: var(--graish-dark-green);
       color: #fff;
       border: none;
     }

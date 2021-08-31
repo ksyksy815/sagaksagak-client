@@ -4,18 +4,12 @@ import { v4 as uuidV4 } from "uuid";
 import { AiFillCaretRight, AiFillCaretDown } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  createTodo,
-  checkTodo,
-  deleteTodo,
-  logOut,
-  setAccessToken,
-  logIn,
-} from "../../actions/index";
+import { createTodo, checkTodo, deleteTodo, logOut, setAccessToken, logIn } from "../../actions/index";
 import { TodoWrapper } from "./TodoList.style.js";
 import Todo from "./Todo";
 import TodoForm from "./TodoForm";
 import getCookie from "../../utilities/getCookie";
+import AddCardButton from './AddCardButton'
 
 export default function TodoList() {
   // Global
@@ -497,9 +491,6 @@ export default function TodoList() {
 
   return (
     <TodoWrapper>
-      <button onClick={toggleTodoForm} id="newTodoBtn">
-        NEW
-      </button>
       <ul id="todo-options">
         <li className="main-lists">
           <div className="list-title" onClick={toggleInProgress}>
@@ -530,6 +521,7 @@ export default function TodoList() {
                   );
                 })
               )}
+              <AddCardButton toggleTodoForm={toggleTodoForm}/>
             </ul>
           )}
         </li>
