@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import styled from 'styled-components';
-import Footer from "../components/Footer";
+import Footer from "../components/LandingPage/Footer";
 import CategorySelectModal from "../components/modals/CategorySelectModal.js";
 import { logIn, logOut } from "../actions/index";
 import getCookie from "../utilities/getCookie";
@@ -12,7 +12,7 @@ import image1 from '../assets/study-with-laptop.png';
 import image2 from '../assets/laptop.png';
 import image3 from '../assets/livingroom-objects.png';
 import { Button } from '../components/WhiteButton.style'
-import Testimonials from '../components/Testimonials'
+import Testimonials from '../components/LandingPage/Testimonials'
 import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
 
 const LandingPageWrapper = styled.div`

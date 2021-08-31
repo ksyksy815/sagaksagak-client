@@ -1,22 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setFirstLogInFalse,
-  changeCategory,
-  setAccessToken,
-} from "../../actions/index";
+import { setFirstLogInFalse, changeCategory, setAccessToken } from "../../actions/index";
 import styled from "styled-components";
 import axios from "axios";
 import { IoIosSchool } from "react-icons/io";
-import {
-  FaSchool,
-  FaLanguage,
-  FaLaptopCode,
-  FaRegBuilding,
-  FaRegIdBadge,
-  FaBrush,
-  FaPlayCircle,
-} from "react-icons/fa";
+import { FaSchool, FaLanguage, FaLaptopCode, FaRegBuilding, FaRegIdBadge, FaBrush, FaPlayCircle } from "react-icons/fa";
 import { BiWorld } from "react-icons/bi";
 import { GiPoliceBadge } from "react-icons/gi";
 import { device } from '../../device'
