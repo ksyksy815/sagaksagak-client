@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
-import CategoryTag from "../CategoryTag";
+import CategoryTag from "../RoomList/CategoryTag";
 
 const StyledCreateRoomModal = styled.section`
   ${(props) =>

@@ -7,8 +7,6 @@ export const TodoWrapper = styled.div`
   flex: 1 1 auto;
   width: 100%;
   height: 70vh;
-  padding: 0 1rem;
-  background-color: #E9E4DE;
   position: relative;
 
   @media ${device.tablet} {
@@ -23,27 +21,6 @@ export const TodoWrapper = styled.div`
     border-radius: 15px;
   }
 
-  #newTodoBtn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.2rem 0.5rem;
-    background-color: #7F554F;
-    color: #fff;
-    border-radius: 15px;
-    border: none;
-    &:hover {
-      cursor: pointer;
-      background-color: #cc857a;
-    }
-    @media (min-width: 650px) {
-      right: 50%;
-    }
-    @media ${device.mobile} {
-      right: 0.5rem;
-    }
-  }
-
   #todo-options {
     display: flex;
     flex-direction: column;
@@ -51,7 +28,8 @@ export const TodoWrapper = styled.div`
     align-items: flex-start;
     list-style: none;
     padding: 1rem 1rem;
-    row-gap: 1rem;
+    row-gap: 0.5rem;
+    column-gap: 0.5rem;
     height: 100%;
 
     .list-title {
@@ -79,12 +57,14 @@ export const TodoWrapper = styled.div`
 
     .main-lists {
       width: 100%;
-      height:100%;
+      background: var(--light-gray);
       display: flex;
       flex-direction: column;
       row-gap: 1rem;
       flex: 0 1 50%;
       overflow: hidden;
+      padding: 0.5rem;
+      border-radius: 10px;
     }
 
     @media (min-width: 650px) {

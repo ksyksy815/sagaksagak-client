@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi'
-import deco from '../assets/doubleMark.svg'
-import { useScrollFadeIn } from '../hooks/useScrollFadeIn'
+import deco from '../../assets/doubleMark.svg'
+import { useScrollFadeIn } from '../../hooks/useScrollFadeIn'
 
 const Testimonial = styled.div`
   background: #003366;

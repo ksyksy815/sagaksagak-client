@@ -16,10 +16,10 @@ const StyledTodo = styled.li`
   padding: 1rem;
   border-radius: 15px;
   transition: 0.2s;
-  background: ${props => props.completed ? `#ebebeb` : `#edc0b2`};
+  background: ${props => props.completed ? `var(--graish-dark-green)` : `#fff`};
   &:hover {
     transform: translateY(-3px);
-    background: #fac86b;
+    background: var(--mint);
   }
 
   .todo-check {
@@ -29,11 +29,12 @@ const StyledTodo = styled.li`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    svg{
+      fill: ${props => props.completed? '#e5e5e5' : 'null'};
+    }
     &:hover {
       cursor: pointer;
-      svg{
-        fill: #7F554F;
-      }
     }
   }
 
@@ -49,10 +50,12 @@ const StyledTodo = styled.li`
       font-weight: bold;
       font-style: ${props => props.completed? `italic` : `normal`};
       text-decoration: ${props => props.completed? `line-through` : `none`};
+      color: ${props => props.completed? '#e5e5e5' : 'null'};
     }
 
     .todo-date {
       font-size: 0.8rem;
+      color: ${props => props.completed? '#e5e5e5' : 'null'};
     }
   }
 
@@ -63,6 +66,9 @@ const StyledTodo = styled.li`
     top: 0.5rem;
     right: 0.5rem;
     font-size: 1.2rem;
+    svg{
+      fill: ${props => props.completed? '#e5e5e5' : 'null'};
+    }
     &:hover {
       cursor: pointer;
     }

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { MdPerson, MdEmail } from 'react-icons/md'
 import { AiFillGithub } from 'react-icons/ai'
-import { device } from '../device'
+import { device } from '../../device'
 
 
 const StyledFooter = styled.footer`
