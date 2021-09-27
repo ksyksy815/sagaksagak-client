@@ -17,6 +17,20 @@ https://github.com/codestates/sagaksagak-client
 
 <br></br>
 
+# 프로젝트 개선 작업 관련 블로그 포스팅
+
+### 🤞 Intersection Observer API 적용을 통한 웹앱 성능 개선
+https://seo-tory.tistory.com/67
+
+### 💎 리액트에서 Drag & Drop 구현하기 (총2편)
+https://seo-tory.tistory.com/71
+
+### 🧩 Unmount 되는 컴포넌트에 애니메이션 적용하기
+https://seo-tory.tistory.com/73
+
+
+<br></br>
+
 # 🏋🏻‍♀️ Improvements & Additional Features
 ### Agenda
 
