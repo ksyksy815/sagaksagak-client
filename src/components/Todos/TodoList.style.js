@@ -3,7 +3,7 @@ import { device }from '../../device'
 
 export const TodoWrapper = styled.div`
   box-sizing: border-box;
-  max-width: 1000px;
+  width: 100%;
   flex: 1 1 auto;
   width: 100%;
   height: 70vh;
@@ -23,6 +23,7 @@ export const TodoWrapper = styled.div`
 
   #todo-options {
     display: flex;
+    width: 100%;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
